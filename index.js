@@ -35,62 +35,25 @@ async function startBot() {
   sock.ev.on("creds.update", saveCreds)
 
   // Messages
-sock.ev.on("messages.upsert", async ({ messages }) => {
-  const msg = messages[0]
+  sock.ev.on("messages.upsert", async ({ messages }) => {
+    const msg = messages[0]
 
-  if (!msg.message) return
-  
-//stop replying to its self
-  if (msg.key.fromMe) return
-  
-  const from = msg.key.remoteJid
+    if (!msg.message) return
 
-  const text =
-    msg.message.conversation ||
-    msg.message.extendedTextMessage?.text ||
-    ""
+    const text =
+      msg.message.conversation ||
+      msg.message.extendedTextMessage?.text
 
-  // !ping command
-  if (text === "!ping") {
-    await sock.sendMessage(from, {
-      text: "𝘗𝘰𝘯𝘨! 𝘚𝘦𝘳𝘷𝘦𝘳 𝘚𝘵𝘢𝘵𝘶𝘴: 𝘈𝘓𝘐𝘝𝘌 🥷!."
-    })
-  }
+    const from = msg.key.remoteJid
 
-  // Auto reply
-  if (!text.startsWith("!")) {
-    await sock.sendMessage(from, {
-      text: "Mahappen is playing freefire don't bother him."
-    })
-  }
+    // !ping command
+    if (text === "!ping") {
+      await sock.sendMessage(from, {
+        text: "🏓 Pong! Bot is alive."
+      })
+    }
+  })
 
-  // !owner command
-  if (text === "!owner") {
-    await sock.sendMessage(from, {
-      text: "🥷ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N"
-    })
-  }
-
-  // !menu command
-  if (text === "!menu") {
-    await sock.sendMessage(from, {
-      text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
-│
-├ 👑 Owner: 『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯』
-├ ⚡ Status: Online
-├ 🚀 Prefix: !
-│
-├──〔 📜 COMMANDS 〕
-│
-├ 🏓 !ping
-├ 👑 !owner
-├ 📋 !menu
-│
-╰────────────────⬣`
-    })
-  }
-
-})
   // Connection updates
   sock.ev.on("connection.update", async (update) => {
     const { connection, lastDisconnect } = update
