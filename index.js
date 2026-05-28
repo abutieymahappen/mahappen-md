@@ -31,8 +31,30 @@ async function startBot() {
     browser: ["Ubuntu", "Chrome", "20.0.04"]
   })
 
+  // Save session
   sock.ev.on("creds.update", saveCreds)
 
+  // Messages
+  sock.ev.on("messages.upsert", async ({ messages }) => {
+    const msg = messages[0]
+
+    if (!msg.message) return
+
+    const text =
+      msg.message.conversation ||
+      msg.message.extendedTextMessage?.text
+
+    const from = msg.key.remoteJid
+
+    // !ping command
+    if (text === "!ping") {
+      await sock.sendMessage(from, {
+        text: "🏓 Pong! Bot is alive."
+      })
+    }
+  })
+
+  // Connection updates
   sock.ev.on("connection.update", async (update) => {
     const { connection, lastDisconnect } = update
 
@@ -52,6 +74,7 @@ async function startBot() {
     }
   })
 
+  // Pairing code
   if (!sock.authState.creds.registered) {
     const phoneNumber = process.env.PHONE_NUMBER
 
