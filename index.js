@@ -35,7 +35,7 @@ async function startBot() {
   sock.ev.on("creds.update", saveCreds)
 
   // Messages
-  sock.ev.on("messages.upsert", async ({ messages }) => {
+sock.ev.on("messages.upsert", async ({ messages }) => {
   const msg = messages[0]
 
   if (!msg.message) return
@@ -44,7 +44,8 @@ async function startBot() {
 
   const text =
     msg.message.conversation ||
-    msg.message.extendedTextMessage?.text
+    msg.message.extendedTextMessage?.text ||
+    ""
 
   // !ping command
   if (text === "!ping") {
@@ -53,25 +54,24 @@ async function startBot() {
     })
   }
 
-    // Auto reply
-if (!text.startsWith("!")) {
-  await sock.sendMessage(from, {
-    text: "is playing freefire don't bother him."
-  })
-}
+  // Auto reply
+  if (!text.startsWith("!")) {
+    await sock.sendMessage(from, {
+      text: "Mahappen is playing freefire don't bother him."
+    })
+  }
 
   // !owner command
   if (text === "!owner") {
     await sock.sendMessage(from, {
-      text: "🥷ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N𓃶"
+      text: "🥷ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N"
     })
   }
-})
 
-// !menu command
-if (text === "!menu") {
-  await sock.sendMessage(from, {
-    text: `╭──〔  *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
+  // !menu command
+  if (text === "!menu") {
+    await sock.sendMessage(from, {
+      text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
 │
 ├ 👑 Owner: 『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯』
 ├ ⚡ Status: Online
@@ -84,9 +84,10 @@ if (text === "!menu") {
 ├ 📋 !menu
 │
 ╰────────────────⬣`
-  })
-    }
+    })
+  }
 
+})
   // Connection updates
   sock.ev.on("connection.update", async (update) => {
     const { connection, lastDisconnect } = update
