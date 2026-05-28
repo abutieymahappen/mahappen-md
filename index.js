@@ -49,7 +49,7 @@ async function startBot() {
 // Ping command
 if (text === "!ping") {
   await sock.sendMessage(sender, {
-    text: "📍 Pong! Bot is alive."
+    text: "📍 Pong! 𝐒𝐞𝐫𝐯𝐞𝐫 𝐒𝐭𝐚𝐭𝐮𝐬: 𝐀𝐋𝐈𝐕𝐄."
   })
 }
 
