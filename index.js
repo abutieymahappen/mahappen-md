@@ -56,7 +56,7 @@ async function startBot() {
     // Auto reply
 if (!text.startsWith("!")) {
   await sock.sendMessage(from, {
-    text: " 么𝙰𝙱𝚄𝚃𝙸𝙴𝚈 𝙼𝙰𝙷𝙰𝙿𝙿𝙴𝙽么 is playing freefire don't bother him."
+    text: "is playing freefire don't bother him."
   })
 }
 
