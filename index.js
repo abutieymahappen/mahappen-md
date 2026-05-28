@@ -56,7 +56,7 @@ if (text === "!ping") {
 // Owner command
 if (text === "!owner") {
   await sock.sendMessage(sender, {
-    text: "👑 Oᴡɴᴇʀ: Aʙᴜᴛɪᴇʏ Mᴀʜᴀᴘᴘᴇɴ𓃶"
+    text: "🥷 𝙾𝚆𝙽𝙴𝚁: A B U T I E Y M A H A P P E N𓃶"
   })
 }
 
