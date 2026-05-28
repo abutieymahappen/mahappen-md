@@ -49,14 +49,14 @@ async function startBot() {
   // !ping command
   if (text === "!ping") {
     await sock.sendMessage(from, {
-      text: "🏓 Pong! Bot is alive."
+      text: "𝘗𝘰𝘯𝘨! 𝘚𝘦𝘳𝘷𝘦𝘳 𝘚𝘵𝘢𝘵𝘶𝘴: 𝘈𝘓𝘐𝘝𝘌 🥷!."
     })
   }
 
   // !owner command
   if (text === "!owner") {
     await sock.sendMessage(from, {
-      text: "👑 𝑶𝒘𝒏𝒆𝒓: 𝑨𝒃𝒖𝒕𝒊𝒆𝒚"
+      text: "🥷ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N𓃶"
     })
   }
 })
