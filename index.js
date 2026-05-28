@@ -35,31 +35,32 @@ async function startBot() {
   sock.ev.on("creds.update", saveCreds)
 
   // Messages
-  sock.ev.on("messages.upsert", async ({ messages }) => {
-    const msg = messages[0]
+sock.ev.on("messages.upsert", async ({ messages }) => {
+  const msg = messages[0]
 
-    if (!msg.message) return
+  if (!msg.message) return
 
-    const text =
-      msg.message.conversation ||
-      msg.message.extendedTextMessage?.text
+  const from = msg.key.remoteJid
 
-    const from = msg.key.remoteJid
+  const text =
+    msg.message.conversation ||
+    msg.message.extendedTextMessage?.text
 
-// Ping command
-if (text === "!ping") {
-  await sock.sendMessage(sender, {
-    text: "📍 Pong! 𝐒𝐞𝐫𝐯𝐞𝐫 𝐒𝐭𝐚𝐭𝐮𝐬: 𝐀𝐋𝐈𝐕𝐄."
-  })
-}
+  // !ping command
+  if (text === "!ping") {
+    await sock.sendMessage(from, {
+      text: "🏓 Pong! Bot is alive."
+    })
+  }
 
-// Owner command
-if (text === "!owner") {
-  await sock.sendMessage(sender, {
-    text: "🥷 𝙾𝚆𝙽𝙴𝚁: A B U T I E Y M A H A P P E N𓃶"
-  })
-}
-      })
+  // !owner command
+  if (text === "!owner") {
+    await sock.sendMessage(from, {
+      text: "👑 𝑶𝒘𝒏𝒆𝒓: 𝑨𝒃𝒖𝒕𝒊𝒆𝒚"
+    })
+  }
+})
+
   // Connection updates
   sock.ev.on("connection.update", async (update) => {
     const { connection, lastDisconnect } = update
