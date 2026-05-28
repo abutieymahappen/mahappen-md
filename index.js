@@ -56,8 +56,7 @@ async function startBot() {
     // Auto reply
 if (!text.startsWith("!")) {
   await sock.sendMessage(from, {
-    text: " 么𝙰𝙱𝚄𝚃𝙸𝙴𝚈 𝙼𝙰𝙷𝙰𝙿𝙿𝙴𝙽么 『 𝙞𝙨 𝙤𝙛𝙛𝙡𝙞𝙣𝙚 𝙧𝙮𝙩 𝙣𝙤𝙬』
-💬 𝙇𝙚𝙖𝙫𝙚 𝙖 𝙢𝙚𝙨𝙨𝙖𝙜𝙚, 𝙄’𝙡𝙡 𝙗𝙚 𝙗𝙖𝙘𝙠 𝙨𝙤𝙤𝙣 🔥."
+    text: " 么𝙰𝙱𝚄𝚃𝙸𝙴𝚈 𝙼𝙰𝙷𝙰𝙿𝙿𝙴𝙽么 is playing freefire don't bother him."
   })
 }
 
