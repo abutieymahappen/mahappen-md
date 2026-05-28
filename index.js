@@ -39,7 +39,10 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
   const msg = messages[0]
 
   if (!msg.message) return
-
+  
+//stop replying to its self
+  if (msg.key.fromMe) return
+  
   const from = msg.key.remoteJid
 
   const text =
