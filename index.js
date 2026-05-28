@@ -46,13 +46,19 @@ async function startBot() {
 
     const from = msg.key.remoteJid
 
-    // !ping command
-    if (text === "!ping") {
-      await sock.sendMessage(from, {
-        text: "🏓 Pong! Bot is alive."
-      })
-    }
+// Ping command
+if (text === "!ping") {
+  await sock.sendMessage(sender, {
+    text: "📍 Pong! Bot is alive."
   })
+}
+
+// Owner command
+if (text === "!owner") {
+  await sock.sendMessage(sender, {
+    text: "👑 Oᴡɴᴇʀ: Aʙᴜᴛɪᴇʏ Mᴀʜᴀᴘᴘᴇɴ𓃶"
+  })
+}
 
   // Connection updates
   sock.ev.on("connection.update", async (update) => {
