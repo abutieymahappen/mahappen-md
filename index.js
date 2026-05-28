@@ -53,6 +53,14 @@ async function startBot() {
     })
   }
 
+    // Auto reply
+if (!text.startsWith("!")) {
+  await sock.sendMessage(from, {
+    text: " 么𝙰𝙱𝚄𝚃𝙸𝙴𝚈 𝙼𝙰𝙷𝙰𝙿𝙿𝙴𝙽么 『 𝙞𝙨 𝙤𝙛𝙛𝙡𝙞𝙣𝙚 𝙧𝙮𝙩 𝙣𝙤𝙬』
+💬 𝙇𝙚𝙖𝙫𝙚 𝙖 𝙢𝙚𝙨𝙨𝙖𝙜𝙚, 𝙄’𝙡𝙡 𝙗𝙚 𝙗𝙖𝙘𝙠 𝙨𝙤𝙤𝙣 🔥."
+  })
+}
+
   // !owner command
   if (text === "!owner") {
     await sock.sendMessage(from, {
@@ -60,6 +68,25 @@ async function startBot() {
     })
   }
 })
+
+// !menu command
+if (text === "!menu") {
+  await sock.sendMessage(from, {
+    text: `╭──〔  *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
+│
+├ 👑 Owner: 『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯』
+├ ⚡ Status: Online
+├ 🚀 Prefix: !
+│
+├──〔 📜 COMMANDS 〕
+│
+├ 🏓 !ping
+├ 👑 !owner
+├ 📋 !menu
+│
+╰────────────────⬣`
+  })
+    }
 
   // Connection updates
   sock.ev.on("connection.update", async (update) => {
