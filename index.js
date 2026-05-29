@@ -133,16 +133,16 @@ if (text === ".alive") {
   return
 }
 
-  // !menu command
+// .menu command
   if (text === ".menu") {
     await sock.sendMessage(from, {
       text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
 │
 ├ 🥷 Owner: 『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯』
-├  Status: Online
-├  Prefix: !
+├ Status: Online
+├ Prefix: .
 │
-╭──〔   ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
+╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
 │
 ├ 💣 𝙿𝙸𝙽𝙶 : .ping
 ├ 🥷 𝙾𝚆𝙽𝙴𝚁 : .owner
@@ -152,10 +152,9 @@ if (text === ".alive") {
 ├ 💀 𝙰𝙽𝚃𝙸 𝙳𝙴𝙻𝙴𝚃𝙴 : .antidelete
 ├ ⚔️ 𝙰𝙻𝙸𝚅𝙴 : .alive
 │
-╰────────────────⬣
+╰────────────────⬣`
     })
   }
-
 })
   // Connection updates
   sock.ev.on("connection.update", async (update) => {
