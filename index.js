@@ -97,12 +97,16 @@ global.cooldowns =
 global.cooldowns || {}
 
 const sender = (
-  msg.key.participant ||
-  msg.participant ||
-  from
+  msg.key.fromMe
+    ? ownerNumber
+    : (
+        msg.key.participant ||
+        msg.participant ||
+        msg.key.remoteJid
+      )
 ).replace(/:\d+@/, "@")
 
-if (sender.endsWith("@g.us")) return
+console.log("FROM ME =", msg.key.fromMe)
 console.log("SENDER =", sender)
 console.log("OWNER =", ownerNumber)
   
