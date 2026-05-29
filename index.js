@@ -484,7 +484,7 @@ return
 }
 
 // .menu command
-if (text === ".menu") {
+
 if (text === ".menu") {
 
   await sock.sendMessage(from, {
