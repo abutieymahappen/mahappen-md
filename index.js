@@ -41,56 +41,100 @@ const store = {}
   global.bannedUsers =
 global.bannedUsers || []
 
-// Anti Delete
-sock.ev.on("messages.update", async (updates) => {
+// Anti Deletesock.ev.on("messages.update", async (updates) => {
 
-for (const update of updates) {
+  for (const update of updates) {
 
-if (update.update.message === null) {
+    if (update.update?.message === null) {
 
-const key = update.key
+      const key = update.key
+      const saved = store.get(key.id)
 
-// GET SAVED MESSAGE
-const deletedMsg = store[key.id]
+      if (!saved) return
 
-if (!deletedMsg) return
+      const owner = "27687085163@s.whatsapp.net"
 
-const owner = "27687085163@s.whatsapp.net"
+      const msg = saved.message
 
-const message =
-deletedMsg.message.conversation ||
-deletedMsg.message.extendedTextMessage?.text ||
-"[Media Message]"
+      const sender = key.participant || key.remoteJid
 
-await sock.sendMessage(owner, {
-text: `🚨 Deleted Message Detected
+      // TEXT MESSAGE
+      const text =
+        msg.conversation ||
+        msg.extendedTextMessage?.text
 
-👤 User: ${key.participant || key.remoteJid}
+      if (text) {
+        await sock.sendMessage(owner, {
+          text: `🚨 Deleted Text Message
 
-📝 Message:
-${message}`
-})
-}
-}
+👤 From: ${sender}
+📝 Message: ${text}`
+        })
+        return
+      }
+
+      // IMAGE RECOVERY
+      const image =
+        msg.imageMessage
+
+      if (image) {
+        await sock.sendMessage(owner, {
+          image: image,
+          caption: `🚨 Deleted Image Message\n👤 From: ${sender}`
+        })
+        return
+      }
+
+      // VIDEO RECOVERY
+      const video =
+        msg.videoMessage
+
+      if (video) {
+        await sock.sendMessage(owner, {
+          video: video,
+          caption: `🚨 Deleted Video Message\n👤 From: ${sender}`
+        })
+        return
+      }
+
+      // AUDIO RECOVERY
+      const audio =
+        msg.audioMessage
+
+      if (audio) {
+        await sock.sendMessage(owner, {
+          audio: audio,
+          mimetype: "audio/mp4",
+          ptt: true
+        })
+        return
+      }
+
+      await sock.sendMessage(owner, {
+        text: `🚨 Deleted unknown media from ${sender}`
+      })
+    }
+  }
 })
 
 // MESSAGES
 sock.ev.on("messages.upsert", async ({ messages }) => {
 
-const msg = messages[0]
+  const msg = messages[0]
+  if (!msg.message) return
 
-if (!msg.message) return
+  // SAVE EVERYTHING (TEXT + MEDIA META)
+  store.set(msg.key.id, msg)
+
+  const from = msg.key.remoteJid
 
 // SAVE MESSAGE
-store[msg.key.id] = msg
-
-const from = msg.key.remoteJid
-
-const text =
-msg.message.conversation ||
-msg.message.extendedTextMessage?.text ||
-""
-
+store.set(msg.key.id, {
+  message: msg.message,
+  sender: msg.key.participant || msg.key.remoteJid,
+  timestamp: msg.messageTimestamp
+})
+  
 // OWNER NUMBER
 const ownerNumber =
 "27687085163@s.whatsapp.net"
