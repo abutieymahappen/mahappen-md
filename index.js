@@ -132,7 +132,7 @@ if (
   return
 }
 
-// ANTI-LINK
+  //ANTIBAN 
 if (
   from.endsWith("@g.us") &&
   text.includes("https://chat.whatsapp.com/")
@@ -143,16 +143,8 @@ if (
   })
 
   return
-  }
-  
-  // WARNING
-  await sock.sendMessage(from, {
-    text:
-"🚫 WhatsApp links are not allowed."
-  })
-
-  return
 }
+  
 
 // ANTI-SPAM
 if (
