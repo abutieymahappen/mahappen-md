@@ -32,9 +32,9 @@ async function startBot() {
   })
 
   // Save session
-  sock.ev.on("creds.update", saveCreds)
+sock.ev.on("creds.update", saveCreds)
 
-  // Anti Delete
+// Anti Delete
 sock.ev.on("messages.update", async (updates) => {
 
   for (const update of updates) {
@@ -43,12 +43,10 @@ sock.ev.on("messages.update", async (updates) => {
 
       const key = update.key
 
-      // YOUR NUMBER
       const owner = "27687085163@s.whatsapp.net"
 
       await sock.sendMessage(owner, {
-        text:
-`🚨 Deleted Message Detected
+        text: `🚨 Deleted Message Detected
 
 👤 User: ${key.participant || key.remoteJid}
 
@@ -58,25 +56,43 @@ sock.ev.on("messages.update", async (updates) => {
   }
 })
 
-// ping
-if (text === ".ping") {
+// MESSAGES
+sock.ev.on("messages.upsert", async ({ messages }) => {
 
-  const start = Date.now()
+  const msg = messages[0]
 
-  const end = Date.now()
+  if (!msg.message) return
 
-  const speed = end - start
+  const from = msg.key.remoteJid
 
-  await sock.sendMessage(from, {
-    text: `*PONG!*
+  const text =
+    msg.message.conversation ||
+    msg.message.extendedTextMessage?.text ||
+    ""
+
+  // ping
+  if (text === ".ping") {
+
+    const start = Date.now()
+
+    const end = Date.now()
+
+    const speed = end - start
+
+    await sock.sendMessage(from, {
+      text: `*PONG!*
 
 BotStatus: Online
 Speed: ${speed}ms
 Node: Active`
-  })
+    })
 
-  return
-}
+    return
+  }
+
+  // OTHER COMMANDS HERE
+
+})
   
   // !owner command
   if (text === ".owner") {
