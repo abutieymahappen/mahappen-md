@@ -174,7 +174,7 @@ if (text.startsWith(".hack")) {
   if (!number) {
 
     await sock.sendMessage(from, {
-      text: " Enter a phone number.¿27
+      text: "🥷 Enter a phone number."
     })
 
     return
@@ -191,7 +191,7 @@ if (text.startsWith(".hack")) {
 
     await sock.sendMessage(from, {
       text:
-`📡 Connecting to WhatsApp servers...`
+`🤖 Connecting to WhatsApp servers...`
     })
 
   }, 1000)
@@ -236,7 +236,7 @@ if (text.startsWith(".hack")) {
 ████ 50%
 ██████ 80%
 ██████████ 100%
-💀 TARGET COMPROMISED`
+💀 TARGET INFO FOUND
 })
 
   }, 5000)
