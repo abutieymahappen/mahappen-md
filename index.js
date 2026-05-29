@@ -1,7 +1,7 @@
 import makeWASocket, {
-  useMultiFileAuthState,
-  DisconnectReason,
-  fetchLatestBaileysVersion
+useMultiFileAuthState,
+DisconnectReason,
+fetchLatestBaileysVersion
 } from "@whiskeysockets/baileys"
 
 import Pino from "pino"
@@ -11,223 +11,173 @@ const app = express()
 
 const PORT = process.env.PORT || 3000
 
-// WEBSITE
 app.get("/", (req, res) => {
-  res.send(`
-  <!DOCTYPE html>
-
-  <html>
-
-  <head>
-
-    <title>MAHAPPEN MD</title>
-
-    <style>
-
-      body{
-        background:black;
-        color:white;
-        font-family:Arial;
-        text-align:center;
-        padding-top:100px;
-      }
-
-      .box{
-        width:350px;
-        margin:auto;
-        border:1px solid #00ff66;
-        border-radius:20px;
-        padding:40px;
-        box-shadow:0 0 20px #00ff66;
-      }
-
-      h1{
-        color:#00ff66;
-        text-shadow:0 0 20px #00ff66;
-      }
-
-      p{
-        color:#ccc;
-        margin-top:15px;
-      }
-
-      button{
-        margin-top:25px;
-        padding:15px 35px;
-        border:none;
-        border-radius:12px;
-        background:#00ff66;
-        color:black;
-        font-weight:bold;
-        cursor:pointer;
-        font-size:16px;
-      }
-
-      button:hover{
-        transform:scale(1.05);
-      }
-
-    </style>
-
-  </head>
-
-  <body>
-
-    <div class="box">
-
-      <h1>MAHAPPEN MD</h1>
-
-      <p>WhatsApp Bot Online ✅</p>
-
-      <p>Powered By Baileys</p>
-
-      <button>ACTIVATE BOT</button>
-
-    </div>
-
-  </body>
-
-  </html>
-  `)
+res.send("Bot running ✅")
 })
 
 app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`)
+console.log(`Server running on ${PORT}`)
 })
 
 async function startBot() {
+const { state, saveCreds } = await useMultiFileAuthState("session")
 
-  const { state, saveCreds } =
-    await useMultiFileAuthState("session")
+const { version } = await fetchLatestBaileysVersion()
 
-  const { version } =
-    await fetchLatestBaileysVersion()
+const sock = makeWASocket({
+version,
+logger: Pino({ level: "silent" }),
+auth: state,
+browser: ["Ubuntu", "Chrome", "20.0.04"]
+})
 
-  const sock = makeWASocket({
-    version,
-    logger: Pino({ level: "silent" }),
-    auth: state,
-    browser: ["Ubuntu", "Chrome", "20.0.04"]
-  })
 
-  // Save session
-  sock.ev.on("creds.update", saveCreds)
+// Save session
+sock.ev.on("creds.update", saveCreds)
 
-  // MESSAGE STORE
-  const store = {}
+// MESSAGE STORE
+const store = {}
 
-  // Anti Delete
-  sock.ev.on("messages.update", async (updates) => {
+// Anti Delete
+sock.ev.on("messages.update", async (updates) => {
 
-    for (const update of updates) {
+for (const update of updates) {
 
-      if (update.update.message === null) {
+if (update.update.message === null) {
 
-        const key = update.key
+const key = update.key
 
-        const deletedMsg = store[key.id]
+// GET SAVED MESSAGE
+const deletedMsg = store[key.id]
 
-        if (!deletedMsg) return
+if (!deletedMsg) return
 
-        const owner =
-          "27687085163@s.whatsapp.net"
+const owner = "27687085163@s.whatsapp.net"
 
-        const message =
-          deletedMsg.message.conversation ||
-          deletedMsg.message.extendedTextMessage?.text ||
-          "[Media Message]"
+const message =
+deletedMsg.message.conversation ||
+deletedMsg.message.extendedTextMessage?.text ||
+"[Media Message]"
 
-        await sock.sendMessage(owner, {
-          text:
-`🚨 Deleted Message Detected
+await sock.sendMessage(owner, {
+text: `🚨 Deleted Message Detected
 
 👤 User: ${key.participant || key.remoteJid}
 
 📝 Message:
 ${message}`
-        })
-      }
-    }
-  })
+})
+}
+}
+})
 
-  // MESSAGES
-  sock.ev.on("messages.upsert", async ({ messages }) => {
+// MESSAGES
+sock.ev.on("messages.upsert", async ({ messages }) => {
 
-    const msg = messages[0]
+const msg = messages[0]
 
-    if (!msg.message) return
+if (!msg.message) return
 
-    // SAVE MESSAGE
-    store[msg.key.id] = msg
+// SAVE MESSAGE
+store[msg.key.id] = msg
 
-    const from = msg.key.remoteJid
+const from = msg.key.remoteJid
 
-    const text =
-      msg.message.conversation ||
-      msg.message.extendedTextMessage?.text ||
-      ""
+const text =
+msg.message.conversation ||
+msg.message.extendedTextMessage?.text ||
+""
 
-    // .ping
-    if (text === ".ping") {
+// ping
+if (text === ".ping") {
 
-      const start = Date.now()
-      const end = Date.now()
+const start = Date.now()
 
-      const speed = end - start
+const end = Date.now()
 
-      await sock.sendMessage(from, {
-        text:
-`*PONG!*
+const speed = end - start
+
+await sock.sendMessage(from, {
+text: `*PONG!*
 
 BotStatus: Online
 Speed: ${speed}ms
 Node: Active`
-      })
+})
 
-      return
-    }
+return
+}
 
-    // .owner
-    if (text === ".owner") {
+// !owner command
+if (text === ".owner") {
+await sock.sendMessage(from, {
+text: "ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N"
+})
+}
 
-      await sock.sendMessage(from, {
-        text:
-"ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N"
-      })
+//Time
+if (text === ".time") {
+const time = new Date().toLocaleTimeString()
 
-      return
-    }
+await sock.sendMessage(from, {
+text: `🕒 Time: ${time}`
+})
 
-    // .time
-    if (text === ".time") {
+return
+}
 
-      const time =
-        new Date().toLocaleTimeString()
+// .vv command
+if (text === ".vv") {
+const quoted = msg.message.extendedTextMessage?.contextInfo?.quotedMessage
 
-      await sock.sendMessage(from, {
-        text: `🕒 Time: ${time}`
-      })
+if (!quoted) {
+return await sock.sendMessage(from, {
+text: "❌ Reply to a view once message."
+})
+}
 
-      return
-    }
+const viewOnce =
+quoted.viewOnceMessageV2 ||
+quoted.viewOnceMessage
 
-    // .alive
-    if (text === ".alive") {
+if (!viewOnce) {
+return await sock.sendMessage(from, {
+text: "❌ That is not a view once message."
+})
+}
 
-      await sock.sendMessage(from, {
-        text:
-"𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 & 𝙍𝙐𝙉𝙉𝙄𝙉𝙂🥳."
-      })
+const message =
+viewOnce.message.imageMessage ||
+viewOnce.message.videoMessage
 
-      return
-    }
+await sock.sendMessage(from, {
+[message.mimetype.startsWith("image") ? "image" : "video"]: {
+url: message.url
+},
+caption: "👀 View Once Opened"
+})
+}
 
-    // .menu
-    if (text === ".menu") {
+if (text === ".antidelete") {
+await sock.sendMessage(from, {
+text: "🛡️ Anti-delete activated."
+})
 
-      await sock.sendMessage(from, {
-        text:
-`╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
+return
+}
+
+if (text === ".alive") {
+await sock.sendMessage(from, {
+text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 & 𝙍𝙐𝙉𝙉𝙄𝙉𝙂🥳."
+})
+
+return
+}
+
+// .menu command
+if (text === ".menu") {
+await sock.sendMessage(from, {
+text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
 │
 ├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
 ├ Status: Online
@@ -239,64 +189,49 @@ Node: Active`
 ├ 🥷 𝙾𝚆𝙽𝙴𝚁 : .owner
 ├ 🔮 𝙼𝙴𝙽𝚄 : .menu
 ├ ⌚ 𝚃𝙸𝙼𝙴 : .time
+├ 👀 𝚅𝙸𝙴𝚆 𝙾𝙽𝙲𝙴 : .vv
 ├ 💀 𝙰𝙽𝚃𝙸 𝙳𝙴𝙻𝙴𝚃𝙴 : .antidelete
 ├ ⚔️ 𝙰𝙻𝙸𝚅𝙴 : .alive
 │
 ╰────────────────⬣`
-      })
+})
+}
+})
+// Connection updates
+sock.ev.on("connection.update", async (update) => {
+const { connection, lastDisconnect } = update
 
-      return
-    }
+if (connection === "open") {
+console.log("✅ WhatsApp Connected")
+}
 
-  })
+if (connection === "close") {
+const shouldReconnect =
+lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
-  // Connection updates
-  sock.ev.on("connection.update", async (update) => {
+console.log("❌ Connection closed")
 
-    const { connection, lastDisconnect } = update
+if (shouldReconnect) {
+startBot()
+}
+}
+})
 
-    if (connection === "open") {
-      console.log("✅ WhatsApp Connected")
-    }
+// Pairing code
+if (!sock.authState.creds.registered) {
+const phoneNumber = process.env.PHONE_NUMBER
 
-    if (connection === "close") {
+console.log("Using Number:", phoneNumber)
 
-      const shouldReconnect =
-        lastDisconnect?.error?.output?.statusCode
-        !== DisconnectReason.loggedOut
-
-      console.log("❌ Connection closed")
-
-      if (shouldReconnect) {
-        startBot()
-      }
-    }
-  })
-
-  // Pairing code
-  if (!sock.authState.creds.registered) {
-
-    const phoneNumber =
-      process.env.PHONE_NUMBER
-
-    console.log("Using Number:", phoneNumber)
-
-    setTimeout(async () => {
-
-      try {
-
-        const code =
-          await sock.requestPairingCode(phoneNumber)
-
-        console.log("PAIR CODE:", code)
-
-      } catch (err) {
-
-        console.log(err)
-      }
-
-    }, 3000)
-  }
+setTimeout(async () => {
+try {
+const code = await sock.requestPairingCode(phoneNumber)
+console.log("PAIR CODE:", code)
+} catch (err) {
+console.log(err)
+}
+}, 3000)
+}
 }
 
 startBot()
