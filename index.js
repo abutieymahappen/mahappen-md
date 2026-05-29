@@ -287,22 +287,19 @@ Target Number: ${number}
 // ping
 if (text === ".ping") {
 
-const start = Date.now()
+  const start = performance.now()
 
-const end = Date.now()
+  await sock.sendMessage(from, { text: "🏓 Testing..." })
 
-const speed = end - start
+  const end = performance.now()
 
-await sock.sendMessage(from, {
-text: `*PONG!*
+  return sock.sendMessage(from, {
+    text: `*PONG!*
 
-BotStatus: Online
-Speed: ${speed}ms
-Node: Active`
-})
-
-return
-}
+Latency: ${(end - start).toFixed(2)}ms
+Status: Online`
+  })
+          }
 
 // !owner command
 if (text === ".owner") {
@@ -519,7 +516,7 @@ text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦
 ├ 𝙑𝙄𝙀𝙒 𝙊𝙉𝘾𝙀 : .vv
 ├ 𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀 [coming soon] :
 ├ 𝘼𝙇𝙄𝙑𝙀 : .alive
-| 𝙃𝘼𝘾𝙆 : .hack
+|  𝙃𝘼𝘾𝙆 : .hack
 |🚫 𝘽𝘼𝙉 : .ban
 |♻️𝙐𝙉𝘽𝘼𝙉 : .unban
 |𝐌𝐎𝐑𝐄 𝐅𝐄𝐀𝐓𝐔𝐑𝐄𝐒 𝐂𝐎𝐌𝐈𝐍𝐆 𝐒𝐎𝐎𝐍
