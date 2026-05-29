@@ -138,11 +138,13 @@ if (
   text.includes("https://chat.whatsapp.com/")
 ) {
 
-  // DELETE LINK
   await sock.sendMessage(from, {
-    delete: msg.key
+    text: "🚫 WhatsApp links are not allowed."
   })
 
+  return
+  }
+  
   // WARNING
   await sock.sendMessage(from, {
     text:
