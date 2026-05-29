@@ -113,20 +113,29 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
   })
 
   // Pairing code
-  if (!sock.authState.creds.registered) {
-    const phoneNumber = process.env.PHONE_NUMBER
+if (!sock.authState.creds.registered) {
+  const phoneNumber = process.env.PHONE_NUMBER
 
-    console.log("Using Number:", phoneNumber)
+  console.log("Using Number:", phoneNumber)
 
-    setTimeout(async () => {
-      try {
-        const code = await sock.requestPairingCode(phoneNumber)
-        console.log("PAIR CODE:", code)
-      } catch (err) {
-        console.log(err)
-      }
-    }, 3000)
+  setTimeout(async () => {
+    try {
+      const code = await sock.requestPairingCode(phoneNumber)
+
+      console.log(`
+╔══════════════════════╗
+║     MAHAPPEN-MD      ║
+╚══════════════════════╝
+
+🔑 PAIR CODE:
+MAHAPPEN-${code}
+
+⚡ Enter the code in WhatsApp
+`)
+    } catch (err) {
+      console.log(err)
+    }
+  }, 3000)
   }
-}
 
 startBot()
