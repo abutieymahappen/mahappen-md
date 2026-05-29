@@ -41,7 +41,8 @@ const store = {}
   global.bannedUsers =
 global.bannedUsers || []
 
-// Anti Deletesock.ev.on("messages.update", async (updates) => {
+// Anti Delete
+  sock.ev.on("messages.update", async (updates) => {
 
   for (const update of updates) {
 
@@ -124,11 +125,8 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
   if (!msg.message) return
 
   // SAVE EVERYTHING (TEXT + MEDIA META)
-  store.set(msg.key.id, msg)
-
   const from = msg.key.remoteJid
 
-// SAVE MESSAGE
 store.set(msg.key.id, {
   message: msg.message,
   sender: msg.key.participant || msg.key.remoteJid,
