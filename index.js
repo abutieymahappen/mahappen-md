@@ -31,8 +31,12 @@ async function startBot() {
     browser: ["Ubuntu", "Chrome", "20.0.04"]
   })
 
-  // Save session
+  
+// Save session
 sock.ev.on("creds.update", saveCreds)
+
+// MESSAGE STORE
+const store = {}
 
 // Anti Delete
 sock.ev.on("messages.update", async (updates) => {
@@ -43,14 +47,25 @@ sock.ev.on("messages.update", async (updates) => {
 
       const key = update.key
 
+      // GET SAVED MESSAGE
+      const deletedMsg = store[key.id]
+
+      if (!deletedMsg) return
+
       const owner = "27687085163@s.whatsapp.net"
+
+      const message =
+        deletedMsg.message.conversation ||
+        deletedMsg.message.extendedTextMessage?.text ||
+        "[Media Message]"
 
       await sock.sendMessage(owner, {
         text: `🚨 Deleted Message Detected
 
 👤 User: ${key.participant || key.remoteJid}
 
-📝 A message was deleted.`
+📝 Message:
+${message}`
       })
     }
   }
@@ -62,6 +77,9 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
   const msg = messages[0]
 
   if (!msg.message) return
+
+  // SAVE MESSAGE
+  store[msg.key.id] = msg
 
   const from = msg.key.remoteJid
 
@@ -89,7 +107,7 @@ Node: Active`
 
     return
   }
-
+  
   // !owner command
   if (text === ".owner") {
     await sock.sendMessage(from, {
