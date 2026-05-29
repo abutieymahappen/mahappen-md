@@ -62,11 +62,11 @@ if (text === ".ping") {
   const speed = end - start
 
   await sock.sendMessage(from, {
-    text: `🫥 *PONG!*
+    text: ` *PONG!*
 
-𝐁𝐨𝐭 𝐒𝐭𝐚𝐭𝐮𝐬: 𝐎𝐍𝐋𝐈𝐍𝐄
-𝐒𝐩𝐞𝐞𝐝: ${speed}𝐦𝐬
-𝐍𝐨𝐝𝐞: 𝐀𝐂𝐓𝐈𝐕𝐄`
+BotStatus: Online 
+Speed: ${speed}ms
+Node: Active`
   })
 
   return
@@ -75,7 +75,7 @@ if (text === ".ping") {
   // !owner command
   if (text === ".owner") {
     await sock.sendMessage(from, {
-      text: "🥷ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N"
+      text: "ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N"
     })
   }
 
@@ -132,7 +132,7 @@ if (text === ".ping") {
 
 if (text === ".alive") {
   await sock.sendMessage(from, {
-    text: "🥷𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 & 𝙍𝙐𝙉𝙉𝙄𝙉𝙂🥳."
+    text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 & 𝙍𝙐𝙉𝙉𝙄𝙉𝙂🥳."
   })
 
   return
@@ -143,7 +143,7 @@ if (text === ".alive") {
     await sock.sendMessage(from, {
       text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
 │
-├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘亗𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
+├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
 ├ Status: Online
 ├ Prefix: .
 │
