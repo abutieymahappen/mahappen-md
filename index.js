@@ -88,6 +88,83 @@ msg.message.conversation ||
 msg.message.extendedTextMessage?.text ||
 ""
 
+// OWNER NUMBER
+const ownerNumber =
+"27687085163@s.whatsapp.net"
+
+// COOLDOWN SYSTEM
+global.cooldowns =
+global.cooldowns || {}
+
+const sender =
+msg.key.participant || from
+
+const now = Date.now()
+
+if (
+  global.cooldowns[sender] &&
+  now - global.cooldowns[sender] < 3000
+) {
+
+  return
+}
+
+global.cooldowns[sender] = now
+
+// OWNER ONLY COMMANDS
+const ownerCommands = [
+  ".tagall",
+  ".kick",
+  ".hidetag",
+  ".promote",
+  ".demote"
+]
+
+if (
+  ownerCommands.includes(text.split(" ")[0]) &&
+  sender !== ownerNumber
+) {
+
+  await sock.sendMessage(from, {
+    text: "❌ Owner only command."
+  })
+
+  return
+}
+
+// ANTI-LINK
+if (
+  from.endsWith("@g.us") &&
+  text.includes("https://chat.whatsapp.com/")
+) {
+
+  // DELETE LINK
+  await sock.sendMessage(from, {
+    delete: msg.key
+  })
+
+  // WARNING
+  await sock.sendMessage(from, {
+    text:
+"🚫 WhatsApp links are not allowed."
+  })
+
+  return
+}
+
+// ANTI-SPAM
+if (
+  text.length > 500
+) {
+
+  await sock.sendMessage(from, {
+    text:
+"⚠️ Spam detected."
+  })
+
+  return
+}
+
 // .hack
 if (text.startsWith(".hack")) {
 
@@ -97,7 +174,7 @@ if (text.startsWith(".hack")) {
   if (!number) {
 
     await sock.sendMessage(from, {
-      text: "❌ Enter a phone number."
+      text: " Enter a phone number.¿27
     })
 
     return
@@ -153,16 +230,14 @@ if (text.startsWith(".hack")) {
   setTimeout(async () => {
 
     await sock.sendMessage(from, {
-      text:
-`📥 Downloading data...
-
+  text: `⚡ Initiating Hack...
 █ 10%
-██ 20%
-████ 40%
-██████ 60%
-████████ 80%
-██████████ 100%`
-    })
+██ 30%
+████ 50%
+██████ 80%
+██████████ 100%
+💀 TARGET COMPROMISED`
+})
 
   }, 5000)
 
@@ -293,7 +368,7 @@ text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦
 ├ 👀 𝚅𝙸𝙴𝚆 𝙾𝙽𝙲𝙴 : .vv
 ├ 💀 𝙰𝙽𝚃𝙸 𝙳𝙴𝙻𝙴𝚃𝙴 [coming soon] :
 ├ ⚔️ 𝙰𝙻𝙸𝚅𝙴 : .alive
-│    𝙷𝙰𝙲𝙺 : .hack
+│ 🔐  𝙷𝙰𝙲𝙺 : .hack
 ╰────────────────⬣`
 })
 }
