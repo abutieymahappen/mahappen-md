@@ -117,7 +117,7 @@ const ownerCommands = [
   ".kick",
   ".hidetag",
   ".promote",
-  ".demote"
+  ".demote",
 ]
 
 if (
