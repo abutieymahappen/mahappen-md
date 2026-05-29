@@ -54,55 +54,26 @@ if (!deletedMsg) return
 
 const owner = "27687085163@s.whatsapp.net"
 
-const messageData = deletedMsg.message
+const message =
+deletedMsg.message.conversation ||
+deletedMsg.message.extendedTextMessage?.text ||
+"[Media Message]"
 
-const textMessage =
-  messageData.conversation ||
-  messageData.extendedTextMessage?.text
+await sock.sendMessage(owner, {
+text: `🚨 Deleted Message Detected
 
-if (textMessage) {
-
-  await sock.sendMessage(owner, {
-    text: `🚨 Deleted Message Detected
-
-👤 User:
-${key.participant || key.remoteJid}
+👤 User: ${key.participant || key.remoteJid}
 
 📝 Message:
-${textMessage}`
-  })
-
-} else if (messageData.imageMessage) {
-
-  await sock.sendMessage(owner, {
-    image: {
-      url: messageData.imageMessage.url
-    },
-    caption: "🖼️ Deleted Image"
-  })
-
-} else if (messageData.videoMessage) {
-
-  await sock.sendMessage(owner, {
-    video: {
-      url: messageData.videoMessage.url
-    },
-    caption: "🎥 Deleted Video"
-  })
-
-} else {
-
-  await sock.sendMessage(owner, {
-    text: "⚠️ Deleted unsupported media."
-  })
-
+${message}`
+})
 }
-
 }
 })
 
 // MESSAGES
 sock.ev.on("messages.upsert", async ({ messages }) => {
+
 const msg = messages[0]
 
 if (!msg.message) return
@@ -203,47 +174,6 @@ text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 &
 return
 }
 
-  // .tagall
-if (text === ".tagall") {
-
-  // CHECK IF GROUP
-  if (!from.endsWith("@g.us")) {
-
-    await sock.sendMessage(from, {
-      text: "❌ This command only works in groups."
-    })
-
-    return
-  }
-
-  // GET GROUP DATA
-  const groupMetadata =
-    await sock.groupMetadata(from)
-
-  const participants =
-    groupMetadata.participants
-
-  let message =
-    "📢 *TAGGING ALL MEMBERS*\n\n"
-
-  let mentions = []
-
-  for (let p of participants) {
-
-    mentions.push(p.id)
-
-    message +=
-      `➤ @${p.id.split("@")[0]}\n`
-  }
-
-  await sock.sendMessage(from, {
-    text: message,
-    mentions
-  })
-
-  return
-                           }
-
 // .menu command
 if (text === ".menu") {
 await sock.sendMessage(from, {
@@ -262,7 +192,7 @@ text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦
 ├ 👀 𝚅𝙸𝙴𝚆 𝙾𝙽𝙲𝙴 : .vv
 ├ 💀 𝙰𝙽𝚃𝙸 𝙳𝙴𝙻𝙴𝚃𝙴 : .antidelete
 ├ ⚔️ 𝙰𝙻𝙸𝚅𝙴 : .alive
-│ ☘️tagAll : .tagall
+│
 ╰────────────────⬣`
 })
 }
