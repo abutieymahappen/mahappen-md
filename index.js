@@ -34,19 +34,30 @@ async function startBot() {
   // Save session
   sock.ev.on("creds.update", saveCreds)
 
-  // Messages
-sock.ev.on("messages.upsert", async ({ messages }) => {
-  const msg = messages[0]
+  // Anti Delete
+sock.ev.on("messages.update", async (updates) => {
 
-  if (!msg.message) return
-  
-  const from = msg.key.remoteJid
+  for (const update of updates) {
 
-  const text =
-    msg.message.conversation ||
-    msg.message.extendedTextMessage?.text ||
-    ""
-    
+    if (update.update.message === null) {
+
+      const key = update.key
+
+      // YOUR NUMBER
+      const owner = "27687085163@s.whatsapp.net"
+
+      await sock.sendMessage(owner, {
+        text:
+`🚨 Deleted Message Detected
+
+👤 User: ${key.participant || key.remoteJid}
+
+📝 A message was deleted.`
+      })
+    }
+  }
+})
+    //ping
 if (text === ".ping") {
 
   const start = Date.now()
@@ -56,11 +67,11 @@ if (text === ".ping") {
   const speed = end - start
 
   await sock.sendMessage(from, {
-    text: `🏓 *PONG!*
+    text: `🫥 *PONG!*
 
-⚡ Bot Status: ONLINE
-🚀 Speed: ${speed}ms
-🖥️ Node: ACTIVE`
+𝐁𝐨𝐭 𝐒𝐭𝐚𝐭𝐮𝐬: 𝐎𝐍𝐋𝐈𝐍𝐄
+ 𝐒𝐩𝐞𝐞𝐝: ${speed}𝐦𝐬
+ 𝐍𝐨𝐝𝐞: 𝐀𝐂𝐓𝐈𝐕𝐄'
   })
 
   return
@@ -127,7 +138,7 @@ if (text === ".ping") {
 
 if (text === ".alive") {
   await sock.sendMessage(from, {
-    text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 & 𝙍𝙐𝙉𝙉𝙄𝙉𝙂🥳."
+    text: "🥷𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 & 𝙍𝙐𝙉𝙉𝙄𝙉𝙂🥳."
   })
 
   return
@@ -138,7 +149,7 @@ if (text === ".alive") {
     await sock.sendMessage(from, {
       text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
 │
-├ 🥷 Owner: 『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯』
+├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘亗𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
 ├ Status: Online
 ├ Prefix: .
 │
