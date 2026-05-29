@@ -302,11 +302,27 @@ Latency: ${latency}ms`
 
 // !owner command
 if (text === ".owner") {
-await sock.sendMessage(from, {
-text: "ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N"
-})
-}
 
+  await sock.sendMessage(from, {
+    video: {
+      url: "https://media.tenor.com/8bZ9Z6v9QmIAAAAC/hacker.gif"
+    },
+    gifPlayback: true,
+    caption: `╭━━〔 👤 OWNER PROFILE 〕━━⬣
+
+🧑 Name: Abutiei Mahappen
+🤖 Role: Bot Developer
+⚡ Status: Online
+📡 System: Active Bot Core
+
+💬 "Building bots & breaking limits"
+
+╰━━━━━━━━━━━━━━⬣`
+  })
+
+  return
+}
+  
 //Time
 if (text === ".time") {
 const time = new Date().toLocaleTimeString()
