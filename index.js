@@ -100,6 +100,9 @@ const sender =
 (msg.key.participant || from)
 .replace(/:\d+@/, "@")
 
+console.log("SENDER =", sender)
+console.log("OWNER =", ownerNumber)
+  
 const now = Date.now()
 
 if (
