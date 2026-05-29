@@ -81,52 +81,6 @@ const msg = messages[0]
 
 if (!msg.message) return
 
-const from = msg.key.remoteJid
-
-const text =
-msg.message.conversation ||
-msg.message.extendedTextMessage?.text ||
-""
-
-// .pair command
-if (text.startsWith(".pair")) {
-
-const number =
-text.replace(".pair", "").trim()
-
-if (!number) {
-
-return await sock.sendMessage(from, {
-text:
-"❌ Enter number.\nExample: .pair 27712345678"
-})
-
-}
-
-try {
-
-const code =
-await sock.requestPairingCode(number)
-
-await sock.sendMessage(from, {
-text:
-`☘️ PAIR CODE FOR ${number}
-
-${code}`
-})
-
-} catch (err) {
-
-console.log(err)
-
-await sock.sendMessage(from, {
-text: "❌ Failed to generate pair code."
-})
-
-}
-
-                    }
-
 // SAVE MESSAGE
 store[msg.key.id] = msg
 
@@ -558,18 +512,17 @@ text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦
 │
 ╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
 │
-├ 𝙋𝙄𝙉𝙂 : .ping
-├ 𝙊𝙒𝙉𝙀𝙍 : .owner
-├ 𝙈𝙀𝙉𝙐 : .menu
-├ 𝙏𝙄𝙈𝙀 : .time
-| 𝙋𝘼𝙄𝙍 : .pair
-├ 𝙑𝙄𝙀𝙒 𝙊𝙉𝘾𝙀 : .vv
-├ 𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀 [coming soon] :
-├ 𝘼𝙇𝙄𝙑𝙀 : .alive
-│ 𝙃𝘼𝘾𝙆 : .hack
-| 🚫 𝘽𝘼𝙉 : .ban
-| ♻️𝙐𝙉𝘽𝘼𝙉 : .unban
-| 🥷𝐌𝐎𝐑𝐄 𝐅𝐄𝐀𝐓𝐔𝐑𝐄𝐒 𝐂𝐎𝐌𝐈𝐍𝐆 𝐒𝐎𝐎𝐍
+├𝙋𝙄𝙉𝙂 : .ping
+├𝙊𝙒𝙉𝙀𝙍 : .owner
+├𝙈𝙀𝙉𝙐 : .menu
+├𝙏𝙄𝙈𝙀: .time
+├𝙑𝙄𝙀𝙒 𝙊𝙉𝘾𝙀 : .vv
+├𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀 [coming soon] :
+├𝘼𝙇𝙄𝙑𝙀 : .alive
+│𝙃𝘼𝘾𝙆 : .hack
+|🚫 𝘽𝘼𝙉 : .ban
+|♻️𝙐𝙉𝘽𝘼𝙉 : .unban
+|𝐌𝐎𝐑𝐄 𝐅𝐄𝐀𝐓𝐔𝐑𝐄𝐒 𝐂𝐎𝐌𝐈𝐍𝐆 𝐒𝐎𝐎𝐍
 ╰────────────────⬣`
 })
 }
