@@ -286,9 +286,10 @@ Target Number: ${number}
 
 // ping
 if (text === ".ping") {
+
   const start = Date.now()
 
-  await sock.sendMessage(from, { text: "🏓 Ping..." })
+  await sock.sendMessage(from, { text: "🏓 Pinging..." })
 
   const latency = Date.now() - start
 
@@ -298,8 +299,7 @@ Latency: ${latency}ms`
   })
 
   return
-    }
-
+}
 // !owner command
 if (text === ".owner") {
 
