@@ -305,7 +305,7 @@ if (text === ".owner") {
 
   await sock.sendMessage(from, {
     video: {
-      url: "https://media.tenor.com/8bZ9Z6v9QmIAAAAC/hacker.gif"
+      url: "https://media.tenor.com/2roX3uxz_68AAAPo/hacker-hack.mp4"
     },
     gifPlayback: true,
     caption: `╭━━〔 👤 OWNER PROFILE 〕━━⬣
@@ -313,15 +313,15 @@ if (text === ".owner") {
 🧑 Name: Abutiei Mahappen
 🤖 Role: Bot Developer
 ⚡ Status: Online
-📡 System: Active Bot Core
+📡 System: Active
 
-💬 "Building bots & breaking limits"
+💬 "Building bots & automation"
 
 ╰━━━━━━━━━━━━━━⬣`
   })
 
   return
-}
+  }
   
 //Time
 if (text === ".time") {
