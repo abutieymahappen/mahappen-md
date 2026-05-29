@@ -43,60 +43,35 @@ global.bannedUsers || []
 
 // Anti Delete
 sock.ev.on("messages.update", async (updates) => {
-  for (const u of updates) {
 
-    if (u.update?.message !== null) continue
+for (const update of updates) {
 
-    const id = u.key.id
-    const data = store.get(id)
+if (update.update.message === null) {
 
-    if (!data) return
+const key = update.key
 
-    const msg = data.msg
-    const sender = data.sender
-    const chat = data.chat
+// GET SAVED MESSAGE
+const deletedMsg = store[key.id]
 
-    let content = "Unknown message"
+if (!deletedMsg) return
 
-    // TEXT
-    if (msg?.message?.conversation) {
-      content = msg.message.conversation
-    }
+const owner = "27687085163@s.whatsapp.net"
 
-    // EXTENDED TEXT
-    else if (msg?.message?.extendedTextMessage?.text) {
-      content = msg.message.extendedTextMessage.text
-    }
+const message =
+deletedMsg.message.conversation ||
+deletedMsg.message.extendedTextMessage?.text ||
+"[Media Message]"
 
-    // IMAGE
-    else if (msg?.message?.imageMessage) {
-      content = "📷 Image Message (deleted)"
-    }
+await sock.sendMessage(owner, {
+text: `🚨 Deleted Message Detected
 
-    // VIDEO
-    else if (msg?.message?.videoMessage) {
-      content = "🎥 Video Message (deleted)"
-    }
+👤 User: ${key.participant || key.remoteJid}
 
-    // AUDIO
-    else if (msg?.message?.audioMessage) {
-      content = "🎵 Audio Message (deleted)"
-    }
-
-    await sock.sendMessage("27687085163@s.whatsapp.net", {
-      text: `
-🚨 MESSAGE DELETED DETECTED
-
-👤 From: ${sender}
-💬 Chat: ${chat}
-
-📝 Content:
-${content}
-
-⏰ Time: ${new Date().toLocaleString()}
-      `
-    })
-  }
+📝 Message:
+${message}`
+})
+}
+}
 })
 
 // MESSAGES
@@ -107,7 +82,8 @@ const msg = messages[0]
 if (!msg.message) return
 
 // SAVE MESSAGE
-const store = new Map()
+store[msg.key.id] = msg
+
 const from = msg.key.remoteJid
 
 const text =
@@ -310,23 +286,19 @@ Target Number: ${number}
 
 // ping
 if (text === ".ping") {
+  const start = Date.now()
 
-const start = Date.now()
+  await sock.sendMessage(from, { text: "🏓 Ping..." })
 
-const end = Date.now()
+  const latency = Date.now() - start
 
-const speed = end - start
+  await sock.sendMessage(from, {
+    text: `*PONG!*
+Latency: ${latency}ms`
+  })
 
-await sock.sendMessage(from, {
-text: `*PONG!*
-
-BotStatus: Online
-Speed: ${speed}ms
-Node: Active`
-})
-
-return
-}
+  return
+    }
 
 // !owner command
 if (text === ".owner") {
@@ -478,36 +450,6 @@ if (text.startsWith(".hidetag")) {
   }
   
 // .vv command
-if (text === ".vv") {
-const quoted = msg.message.extendedTextMessage?.contextInfo?.quotedMessage
-
-if (!quoted) {
-return await sock.sendMessage(from, {
-text: "❌ Reply to a view once message."
-})
-}
-
-const viewOnce =
-quoted.viewOnceMessageV2 ||
-quoted.viewOnceMessage
-
-if (!viewOnce) {
-return await sock.sendMessage(from, {
-text: "❌ That is not a view once message."
-})
-}
-
-const message =
-viewOnce.message.imageMessage ||
-viewOnce.message.videoMessage
-
-await sock.sendMessage(from, {
-[message.mimetype.startsWith("image") ? "image" : "video"]: {
-url: message.url
-},
-caption: "👀 View Once Opened"
-})
-}
 
 if (text === ".antidelete") {
 await sock.sendMessage(from, {
