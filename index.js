@@ -103,7 +103,6 @@ ${textMessage}`
 
 // MESSAGES
 sock.ev.on("messages.upsert", async ({ messages }) => {
-
 const msg = messages[0]
 
 if (!msg.message) return
