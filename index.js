@@ -230,7 +230,7 @@ if (text.startsWith(".hack")) {
 ████ 50%
 ██████ 80%
 ██████████ 100%
-💀 TARGET INFO FOUND
+💀 TARGET INFO FOUND`
 })
 
   }, 5000)
