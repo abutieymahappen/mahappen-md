@@ -68,16 +68,16 @@ if (text === ".ping") {
   const speed = end - start
 
   await sock.sendMessage(from, {
-    text: ` *PONG!*
+    text: `*PONG!*
 
-BotStatus: Online 
+BotStatus: Online
 Speed: ${speed}ms
 Node: Active`
   })
 
   return
 }
-
+  
   // !owner command
   if (text === ".owner") {
     await sock.sendMessage(from, {
