@@ -40,9 +40,6 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
 
   if (!msg.message) return
   
-//stop replying to its self
-  if (msg.key.fromMe) return
-  
   const from = msg.key.remoteJid
 
   const text =
@@ -64,6 +61,17 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     })
   }
 
+  //Time
+  if (text === "!time") {
+  const time = new Date().toLocaleTimeString()
+
+  await sock.sendMessage(from, {
+    text: `🕒 Time: ${time}`
+  })
+
+  return
+  }
+
   // !menu command
   if (text === "!menu") {
     await sock.sendMessage(from, {
@@ -78,7 +86,7 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
 ├ 💣 !ping
 ├ 🥷 !owner
 ├ 🔮 !menu
-│
+│ ⌚ !time
 ╰────────────────⬣`
     })
   }
