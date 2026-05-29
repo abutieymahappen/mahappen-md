@@ -296,6 +296,63 @@ text: `🕒 Time: ${time}`
 return
 }
 
+  //tagall
+  if (text === ".tagall") {
+
+  if (!from.endsWith("@g.us")) {
+    return await sock.sendMessage(from, {
+      text: "❌ Group only."
+    })
+  }
+
+  const metadata =
+    await sock.groupMetadata(from)
+
+  const participants =
+    metadata.participants
+
+  let members = []
+  let message = "📢 TAGGING ALL MEMBERS\n\n"
+
+  for (let p of participants) {
+
+    members.push(p.id)
+
+    message += `➤ @${p.id.split("@")[0]}\n`
+  }
+
+  await sock.sendMessage(from, {
+    text: message,
+    mentions: members
+  })
+  }
+
+  //kick
+  if (text.startsWith(".kick")) {
+
+  if (!from.endsWith("@g.us")) return
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+    return await sock.sendMessage(from, {
+      text: "❌ Tag someone."
+    })
+  }
+
+  await sock.groupParticipantsUpdate(
+    from,
+    [mentioned],
+    "remove"
+  )
+
+  await sock.sendMessage(from, {
+    text: "✅ User kicked."
+  })
+  }
+  
 // .vv command
 if (text === ".vv") {
 const quoted = msg.message.extendedTextMessage?.contextInfo?.quotedMessage
