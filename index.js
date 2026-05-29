@@ -97,7 +97,8 @@ global.cooldowns =
 global.cooldowns || {}
 
 const sender =
-msg.key.participant || from
+(msg.key.participant || from)
+.replace(/:\d+@/, "@")
 
 const now = Date.now()
 
