@@ -46,23 +46,36 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     msg.message.conversation ||
     msg.message.extendedTextMessage?.text ||
     ""
+    
+if (text === ".ping") {
 
-  // !ping command
-  if (text === "!ping") {
-    await sock.sendMessage(from, {
-      text: "𝘗𝘰𝘯𝘨! 𝘚𝘦𝘳𝘷𝘦𝘳 𝘚𝘵𝘢𝘵𝘶𝘴: 𝘈𝘓𝘐𝘝𝘌 🥷!."
-    })
-  }
+  const start = Date.now()
+
+  const end = Date.now()
+
+  const speed = end - start
+
+  await sock.sendMessage(from, {
+    text: `🏓 *PONG!*
+
+⚡ Bot Status: ONLINE
+🚀 Speed: ${speed}ms
+🖥️ Node: ACTIVE`
+  })
+
+  return
+}
+
 
   // !owner command
-  if (text === "!owner") {
+  if (text === ".owner") {
     await sock.sendMessage(from, {
       text: "🥷ＯＷＮＥＲ ツ: A B U T I E Y亗M A H A P P E N"
     })
   }
 
   //Time
-  if (text === "!time") {
+  if (text === ".time") {
   const time = new Date().toLocaleTimeString()
 
   await sock.sendMessage(from, {
@@ -71,9 +84,57 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
 
   return
   }
+  
+  // .vv command
+  if (text === ".vv") {
+    const quoted = msg.message.extendedTextMessage?.contextInfo?.quotedMessage
+
+    if (!quoted) {
+      return await sock.sendMessage(from, {
+        text: "❌ Reply to a view once message."
+      })
+    }
+
+    const viewOnce =
+      quoted.viewOnceMessageV2 ||
+      quoted.viewOnceMessage
+
+    if (!viewOnce) {
+      return await sock.sendMessage(from, {
+        text: "❌ That is not a view once message."
+      })
+    }
+
+    const message =
+      viewOnce.message.imageMessage ||
+      viewOnce.message.videoMessage
+
+    await sock.sendMessage(from, {
+      [message.mimetype.startsWith("image") ? "image" : "video"]: {
+        url: message.url
+      },
+      caption: "👀 View Once Opened"
+    })
+  }
+  
+  if (text === ".antidelete") {
+  await sock.sendMessage(from, {
+    text: "🛡️ Anti-delete activated."
+  })
+
+  return
+}
+
+if (text === ".alive") {
+  await sock.sendMessage(from, {
+    text: "꧁༒☬𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 & 𝙍𝙐𝙉𝙉𝙄𝙉𝙂 ☬༒꧂."
+  })
+
+  return
+}
 
   // !menu command
-  if (text === "!menu") {
+  if (text === ".menu") {
     await sock.sendMessage(from, {
       text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
 │
@@ -81,13 +142,17 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
 ├  Status: Online
 ├  Prefix: !
 │
-├──〔 📜 COMMANDS 〕
+╭──〔   ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
 │
-├ 💣 !ping
-├ 🥷 !owner
-├ 🔮 !menu
-│ ⌚ !time
-╰────────────────⬣`
+├ 💣 𝙿𝙸𝙽𝙶 : .ping
+├ 🥷 𝙾𝚆𝙽𝙴𝚁 : .owner
+├ 🔮 𝙼𝙴𝙽𝚄 : .menu
+├ ⌚ 𝚃𝙸𝙼𝙴 : .time
+├ 👀 𝚅𝙸𝙴𝚆 𝙾𝙽𝙲𝙴 : .vv
+├ 💀 𝙰𝙽𝚃𝙸 𝙳𝙴𝙻𝙴𝚃𝙴 : .antidelete
+├ ⚔️ 𝙰𝙻𝙸𝚅𝙴 : .alive
+│
+╰────────────────⬣
     })
   }
 
@@ -113,30 +178,20 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
   })
 
   // Pairing code
-if (!sock.authState.creds.registered) {
-  const phoneNumber = process.env.PHONE_NUMBER
+  if (!sock.authState.creds.registered) {
+    const phoneNumber = process.env.PHONE_NUMBER
 
-  console.log("Using Number:", phoneNumber)
+    console.log("Using Number:", phoneNumber)
 
-  setTimeout(async () => {
-    try {
-      const code = await sock.requestPairingCode(phoneNumber)
-
-      console.log(`
-╔══════════════════════╗
-║     MAHAPPEN-MD      ║
-╚══════════════════════╝
-
-🔑 PAIR CODE:
-MAHAPPEN-${code}
-
-⚡ Enter the code in WhatsApp
-`)
-    } catch (err) {
-      console.log(err)
-    }
-  }, 3000)
+    setTimeout(async () => {
+      try {
+        const code = await sock.requestPairingCode(phoneNumber)
+        console.log("PAIR CODE:", code)
+      } catch (err) {
+        console.log(err)
+      }
+    }, 3000)
   }
-    }
+}
 
 startBot()
