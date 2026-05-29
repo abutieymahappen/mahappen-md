@@ -90,10 +90,6 @@ Node: Active`
     return
   }
 
-  // OTHER COMMANDS HERE
-
-})
-  
   // !owner command
   if (text === ".owner") {
     await sock.sendMessage(from, {
