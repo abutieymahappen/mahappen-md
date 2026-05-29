@@ -52,12 +52,7 @@ sock.ev.on("messages.update", async (updates) => {
 
 👤 User: ${key.participant || key.remoteJid}
 
-📝 A message was deleted.`
-      })
-    }
-  }
-})
-    //ping
+// ping
 if (text === ".ping") {
 
   const start = Date.now()
@@ -70,13 +65,12 @@ if (text === ".ping") {
     text: `🫥 *PONG!*
 
 𝐁𝐨𝐭 𝐒𝐭𝐚𝐭𝐮𝐬: 𝐎𝐍𝐋𝐈𝐍𝐄
- 𝐒𝐩𝐞𝐞𝐝: ${speed}𝐦𝐬
- 𝐍𝐨𝐝𝐞: 𝐀𝐂𝐓𝐈𝐕𝐄'
+𝐒𝐩𝐞𝐞𝐝: ${speed}𝐦𝐬
+𝐍𝐨𝐝𝐞: 𝐀𝐂𝐓𝐈𝐕𝐄`
   })
 
   return
 }
-
 
   // !owner command
   if (text === ".owner") {
