@@ -52,6 +52,12 @@ sock.ev.on("messages.update", async (updates) => {
 
 👤 User: ${key.participant || key.remoteJid}
 
+📝 A message was deleted.`
+      })
+    }
+  }
+})
+
 // ping
 if (text === ".ping") {
 
