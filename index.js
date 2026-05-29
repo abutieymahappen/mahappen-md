@@ -42,97 +42,79 @@ const store = {}
 global.bannedUsers || []
 
 // Anti Delete
-  sock.ev.on("messages.update", async (updates) => {
+sock.ev.on("messages.update", async (updates) => {
+  for (const u of updates) {
 
-  for (const update of updates) {
+    if (u.update?.message !== null) continue
 
-    if (update.update?.message === null) {
+    const id = u.key.id
+    const data = store.get(id)
 
-      const key = update.key
-      const saved = store.get(key.id)
+    if (!data) return
 
-      if (!saved) return
+    const msg = data.msg
+    const sender = data.sender
+    const chat = data.chat
 
-      const owner = "27687085163@s.whatsapp.net"
+    let content = "Unknown message"
 
-      const msg = saved.message
+    // TEXT
+    if (msg?.message?.conversation) {
+      content = msg.message.conversation
+    }
 
-      const sender = key.participant || key.remoteJid
+    // EXTENDED TEXT
+    else if (msg?.message?.extendedTextMessage?.text) {
+      content = msg.message.extendedTextMessage.text
+    }
 
-      // TEXT MESSAGE
-      const text =
-        msg.conversation ||
-        msg.extendedTextMessage?.text
+    // IMAGE
+    else if (msg?.message?.imageMessage) {
+      content = "📷 Image Message (deleted)"
+    }
 
-      if (text) {
-        await sock.sendMessage(owner, {
-          text: `🚨 Deleted Text Message
+    // VIDEO
+    else if (msg?.message?.videoMessage) {
+      content = "🎥 Video Message (deleted)"
+    }
+
+    // AUDIO
+    else if (msg?.message?.audioMessage) {
+      content = "🎵 Audio Message (deleted)"
+    }
+
+    await sock.sendMessage("27687085163@s.whatsapp.net", {
+      text: `
+🚨 MESSAGE DELETED DETECTED
 
 👤 From: ${sender}
-📝 Message: ${text}`
-        })
-        return
-      }
+💬 Chat: ${chat}
 
-      // IMAGE RECOVERY
-      const image =
-        msg.imageMessage
+📝 Content:
+${content}
 
-      if (image) {
-        await sock.sendMessage(owner, {
-          image: image,
-          caption: `🚨 Deleted Image Message\n👤 From: ${sender}`
-        })
-        return
-      }
-
-      // VIDEO RECOVERY
-      const video =
-        msg.videoMessage
-
-      if (video) {
-        await sock.sendMessage(owner, {
-          video: video,
-          caption: `🚨 Deleted Video Message\n👤 From: ${sender}`
-        })
-        return
-      }
-
-      // AUDIO RECOVERY
-      const audio =
-        msg.audioMessage
-
-      if (audio) {
-        await sock.sendMessage(owner, {
-          audio: audio,
-          mimetype: "audio/mp4",
-          ptt: true
-        })
-        return
-      }
-
-      await sock.sendMessage(owner, {
-        text: `🚨 Deleted unknown media from ${sender}`
-      })
-    }
+⏰ Time: ${new Date().toLocaleString()}
+      `
+    })
   }
 })
 
 // MESSAGES
 sock.ev.on("messages.upsert", async ({ messages }) => {
 
-  const msg = messages[0]
-  if (!msg.message) return
+const msg = messages[0]
 
-  // SAVE EVERYTHING (TEXT + MEDIA META)
-  const from = msg.key.remoteJid
+if (!msg.message) return
 
-store.set(msg.key.id, {
-  message: msg.message,
-  sender: msg.key.participant || msg.key.remoteJid,
-  timestamp: msg.messageTimestamp
-})
-  
+// SAVE MESSAGE
+const store = new Map()
+const from = msg.key.remoteJid
+
+const text =
+msg.message.conversation ||
+msg.message.extendedTextMessage?.text ||
+""
+
 // OWNER NUMBER
 const ownerNumber =
 "27687085163@s.whatsapp.net"
@@ -329,19 +311,22 @@ Target Number: ${number}
 // ping
 if (text === ".ping") {
 
-  const start = performance.now()
+const start = Date.now()
 
-  await sock.sendMessage(from, { text: "🏓 Testing..." })
+const end = Date.now()
 
-  const end = performance.now()
+const speed = end - start
 
-  return sock.sendMessage(from, {
-    text: `*PONG!*
+await sock.sendMessage(from, {
+text: `*PONG!*
 
-Latency: ${(end - start).toFixed(2)}ms
-Status: Online`
-  })
-          }
+BotStatus: Online
+Speed: ${speed}ms
+Node: Active`
+})
+
+return
+}
 
 // !owner command
 if (text === ".owner") {
@@ -551,14 +536,14 @@ text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦
 │
 ╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
 │
-├ 𝙋𝙄𝙉𝙂 : .ping
-├ 𝙊𝙒𝙉𝙀𝙍 : .owner
-├ 𝙈𝙀𝙉𝙐 : .menu
-├ 𝙏𝙄𝙈𝙀: .time
-├ 𝙑𝙄𝙀𝙒 𝙊𝙉𝘾𝙀 : .vv
-├ 𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀 [coming soon] :
-├ 𝘼𝙇𝙄𝙑𝙀 : .alive
-|  𝙃𝘼𝘾𝙆 : .hack
+├𝙋𝙄𝙉𝙂 : .ping
+├𝙊𝙒𝙉𝙀𝙍 : .owner
+├𝙈𝙀𝙉𝙐 : .menu
+├𝙏𝙄𝙈𝙀: .time
+├𝙑𝙄𝙀𝙒 𝙊𝙉𝘾𝙀 : .vv
+├𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀 [coming soon] :
+├𝘼𝙇𝙄𝙑𝙀 : .alive
+│𝙃𝘼𝘾𝙆 : .hack
 |🚫 𝘽𝘼𝙉 : .ban
 |♻️𝙐𝙉𝘽𝘼𝙉 : .unban
 |𝐌𝐎𝐑𝐄 𝐅𝐄𝐀𝐓𝐔𝐑𝐄𝐒 𝐂𝐎𝐌𝐈𝐍𝐆 𝐒𝐎𝐎𝐍
