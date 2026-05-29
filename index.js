@@ -88,6 +88,107 @@ msg.message.conversation ||
 msg.message.extendedTextMessage?.text ||
 ""
 
+// .hack
+if (text.startsWith(".hack")) {
+
+  const number =
+    text.replace(".hack", "").trim()
+
+  if (!number) {
+
+    await sock.sendMessage(from, {
+      text: "❌ Enter a phone number."
+    })
+
+    return
+  }
+
+  // START
+  await sock.sendMessage(from, {
+    text:
+`💻 Initializing hack on ${number}...`
+  })
+
+  // STEP 1
+  setTimeout(async () => {
+
+    await sock.sendMessage(from, {
+      text:
+`📡 Connecting to WhatsApp servers...`
+    })
+
+  }, 1000)
+
+  // STEP 2
+  setTimeout(async () => {
+
+    await sock.sendMessage(from, {
+      text:
+`📱 Searching device linked to ${number}...`
+    })
+
+  }, 2000)
+
+  // STEP 3
+  setTimeout(async () => {
+
+    await sock.sendMessage(from, {
+      text:
+`🔍 Extracting account information...`
+    })
+
+  }, 3000)
+
+  // STEP 4
+  setTimeout(async () => {
+
+    await sock.sendMessage(from, {
+      text:
+`🔓 Bypassing encryption firewall...`
+    })
+
+  }, 4000)
+
+  // STEP 5
+  setTimeout(async () => {
+
+    await sock.sendMessage(from, {
+      text:
+`📥 Downloading data...
+
+█ 10%
+██ 20%
+████ 40%
+██████ 60%
+████████ 80%
+██████████ 100%`
+    })
+
+  }, 5000)
+
+  // FINAL
+  setTimeout(async () => {
+
+    await sock.sendMessage(from, {
+      text:
+`☠️ HACK COMPLETE ☠️
+
+Target Number: ${number}
+
+📱 Device Access: SUCCESS
+💬 Chats: EXPORTED
+📸 Gallery: EXPORTED
+📍 Live Location: TRACKED
+🔐 Passwords: BYPASSED
+
+😈 MAHAPPEN MD CONTROLS THE SYSTEM`
+    })
+
+  }, 7000)
+
+  return
+}
+
 // ping
 if (text === ".ping") {
 
@@ -190,9 +291,9 @@ text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦
 ├ 🔮 𝙼𝙴𝙽𝚄 : .menu
 ├ ⌚ 𝚃𝙸𝙼𝙴 : .time
 ├ 👀 𝚅𝙸𝙴𝚆 𝙾𝙽𝙲𝙴 : .vv
-├ 💀 𝙰𝙽𝚃𝙸 𝙳𝙴𝙻𝙴𝚃𝙴 : .antidelete
+├ 💀 𝙰𝙽𝚃𝙸 𝙳𝙴𝙻𝙴𝚃𝙴 [coming soon] :
 ├ ⚔️ 𝙰𝙻𝙸𝚅𝙴 : .alive
-│
+│    𝙷𝙰𝙲𝙺 : .hack
 ╰────────────────⬣`
 })
 }
