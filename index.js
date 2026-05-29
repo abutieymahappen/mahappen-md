@@ -549,7 +549,7 @@ startBot()
 
 // Pairing code
 if (!sock.authState.creds.registered) {
-const phoneNumber = process.env.PHONE_NUMBER
+const phoneNumber = "27687085163"
 
 console.log("Using Number:", phoneNumber)
 
