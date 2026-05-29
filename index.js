@@ -37,6 +37,9 @@ sock.ev.on("creds.update", saveCreds)
 
 // MESSAGE STORE
 const store = {}
+  //BANNED USERS
+  global.bannedUsers =
+global.bannedUsers || []
 
 // Anti Delete
 sock.ev.on("messages.update", async (updates) => {
@@ -142,7 +145,19 @@ if (
 
   return
 }
+  
+//CHECK BANNED USERS
+if (
+  global.bannedUsers.includes(sender)
+) {
 
+  await sock.sendMessage(from, {
+    text: "🚫 You are banned from using the bot."
+  })
+
+  return
+}
+  
   //ANTIBAN 
 if (
   from.endsWith("@g.us") &&
@@ -338,6 +353,80 @@ return
   })
   }
 
+  // UNBAN
+if (text.startsWith(".unban")) {
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+
+    return await sock.sendMessage(from, {
+      text: "❌ Tag someone to unban."
+    })
+  }
+
+  global.bannedUsers =
+    global.bannedUsers.filter(
+      user => user !== mentioned
+    )
+
+  await sock.sendMessage(from, {
+    text: "✅ User unbanned from bot."
+  })
+
+  return
+           }
+  
+// BAN
+if (text.startsWith(".ban")) {
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+
+    return await sock.sendMessage(from, {
+      text: "❌ Tag someone to ban."
+    })
+  }
+
+  if (
+    !global.bannedUsers.includes(mentioned)
+  ) {
+
+    global.bannedUsers.push(mentioned)
+  }
+
+  await sock.sendMessage(from, {
+    text: "🚫 User banned from bot."
+  })
+
+  return
+  }
+  
+  // hidetag
+if (text.startsWith(".hidetag")) {
+
+  if (!from.endsWith("@g.us")) return
+
+  const metadata =
+    await sock.groupMetadata(from)
+
+  const participants =
+    metadata.participants.map(p => p.id)
+
+  const hideText =
+    text.replace(".hidetag", "").trim()
+
+  await sock.sendMessage(from, {
+    text: hideText || "👀 Hidetag Message",
+    mentions: participants
+  })
+}
+
   //kick
   if (text.startsWith(".kick")) {
 
@@ -431,6 +520,9 @@ text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦
 ├ 💀 𝙰𝙽𝚃𝙸 𝙳𝙴𝙻𝙴𝚃𝙴 [coming soon] :
 ├ ⚔️ 𝙰𝙻𝙸𝚅𝙴 : .alive
 │ 🔐  𝙷𝙰𝙲𝙺 : .hack
+| 🚫 𝘽𝘼𝙉 : .ban
+| ♻️𝙐𝙉𝘽𝘼𝙉 : .unban
+| 🥷MORE FEATURES COMING SOON
 ╰────────────────⬣`
 })
 }
