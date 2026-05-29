@@ -97,6 +97,10 @@ ${textMessage}`
   })
 
 }
+
+}
+})
+
 // MESSAGES
 sock.ev.on("messages.upsert", async ({ messages }) => {
 
