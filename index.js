@@ -57,13 +57,6 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     })
   }
 
-  // Auto reply
-  if (!text.startsWith("!")) {
-    await sock.sendMessage(from, {
-      text: "Mahappen is playing freefire don't bother him."
-    })
-  }
-
   // !owner command
   if (text === "!owner") {
     await sock.sendMessage(from, {
