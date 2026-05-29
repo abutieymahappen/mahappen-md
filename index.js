@@ -125,9 +125,7 @@ text: "❌ Failed to generate pair code."
 
 }
 
-}
-
-})
+                    }
 
 // SAVE MESSAGE
 store[msg.key.id] = msg
