@@ -9,9 +9,8 @@ import Pino from "pino"
 import fs from "fs"
 
 //BANNED USERS
-global.botLocked = false
 global.bannedUsers = global.bannedUsers || []
-
+const CHANNEL = "https://whatsapp.com/channel/0029Vb7pS7WFi8xW1FwMAX1p"
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -90,60 +89,36 @@ bots[number] = sock
 sock.ev.on("creds.update", saveCreds)
 
 //COMMANDS
-  sock.ev.on("messages.upsert", async ({ messages }) => {
+sock.ev.on("messages.upsert", async ({ messages }) => {
 
   const msg = messages[0]
   if (!msg.message) return
 
   const from = msg.key.remoteJid
-  const sender = msg.key.participant || msg.key.remoteJid
 
   const text =
     msg.message.conversation ||
     msg.message.extendedTextMessage?.text ||
     ""
+   //hidetag
+if (text.startsWith(".hidetag")) {
 
-  // 🔒 LOCK CHECK (must be here)
-  if (global.botLocked && sender !== OWNER) return
+  if (!from.endsWith("@g.us")) return
 
-  // =========================
-  // LOCK / UNLOCK COMMANDS
-  // =========================
-  if (text === ".lock") {
-    global.botLocked = true
+  const metadata =
+    await sock.groupMetadata(from)
 
-    return sock.sendMessage(from, {
-      text: "🔒 Bot is now LOCKED"
-    })
-  }
+  const participants =
+    metadata.participants.map(p => p.id)
 
-  if (text === ".unlock") {
-    global.botLocked = false
+  const hideText =
+    text.replace(".hidetag", "").trim()
 
-    return sock.sendMessage(from, {
-      text: "🔓 Bot is now UNLOCKED"
-    })
-  }
-
-  // =========================
-  // HIDETAG EXAMPLE
-  // =========================
-  if (text.startsWith(".hidetag")) {
-
-    if (!from.endsWith("@g.us")) return
-
-    const metadata = await sock.groupMetadata(from)
-    const participants = metadata.participants.map(p => p.id)
-
-    const hideText = text.replace(".hidetag", "").trim()
-
-    return sock.sendMessage(from, {
-      text: hideText || "👀 Hidetag Message",
-      mentions: participants
-    })
-  }
-
-})
+  await sock.sendMessage(from, {
+    text: hideText || "👀 Hidetag Message",
+    mentions: participants
+  })
+}
 
    //ALIVE
    
@@ -153,6 +128,17 @@ sock.ev.on("creds.update", saveCreds)
     })
   }
 
+   //Channel
+   if (text === ".channel") {
+  return sock.sendMessage(from, {
+    text: `📢 *OFFICIAL CHANNEL*
+
+${CHANNEL}
+
+☘️ Follow for updates`
+  })
+   }
+   
    //ANTI LINK
    if (text.includes("chat.whatsapp.com")) {
   if (!from.endsWith("@g.us")) return
@@ -378,13 +364,14 @@ return
 ├ 📢 .tagall
 ├ 👻 .hidetag
 |-❓ .info
+|-⌨️ .channel
 |•MORW COMMANDS WILL BE ADDED STAY TUNED 
 ╰────────────────⬣`
     })
 
     return
   }
-   }
+   })
 
 /* =========================
    CONNECTION FIXED
@@ -431,4 +418,4 @@ console.log("PAIR ERROR:", err.message)
 
 }
 
-  
+}
