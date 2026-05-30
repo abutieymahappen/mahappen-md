@@ -21,9 +21,13 @@ console.log(`Server running on ${PORT}`)
 })
 
 async function startBot() {
-const { state, saveCreds } = await useMultiFileAuthState("session")
+async function startBot(number) {
 
-const { version } = await fetchLatestBaileysVersion()
+const { state, saveCreds } =
+await useMultiFileAuthState(`session/${number || "default"}`)
+
+const { version } =
+await fetchLatestBaileysVersion()
 
 const sock = makeWASocket({
 version,
@@ -32,16 +36,11 @@ auth: state,
 browser: ["Ubuntu", "Chrome", "20.0.04"]
 })
 
-
-// Save session
 sock.ev.on("creds.update", saveCreds)
 
-// MESSAGE STORE
 const store = {}
-  //BANNED USERS
-  global.bannedUsers =
-global.bannedUsers || []
-
+global.bannedUsers = global.bannedUsers || []
+global.cooldowns = global.cooldowns || {}
 // Anti Delete
 sock.ev.on("messages.update", async (updates) => {
 
@@ -538,8 +537,8 @@ startBot()
 })
 
 // Pairing code
-if (!sock.authState.creds.registered) {
-const phoneNumber = "27687085163"
+if (!sock.authState.creds.registered && number) {
+const phoneNumber = number
 
 console.log("Using Number:", phoneNumber)
 
@@ -554,4 +553,23 @@ console.log(err)
 }
 }
 
-startBot()
+  app.get("/pair/:number", async (req, res) => {
+
+const number = req.params.number
+
+try {
+
+await startBot(number)
+
+res.send(`
+<h2>BADBOY-MD</h2>
+<p>Pairing started for:</p>
+<b>${number}</b>
+`)
+
+} catch (err) {
+res.send(err.message)
+}
+
+})
+startBot(null)
