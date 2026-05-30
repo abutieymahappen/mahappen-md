@@ -488,7 +488,7 @@ return
 if (text === ".menu") {
 await sock.sendMessage(from, {
 image: {
-url: "https://files.catbox.moe/eenis4.jpg"
+url: "https://files.catbox.moe/caxt5m.png"
 },
 caption: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
 │
