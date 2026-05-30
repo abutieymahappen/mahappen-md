@@ -324,12 +324,14 @@ caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* �
   /* =========================
      PAIRING CODE
   ========================= */
-  // ✅ PAIRING MUST BE HERE
-  if (!state?.creds?.registered) {
-    try {
-      const code = await sock.requestPairingCode(number)
-      console.log("🔥 PAIR CODE:", code)
-    } catch (err) {
-      console.log("PAIR ERROR:", err)
-    }
+if (!state?.creds?.registered) {
+    setTimeout(async () => {
+      try {
+        const code = await sock.requestPairingCode(number)
+        console.log("🔥 PAIR CODE:", code)
+      } catch (err) {
+        console.log("PAIR ERROR:", err)
+      }
+    }, 3000)
   }
+}
