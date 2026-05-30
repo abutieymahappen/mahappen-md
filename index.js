@@ -23,7 +23,6 @@ app.get("/pair/:number", async (req, res) => {
 
   try {
 
-    // ✅ PUT IT HERE (BEFORE startBot)
     if (fs.existsSync(`session/${number}`)) {
       fs.rmSync(`session/${number}`, { recursive: true, force: true })
     }
