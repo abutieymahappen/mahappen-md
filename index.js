@@ -324,13 +324,37 @@ caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* �
   /* =========================
      PAIRING CODE
   ========================= */
-if (!state?.creds?.registered) {
-    setTimeout(async () => {
-      try {
-        const code = await sock.requestPairingCode(number)
-        console.log("🔥 PAIR CODE:", code)
-      } catch (err) {
-        console.log("PAIR ERROR:", err)
-      }
-    }, 3000)
+sock.ev.on("connection.update", (update) => {
+  const { connection, lastDisconnect } = update
+
+  console.log("STATUS:", connection)
+
+  if (connection === "open") {
+    console.log("✅ WhatsApp Connected:", number)
   }
+
+  if (connection === "close") {
+    const code = lastDisconnect?.error?.output?.statusCode
+
+    const shouldReconnect = code !== 401
+
+    console.log("❌ Disconnected:", code)
+
+    if (shouldReconnect) {
+      console.log("🔄 Reconnecting...")
+      startBot(number)
+    }
+  }
+})
+
+if (!state?.creds?.registered) {
+  setTimeout(async () => {
+    try {
+      const code = await sock.requestPairingCode(number)
+      console.log("🔥 PAIR CODE:", code)
+    } catch (err) {
+      console.log("PAIR ERROR:", err)
+    }
+  }, 3000)
+}
+           }
