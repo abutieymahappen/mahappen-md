@@ -384,7 +384,7 @@ return
 
     return
   }
-   })
+   }
 
 /* =========================
    CONNECTION FIXED
