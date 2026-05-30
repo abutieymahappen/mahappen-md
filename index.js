@@ -190,7 +190,8 @@ if (text === ".owner") {
   })
 
   return
-
+}
+   
    //UNBAN
 if (text.startsWith(".unban")) {
 
@@ -231,8 +232,6 @@ if (text.startsWith(".ban")) {
     })
   }
 
-   global.bannedUsers = global.bannedUsers || []
-   
   if (
     !global.bannedUsers.includes(mentioned)
   ) {
