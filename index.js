@@ -346,4 +346,4 @@ sock.ev.on("connection.update", (update) => {
   if (connection === "open") {
     console.log("✅ WhatsApp Connected:", number)
   }
-}
+})
