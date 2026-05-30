@@ -5,6 +5,7 @@ import makeWASocket, {
 } from "@whiskeysockets/baileys"
 
 import Pino from "pino"
+import fs from "fs"
 
 const app = express()
 const PORT = 3000
@@ -22,11 +23,16 @@ app.get("/pair/:number", async (req, res) => {
   console.log("PAIR REQUEST:", number)
 
   try {
+    if (fs.existsSync(`session/${number}`)) {
+      fs.rmSync(`session/${number}`, { recursive: true, force: true })
+    }
+
     await startBot(number)
+
     res.send(`Pairing started for ${number}`)
   } catch (err) {
     console.log("ERROR:", err)
-    res.status(500).send("Failed to start bot")
+    res.status(500).send("Failed")
   }
 })
 
@@ -34,6 +40,7 @@ app.get("/pair/:number", async (req, res) => {
    BOT START
 ========================= */
 async function startBot(number) {
+
   const { state, saveCreds } =
     await useMultiFileAuthState(`session/${number}`)
 
@@ -48,51 +55,75 @@ async function startBot(number) {
 
   sock.ev.on("creds.update", saveCreds)
 
+  /* ================= CONNECTION ================= */
   sock.ev.on("connection.update", (update) => {
-    console.log("STATUS:", update.connection)
-  })
-if (text === ".menu") {
-    await sock.sendMessage(from, {
-      image: {
-        url: "https://files.catbox.moe/caxt5m.png"
-      },
-      caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
-│
-├ 🥷 𝗢𝗪𝗡𝗘𝗥: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
-├ 𝗦𝗧𝗔𝗧𝗨𝗦: 𝖮𝖭𝖫𝖨𝖭𝖤
-├ 𝗣𝗥𝗘𝗙𝗜𝗫: .
-│
-╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
-│
-├ ⚡ .ping
-├ 👤 .owner
-├ 🧾 .menu
-├ 🕒 .time
-├ 🔥 .alive
-├ 👀 .vv
-├ 🚫 .ban
-├ ♻️ .unban
-├ 💣 .kick
-├ 📢 .tagall
-├ 👻 .hidetag
-│
-╰────────────────⬣`
-    })
+    const { connection, lastDisconnect } = update
 
-    return
-  }
-  
-  /* =========================
-     PAIRING CODE
-  ========================= */
-  if (!state?.creds?.registered) {
-    setTimeout(async () => {
-      try {
-        const code = await sock.requestPairingCode(number)
-        console.log("🔥 PAIR CODE:", code)
-      } catch (err) {
-        console.log("PAIR ERROR:", err)
+    console.log("STATUS:", connection)
+
+    if (connection === "open") {
+      console.log("✅ AKATSUKI-MD ONLINE")
+    }
+
+    if (connection === "close") {
+      const code = lastDisconnect?.error?.output?.statusCode
+      const shouldReconnect = code !== 401
+
+      console.log("❌ Disconnected:", code)
+
+      if (shouldReconnect) {
+        console.log("🔄 Reconnecting...")
+        startBot(number)
+      } else {
+        console.log("🧹 Session removed")
       }
-    }, 3000)
-  }
-}
+    }
+  })
+
+  /* ================= MESSAGES ================= */
+  sock.ev.on("messages.upsert", async ({ messages }) => {
+
+    const msg = messages[0]
+    if (!msg.message) return
+
+    const from = msg.key.remoteJid
+
+    const text =
+      msg.message.conversation ||
+      msg.message.extendedTextMessage?.text ||
+      ""
+
+    /* ================= COMMANDS ================= */
+
+    if (text === ".menu") {
+      await sock.sendMessage(from, {
+        image: {
+          url: "https://files.catbox.moe/caxt5m.png"
+        },
+        caption: `🥷 AKATSUKI-MD MENU
+
+⚡ .ping
+👤 .owner
+🧾 .menu
+🕒 .time
+🔥 .alive`
+      })
+    }
+
+    if (text === ".alive") {
+      await sock.sendMessage(from, {
+        text: "🥷 AKATSUKI-MD IS ALIVE ⚡"
+      })
+    }
+
+    if (text === ".ping") {
+      const start = Date.now()
+      await sock.sendMessage(from, { text: "Pinging..." })
+      const end = Date.now()
+
+      await sock.sendMessage(from, {
+        text: `PONG ⚡ ${end - start}ms`
+      })
+    }
+  })
+      }
