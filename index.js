@@ -324,26 +324,6 @@ caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* �
   /* =========================
      PAIRING CODE
   ========================= */
-  async function startBot(number) {
-
-  const { state, saveCreds } =
-    await useMultiFileAuthState(`session/${number}`)
-
-  const { version } =
-    await fetchLatestBaileysVersion()
-
-  const sock = makeWASocket({
-    version,
-    logger: Pino({ level: "silent" }),
-    auth: state
-  })
-
-  sock.ev.on("creds.update", saveCreds)
-
-  sock.ev.on("connection.update", (update) => {
-    console.log("STATUS:", update.connection)
-  })
-
   // ✅ PAIRING MUST BE HERE
   if (!state?.creds?.registered) {
     try {
@@ -353,5 +333,4 @@ caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* �
       console.log("PAIR ERROR:", err)
     }
   }
-
 }
