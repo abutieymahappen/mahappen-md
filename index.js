@@ -159,19 +159,19 @@ if (text.startsWith(".ban")) {
     })
   }
 
-  if (
-    !global.bannedUsers.includes(mentioned)
-  ) {
+global.bannedUsers = global.bannedUsers || []
 
-    global.bannedUsers.push(mentioned)
-  }
+if (
+  !global.bannedUsers.includes(mentioned)
+) {
+  global.bannedUsers.push(mentioned)
+}
 
-  await sock.sendMessage(from, {
-    text: "🚫 User banned from bot."
-  })
+await sock.sendMessage(from, {
+  text: "🚫 User banned from bot."
+})
 
-  return
-    }
+return
 
     //hidetag
 if (text.startsWith(".hidetag")) {
