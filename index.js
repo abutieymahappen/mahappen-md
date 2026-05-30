@@ -553,3 +553,4 @@ if (!sock.authState.creds.registered) {
     }
   }, 3000)
 }
+  }
