@@ -541,17 +541,11 @@ startBot()
 })
 
 // Pairing code
-if (!sock.authState.creds.registered) {
-
-  const phoneNumber = number
-
-  setTimeout(async () => {
-    try {
-      const code = await sock.requestPairingCode(phoneNumber)
+if (!state.creds.registered) {
+    setTimeout(async () => {
+      const code = await sock.requestPairingCode(number)
       console.log("PAIR CODE:", code)
-    } catch (err) {
-      console.log(err)
-    }
-  }, 3000)
-}
+    }, 3000)
   }
+  }
+}
