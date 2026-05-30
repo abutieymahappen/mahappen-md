@@ -1,129 +1,133 @@
 import express from "express"
 import makeWASocket, {
-  useMultiFileAuthState,
-  fetchLatestBaileysVersion
+useMultiFileAuthState,
+fetchLatestBaileysVersion,
+DisconnectReason
 } from "@whiskeysockets/baileys"
 
 import Pino from "pino"
 import fs from "fs"
 
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
+
+const bots = {}
+
+const OWNER = "27687085163@s.whatsapp.net"
+
+app.get("/", (req, res) => {
+res.send("Bot running ✅")
+})
 
 app.listen(PORT, () => {
-  console.log("Server running on", PORT)
+console.log("Server running on", PORT)
 })
 
 /* =========================
-   PAIR ROUTE
+   PAIR ROUTE (FIXED)
 ========================= */
 app.get("/pair/:number", async (req, res) => {
-  const number = req.params.number
 
-  console.log("PAIR REQUEST:", number)
+const number = req.params.number
 
-  try {
-    if (fs.existsSync(`session/${number}`)) {
-      fs.rmSync(`session/${number}`, { recursive: true, force: true })
-    }
+try {
 
-    await startBot(number)
+// FORCE CLEAN SESSION
+const sessionPath = `session/${number}`
 
-    res.send(`Pairing started for ${number}`)
-  } catch (err) {
-    console.log("ERROR:", err)
-    res.status(500).send("Failed")
-  }
+if (fs.existsSync(sessionPath)) {
+fs.rmSync(sessionPath, { recursive: true, force: true })
+}
+
+console.log("🚀 Pair request:", number)
+
+await startBot(number)
+
+res.send(`
+<h2>BADBOY-MD</h2>
+<p>Pairing started for:</p>
+<b>${number}</b>
+<p>Check Termux for code</p>
+`)
+
+} catch (err) {
+console.log(err)
+res.status(500).send(err.message)
+}
+
 })
 
 /* =========================
-   BOT START
+   START BOT (FIXED)
 ========================= */
 async function startBot(number) {
 
-  const { state, saveCreds } =
-    await useMultiFileAuthState(`session/${number}`)
+if (bots[number]) {
+console.log("♻️ Restarting existing bot:", number)
+bots[number].end()
+delete bots[number]
+}
 
-  const { version } =
-    await fetchLatestBaileysVersion()
+const { state, saveCreds } =
+await useMultiFileAuthState(`session/${number}`)
 
-  const sock = makeWASocket({
-    version,
-    logger: Pino({ level: "silent" }),
-    auth: state
-  })
+const { version } =
+await fetchLatestBaileysVersion()
 
-  sock.ev.on("creds.update", saveCreds)
+const sock = makeWASocket({
+version,
+logger: Pino({ level: "silent" }),
+auth: state,
+browser: ["Ubuntu", "Chrome", "20.0.04"]
+})
 
-  /* ================= CONNECTION ================= */
-  sock.ev.on("connection.update", (update) => {
-    const { connection, lastDisconnect } = update
+bots[number] = sock
 
-    console.log("STATUS:", connection)
+sock.ev.on("creds.update", saveCreds)
 
-    if (connection === "open") {
-      console.log("✅ AKATSUKI-MD ONLINE")
-    }
+/* =========================
+   CONNECTION FIXED
+========================= */
+sock.ev.on("connection.update", (update) => {
 
-    if (connection === "close") {
-      const code = lastDisconnect?.error?.output?.statusCode
-      const shouldReconnect = code !== 401
+const { connection, lastDisconnect } = update
 
-      console.log("❌ Disconnected:", code)
+if (connection === "open") {
+console.log("✅ WhatsApp Connected:", number)
+}
 
-      if (shouldReconnect) {
-        console.log("🔄 Reconnecting...")
-        startBot(number)
-      } else {
-        console.log("🧹 Session removed")
-      }
-    }
-  })
+if (connection === "close") {
 
-  /* ================= MESSAGES ================= */
-  sock.ev.on("messages.upsert", async ({ messages }) => {
+const shouldReconnect =
+lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
-    const msg = messages[0]
-    if (!msg.message) return
+console.log("❌ Disconnected")
 
-    const from = msg.key.remoteJid
+if (shouldReconnect) {
+console.log("🔄 Reconnecting...")
+startBot(number)
+}
+}
+})
 
-    const text =
-      msg.message.conversation ||
-      msg.message.extendedTextMessage?.text ||
-      ""
+/* =========================
+   PAIRING CODE (FIXED CORE)
+========================= */
+if (!state.creds.registered) {
 
-    /* ================= COMMANDS ================= */
+setTimeout(async () => {
+try {
 
-    if (text === ".menu") {
-      await sock.sendMessage(from, {
-        image: {
-          url: "https://files.catbox.moe/caxt5m.png"
-        },
-        caption: `🥷 AKATSUKI-MD MENU
+const code = await sock.requestPairingCode(number)
 
-⚡ .ping
-👤 .owner
-🧾 .menu
-🕒 .time
-🔥 .alive`
-      })
-    }
+console.log("🔥 PAIRING CODE:", code)
 
-    if (text === ".alive") {
-      await sock.sendMessage(from, {
-        text: "🥷 AKATSUKI-MD IS ALIVE ⚡"
-      })
-    }
+} catch (err) {
+console.log("PAIR ERROR:", err.message)
+}
 
-    if (text === ".ping") {
-      const start = Date.now()
-      await sock.sendMessage(from, { text: "Pinging..." })
-      const end = Date.now()
+}, 3000)
 
-      await sock.sendMessage(from, {
-        text: `PONG ⚡ ${end - start}ms`
-      })
-    }
-  })
-      }
+}
+
+  }
