@@ -118,10 +118,9 @@ Latency: ${latency}ms`
    //!owner command
 if (text === ".owner") {
   await sock.sendMessage(from, {
-    video: {
-      url: "https://files.catbox.moe/radehm.mp4"
+    image: {
+      url: "https://files.catbox.moe/i8oidw.jpg"
     },
-    gifPlayback: true,
     caption: `╭━━〔 👤 𝗢𝗪𝗡𝗘𝗥 𝗣𝗥𝗢𝗙𝗜𝗟𝗘 〕━━⬣
     
 𝐍𝐀𝐌𝐄: 𝗔𝗯𝘂𝘁𝗶𝗲𝘆𝗠𝗮𝗵𝗮𝗽𝗽𝗲𝗻
@@ -130,12 +129,65 @@ if (text === ".owner") {
 𝐒𝐘𝐒𝐓𝐄𝐌: 𝗔𝗖𝗧𝗜𝗩𝗘
 𝐑𝐀𝐌/𝐂𝐏𝐔 : 8𝗚𝗕
 
- "AKATSUKI-MD"
-
+ "𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗"
 ╰━━━━━━━━━━━━━━⬣`
   })
 
   return
+
+   //UNBAN
+if (text.startsWith(".unban")) {
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+
+    return await sock.sendMessage(from, {
+      text: " Tag someone to unban."
+    })
+  }
+
+  global.bannedUsers =
+    global.bannedUsers.filter(
+      user => user !== mentioned
+    )
+
+  await sock.sendMessage(from, {
+    text: " User unbanned from bot🍀."
+  })
+
+  return
+           }
+  
+// BAN
+if (text.startsWith(".ban")) {
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+
+    return await sock.sendMessage(from, {
+      text: " Tag someone to ban."
+    })
+  }
+
+  if (
+    !global.bannedUsers.includes(mentioned)
+  ) {
+
+    global.bannedUsers.push(mentioned)
+  }
+
+  await sock.sendMessage(from, {
+    text: "🚫 User banned from bot."
+  })
+
+  return
+     }
 }
    //Time
 if (text === ".time") {
@@ -185,7 +237,7 @@ return
       image: {
         url: "https://files.catbox.moe/dg9pcn.png"
       },
-      caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
+      caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* 〕──⬣
 │
 ├ 🥷 𝗢𝗪𝗡𝗘𝗥: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
 ├ 𝗦𝗧𝗔𝗧𝗨𝗦: 𝖮𝖭𝖫𝖨𝖭𝖤
