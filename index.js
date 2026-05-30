@@ -22,14 +22,21 @@ app.get("/pair/:number", async (req, res) => {
   console.log("PAIR REQUEST:", number)
 
   try {
+
+    // ✅ PUT IT HERE (BEFORE startBot)
+    if (fs.existsSync(`session/${number}`)) {
+      fs.rmSync(`session/${number}`, { recursive: true, force: true })
+    }
+
     await startBot(number)
+
     res.send(`Pairing started for ${number}`)
+
   } catch (err) {
     console.log("ERROR:", err)
     res.status(500).send("Failed to start bot")
   }
 })
-
 /* =========================
    BOT START
 ========================= */
@@ -49,19 +56,28 @@ async function startBot(number) {
   sock.ev.on("creds.update", saveCreds)
 
   sock.ev.on("connection.update", (update) => {
-    console.log("STATUS:", update.connection)
-  })
-sock.ev.on("messages.upsert", async ({ messages }) => {
-  const msg = messages[0]
-  if (!msg.message) return
+  const { connection, lastDisconnect } = update
 
-  const from = msg.key.remoteJid
+  console.log("STATUS:", connection)
 
-  const text =
-    msg.message.conversation ||
-    msg.message.extendedTextMessage?.text ||
-    ""
+  if (connection === "close") {
+    const shouldReconnect =
+      lastDisconnect?.error?.output?.statusCode !== 401
 
+    console.log("❌ Disconnected")
+
+    if (shouldReconnect) {
+      console.log("🔄 Reconnecting...")
+      startBot(number)
+    } else {
+      console.log("🧹 Logged out - delete session")
+    }
+  }
+
+  if (connection === "open") {
+    console.log("✅ WhatsApp Connected:", number)
+  }
+})
   /* =========================
      MENU COMMAND
   ========================= */
