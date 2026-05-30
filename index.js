@@ -379,7 +379,10 @@ return
 ├ 👻 .hidetag
 |-❓ .info
 |-⌨️ .channel
-|•MORW COMMANDS WILL BE ADDED STAY TUNED 
+|
+|-12+MORE
+|
+|•UPDATES WITH MORE FEATURES WILL BE ADDED STAY TUNED 
 ╰────────────────⬣`
     })
 
