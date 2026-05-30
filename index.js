@@ -47,26 +47,30 @@ console.log("🚀 Pair request:", number)
 await startBot(number)
 
 res.send(`
-<div style="font-family: monospace; padding: 10px;">
+text: `╭━━〔 🤖 AKATSUKII-MD 〕━━⬣
 
-╭━━〔 🤖 𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 〕━━⬣
+🚀 PAIRING INITIATED
 
-🚀 <b>PAIRING INITIATED</b>
+📱 Number: ${number}
 
-📱 Number:
-<b>${number}</b>
-
-⏳ Status:
-Pairing code is being generated...
+⏳ Status: Checking device...
+⏳ Status: Generating secure code...
 
 📟 Instruction:
-Check your Termux/console for the code
+• Open Termux / Console
+• Wait for the pairing code
+• Do NOT close the session
 
-⚡ Please wait a few seconds...
+⚡ System: Active
+🔐 Security: Enabled
 
-╰━━━━━━━━━━━━━━━━━━⬣
+💡 If code doesn’t appear, retry /pair
 
-</div>
+╭━━〔 👑 DEVELOPER 〕━━⬣
+© 2026 AKATSUKII-MD
+ABUTIEY MAHAPPEN
+
+╰━━━━━━━━━━━━━━━━━━━━⬣`
 `)
 
 } catch (err) {
