@@ -16,11 +16,14 @@ const store = new Map()
 
 global.bannedUsers = global.bannedUsers || []
 
-// store folder
+// STORE FOLDER
 if (!fs.existsSync("./store")) {
   fs.mkdirSync("./store")
 }
 
+/* =========================
+   SERVER
+========================= */
 app.get("/", (req, res) => {
   res.send("Bot running ✅")
 })
@@ -45,7 +48,7 @@ app.get("/pair/:number", async (req, res) => {
     await startBot(number)
 
     res.send(`
-      <h2>BADBOY-MD</h2>
+      <h2>AKATSUKI-MD</h2>
       <p>Pairing started for:</p>
       <b>${number}</b>
     `)
@@ -56,7 +59,7 @@ app.get("/pair/:number", async (req, res) => {
 })
 
 /* =========================
-   BOT START
+   START BOT
 ========================= */
 async function startBot(number) {
 
@@ -92,7 +95,6 @@ async function startBot(number) {
     const id = msg.key.id
     const from = msg.key.remoteJid
 
-    // 🚫 BAN CHECK
     if (global.bannedUsers.includes(from)) return
 
     const text =
@@ -100,42 +102,51 @@ async function startBot(number) {
       msg.message.extendedTextMessage?.text ||
       ""
 
-    const type = Object.keys(msg.message)[0]
-
-    // SAVE MESSAGE
+    // SAVE MESSAGE SAFELY
     store.set(id, {
       from,
       sender: msg.key.participant || from,
       text,
-      type
+      file: null
     })
 
-    // 📸 IMAGE
+    const data = store.get(id)
+
+    /* =========================
+       MEDIA SAVE
+    ========================= */
+
     if (msg.message.imageMessage) {
       const buffer = await sock.downloadMediaMessage(msg)
+      if (!buffer) return
+
       fs.writeFileSync(`./store/${id}.jpg`, buffer)
-      store.get(id).file = `${id}.jpg`
+
+      if (data) data.file = `${id}.jpg`
     }
 
-    // 🎥 VIDEO
     if (msg.message.videoMessage) {
       const buffer = await sock.downloadMediaMessage(msg)
+      if (!buffer) return
+
       fs.writeFileSync(`./store/${id}.mp4`, buffer)
-      store.get(id).file = `${id}.mp4`
+
+      if (data) data.file = `${id}.mp4`
     }
 
-    // 🎤 AUDIO
     if (msg.message.audioMessage) {
       const buffer = await sock.downloadMediaMessage(msg)
+      if (!buffer) return
+
       fs.writeFileSync(`./store/${id}.mp3`, buffer)
-      store.get(id).file = `${id}.mp3`
+
+      if (data) data.file = `${id}.mp3`
     }
 
     /* =========================
        COMMANDS
     ========================= */
 
-    // ping
     if (text === ".ping") {
       const start = Date.now()
       await sock.sendMessage(from, { text: "Pinging..." })
@@ -146,21 +157,21 @@ async function startBot(number) {
       })
     }
 
-    // alive
     if (text === ".alive") {
       return sock.sendMessage(from, {
         text: "AKATSUKI-MD IS ALIVE 🥳"
       })
     }
 
-    // menu
     if (text === ".menu") {
       return sock.sendMessage(from, {
         text: "Menu working ✅"
       })
     }
 
-    // ban
+    /* =========================
+       BAN
+    ========================= */
     if (text.startsWith(".ban")) {
       const mentioned =
         msg.message.extendedTextMessage?.contextInfo?.mentionedJid?.[0]
@@ -176,7 +187,9 @@ async function startBot(number) {
       })
     }
 
-    // unban
+    /* =========================
+       UNBAN
+    ========================= */
     if (text.startsWith(".unban")) {
       const mentioned =
         msg.message.extendedTextMessage?.contextInfo?.mentionedJid?.[0]
@@ -203,7 +216,7 @@ async function startBot(number) {
         const id = u.key.id
         const data = store.get(id)
 
-        if (!data) return
+        if (!data) continue
 
         const chat = u.key.remoteJid
 
