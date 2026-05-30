@@ -10,15 +10,33 @@ import express from "express"
 const app = express()
 
 const PORT = process.env.PORT || 3000
+const bots = {}
 
 app.get("/", (req, res) => {
 res.send("Bot running ✅")
 })
 
-app.listen(PORT, () => {
-console.log(`Server running on ${PORT}`)
-})
+app.get("/pair/:number", async (req, res) => {
 
+const number = req.params.number
+
+try {
+
+startBot(number)
+
+res.send(`
+<h2>BADBOY-MD</h2>
+<p>Starting session for:</p>
+<b>${number}</b>
+`)
+
+} catch (err) {
+
+res.send(err.message)
+
+}
+
+})
 async function startBot(number) {
 
 const { state, saveCreds } =
@@ -35,6 +53,8 @@ const sock = makeWASocket({
   auth: state,
   browser: ["Ubuntu", "Chrome", "20.0.04"]
 })
+
+bots[number] = sock
 
 sock.ev.on(
   "creds.update",
