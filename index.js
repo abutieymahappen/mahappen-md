@@ -329,32 +329,21 @@ sock.ev.on("connection.update", (update) => {
 
   console.log("STATUS:", connection)
 
-  if (connection === "open") {
-    console.log("✅ WhatsApp Connected:", number)
-  }
-
   if (connection === "close") {
-    const code = lastDisconnect?.error?.output?.statusCode
+    const shouldReconnect =
+      lastDisconnect?.error?.output?.statusCode !== 401
 
-    const shouldReconnect = code !== 401
-
-    console.log("❌ Disconnected:", code)
+    console.log("❌ Disconnected")
 
     if (shouldReconnect) {
       console.log("🔄 Reconnecting...")
       startBot(number)
+    } else {
+      console.log("🧹 Logged out - delete session")
     }
   }
-})
 
-if (!state?.creds?.registered) {
-  setTimeout(async () => {
-    try {
-      const code = await sock.requestPairingCode(number)
-      console.log("🔥 PAIR CODE:", code)
-    } catch (err) {
-      console.log("PAIR ERROR:", err)
-    }
-  }, 3000)
+  if (connection === "open") {
+    console.log("✅ WhatsApp Connected:", number)
+  }
 }
-          
