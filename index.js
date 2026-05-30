@@ -488,24 +488,24 @@ if (text === ".menu") {
 if (text === ".menu") {
 
   const menuText =
-    "╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣\n" +
-    "│\n" +
-    "├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』\n" +
-    "├ Status: Online\n" +
-    "├ Prefix: .\n" +
-    "│\n" +
-    "╭──〔 ☘️ COMMANDS ☘️ 〕──⬣\n" +
-    "│ .owner   ➤ Owner info\n" +
-    "│ .ping    ➤ Bot speed\n" +
-    "│ .time    ➤ Current time\n" +
-    "│ .alive   ➤ Bot status\n" +
-    "│ .vv      ➤ View once\n" +
-    "│ .ban     ➤ Ban user\n" +
-    "│ .unban   ➤ Unban user\n" +
-    "│ .kick    ➤ Remove user\n" +
-    "│ .tagall  ➤ Mention all\n" +
-    "│ .hidetag ➤ Silent tag\n" +
-    "╰────────────────⬣`
+    ╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣\n" +
+    │\n" +
+    ├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』\n" +
+    ├ Status: Online\n" +
+    ├ Prefix: .\n" +
+    │\n" +
+    ╭──〔 ☘️ COMMANDS ☘️ 〕──⬣\n" +
+    │ .owner   ➤ Owner info\n" +
+    │ .ping    ➤ Bot speed\n" +
+    │ .time    ➤ Current time\n" +
+    │ .alive   ➤ Bot status\n" +
+    │ .vv      ➤ View once\n" +
+    │ .ban     ➤ Ban user\n" +
+    │ .unban   ➤ Unban user\n" +
+    │ .kick    ➤ Remove user\n" +
+    │ .tagall  ➤ Mention all\n" +
+    │ .hidetag ➤ Silent tag\n" +
+    ╰────────────────⬣`
 
   await sock.sendMessage(from, {
     text: menuText
