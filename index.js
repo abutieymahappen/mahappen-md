@@ -85,6 +85,51 @@ bots[number] = sock
 
 sock.ev.on("creds.update", saveCreds)
 
+//COMMANDS
+sock.ev.on("messages.upsert", async ({ messages }) => {
+
+  const msg = messages[0]
+  if (!msg.message) return
+
+  const from = msg.key.remoteJid
+
+  const text =
+    msg.message.conversation ||
+    msg.message.extendedTextMessage?.text ||
+    ""
+
+  if (text === ".menu") {
+    await sock.sendMessage(from, {
+      image: {
+        url: "https://files.catbox.moe/caxt5m.png"
+      },
+      caption: `╭──〔 *『𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜-𝗠𝗗 𝗩1』* 〕──⬣
+│
+├ 🥷 OWNER: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
+├ STATUS: ONLINE
+├ PREFIX: .
+│
+╭──〔 ☘️ COMMANDS ☘️ 〕──⬣
+│
+├ ⚡ .ping
+├ 👤 .owner
+├ 🧾 .menu
+├ 🕒 .time
+├ 🔥 .alive
+├ 🚫 .ban
+├ ♻️ .unban
+├ 💣 .kick
+├ 📢 .tagall
+├ 👻 .hidetag
+│
+╰────────────────⬣`
+    })
+
+    return
+  }
+
+})
+
 /* =========================
    CONNECTION FIXED
 ========================= */
@@ -130,4 +175,4 @@ console.log("PAIR ERROR:", err.message)
 
 }
 
-  }
+    }
