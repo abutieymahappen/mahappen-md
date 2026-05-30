@@ -482,10 +482,8 @@ text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 &
 
 return
 }
+  
 // .menu command
-
-if (text === ".menu") {
-/ .menu command
 if (text === ".menu") {
 await sock.sendMessage(from, {
 text: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗👑』* 〕──⬣
@@ -514,6 +512,7 @@ text: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗👑』* 〕──⬣
 })
 }
 })
+
   
 // Connection updates
 sock.ev.on("connection.update", async (update) => {
