@@ -51,7 +51,21 @@ async function startBot(number) {
   sock.ev.on("connection.update", (update) => {
     console.log("STATUS:", update.connection)
   })
-if (text === ".menu") {
+sock.ev.on("messages.upsert", async ({ messages }) => {
+  const msg = messages[0]
+  if (!msg.message) return
+
+  const from = msg.key.remoteJid
+
+  const text =
+    msg.message.conversation ||
+    msg.message.extendedTextMessage?.text ||
+    ""
+
+  /* =========================
+     MENU COMMAND
+  ========================= */
+  if (text === ".menu") {
     await sock.sendMessage(from, {
       image: {
         url: "https://files.catbox.moe/caxt5m.png"
@@ -81,6 +95,7 @@ if (text === ".menu") {
 
     return
   }
+})
   
   /* =========================
      PAIRING CODE
