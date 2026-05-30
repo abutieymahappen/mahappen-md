@@ -47,10 +47,26 @@ console.log("🚀 Pair request:", number)
 await startBot(number)
 
 res.send(`
-<h2>BADBOY-MD</h2>
-<p>Pairing started for:</p>
+<div style="font-family: monospace; padding: 10px;">
+
+╭━━〔 🤖 𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 〕━━⬣
+
+🚀 <b>PAIRING INITIATED</b>
+
+📱 Number:
 <b>${number}</b>
-<p>Check Termux for code</p>
+
+⏳ Status:
+Pairing code is being generated...
+
+📟 Instruction:
+Check your Termux/console for the code
+
+⚡ Please wait a few seconds...
+
+╰━━━━━━━━━━━━━━━━━━⬣
+
+</div>
 `)
 
 } catch (err) {
