@@ -485,34 +485,33 @@ return
 
 // .menu command
 if (text === ".menu") {
-if (text === ".menu") {
-
-  const menuText =
-    ╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣\n" +
-    │\n" +
-    ├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』\n" +
-    ├ Status: Online\n" +
-    ├ Prefix: .\n" +
-    │\n" +
-    ╭──〔 ☘️ COMMANDS ☘️ 〕──⬣\n" +
-    │ .owner   ➤ Owner info\n" +
-    │ .ping    ➤ Bot speed\n" +
-    │ .time    ➤ Current time\n" +
-    │ .alive   ➤ Bot status\n" +
-    │ .vv      ➤ View once\n" +
-    │ .ban     ➤ Ban user\n" +
-    │ .unban   ➤ Unban user\n" +
-    │ .kick    ➤ Remove user\n" +
-    │ .tagall  ➤ Mention all\n" +
-    │ .hidetag ➤ Silent tag\n" +
-    ╰────────────────⬣`
 
   await sock.sendMessage(from, {
-    text: menuText
+    text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
+│
+├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
+├ Status: Online
+├ Prefix: .
+│
+╭──〔 ☘️ 𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎 ☘️ 〕──⬣
+│
+├ 🟢 .ping          ➤ Bot speed
+├ 👤 .owner         ➤ Owner info
+├ 📜 .menu          ➤ Show menu
+├ 🕒 .time          ➤ Current time
+├ 🔥 .alive         ➤ Bot status
+├ 👀 .vv            ➤ View once
+├ 🚫 .ban           ➤ Ban user
+├ ♻️ .unban         ➤ Unban user
+├ 💣 .kick          ➤ Remove user
+├ 📢 .tagall        ➤ Mention all
+├ 👻 .hidetag       ➤ Silent tag
+│
+╰──〔 ✨ MORE FEATURES COMING SOON ✨ 〕──⬣`
   })
 
   return
-  }
+}
   
 // Connection updates
 sock.ev.on("connection.update", async (update) => {
