@@ -283,15 +283,24 @@ caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* �
 })
 
 
-  sock.ev.on("connection.update", (update) => {
-  const { connection, lastDisconnect } = update
+  sock.ev.on("connection.update", async (update) => {
+  const { connection } = update
 
   console.log("STATUS:", connection)
 
   if (connection === "open") {
-    console.log("✅ WhatsApp Connected:", number)
-  }
+    console.log("✅ SOCKET READY")
 
+    // NOW it's safe
+    await sock.sendMessage("27687085163@s.whatsapp.net", {
+      text: `⚡ 𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜-𝗠𝗗 𝗟𝗢𝗔𝗗𝗜𝗡𝗚 COMPLETE
+
+🤖 System Online
+🔐 Secure Session Active`
+    })
+  }
+})
+//Sp@ce
   if (connection === "close") {
     const code = lastDisconnect?.error?.output?.statusCode
 
@@ -316,37 +325,10 @@ caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* �
      PAIRING CODE
   ========================= */
   if (!state?.creds?.registered) {
-  setTimeout(async () => {
-    try {
-
-      // WAIT until socket is ready
-      if (!sock.user) {
-        console.log("⏳ Socket not ready yet, skipping loading message")
-        return
-      }
-
-      await sock.sendMessage("27687085163@s.whatsapp.net", {
-        text: `⚡ 𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜-𝗠𝗗 𝗟𝗢𝗔𝗗𝗜𝗡𝗚...
-
-[█▒▒▒▒▒▒▒▒▒] 10%
-[███▒▒▒▒▒▒▒] 30%
-[█████▒▒▒▒▒] 50%
-[████████▒▒] 80%
-[██████████] 100%
-
-🔄 Preparing pairing session...`
-      })
-
-      const code = await sock.requestPairingCode(number)
-      console.log("🔥 PAIR CODE:", code)
-
-      await sock.sendMessage("27687085163@s.whatsapp.net", {
-        text: "🎉 𝙎𝙐𝘾𝘾𝙀𝙎𝙎𝙁𝙐𝙇𝙇𝙔 𝙋𝘼𝙄𝙍𝙀𝘿 𝘼𝗞𝗔𝗧𝗦𝗨𝗞𝗜-𝗠𝗗!"
-      })
-
-    } catch (err) {
-      console.log("PAIR ERROR:", err)
-    }
-  }, 3000)
-        }
-     }
+  try {
+    const code = await sock.requestPairingCode(number)
+    console.log("🔥 PAIR CODE:", code)
+  } catch (err) {
+    console.log("PAIR ERROR:", err)
+  }
+  }
