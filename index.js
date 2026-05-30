@@ -574,6 +574,3 @@ res.send(err.message)
 }
 
 })
-if (shouldReconnect) {
-    startBot(number)
-}
