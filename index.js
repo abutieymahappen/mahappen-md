@@ -40,6 +40,7 @@ app.get("/pair/:number", async (req, res) => {
    BOT START
 ========================= */
 async function startBot(number) {
+
   const { state, saveCreds } =
     await useMultiFileAuthState(`session/${number}`)
 
@@ -54,17 +55,52 @@ async function startBot(number) {
 
   sock.ev.on("creds.update", saveCreds)
 
+  /* ================= CONNECTION ================= */
+  sock.ev.on("connection.update", async (update) => {
+    const { connection, lastDisconnect } = update
+
+    console.log("STATUS:", connection)
+
+    if (connection === "open") {
+      console.log("✅ SOCKET READY")
+
+      await sock.sendMessage("27687085163@s.whatsapp.net", {
+        text: `⚡ 𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜-𝗠𝗗 𝗟𝗢𝗔𝗗𝗜𝗡𝗚 COMPLETE`
+      })
+    }
+
+    if (connection === "close") {
+      const code = lastDisconnect?.error?.output?.statusCode
+      const shouldReconnect = code !== 401
+
+      console.log("❌ Disconnected:", code)
+
+      if (shouldReconnect) {
+        console.log("🔄 Reconnecting...")
+        startBot(number)
+      } else {
+        console.log("🧹 Logged out - delete session")
+      }
+    }
+  })
+
+  /* ================= MESSAGES ================= */
   sock.ev.on("messages.upsert", async ({ messages }) => {
-  const msg = messages[0]
 
-  if (!msg.message) return
+    const msg = messages[0]
+    if (!msg.message) return
 
-  const from = msg.key.remoteJid
+    const from = msg.key.remoteJid
 
-  const text =
-    msg.message.conversation ||
-    msg.message.extendedTextMessage?.text ||
-    ""
+    const text =
+      msg.message.conversation ||
+      msg.message.extendedTextMessage?.text ||
+      ""
+
+    // YOUR COMMANDS HERE
+
+  })
+}
      // OWNER
   if (text === ".owner") {
 
