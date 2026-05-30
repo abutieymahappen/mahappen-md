@@ -193,6 +193,7 @@ if (text === ".owner") {
   })
 
   return
+}
 
 
    //UNBAN
