@@ -65,6 +65,36 @@ async function startBot(number) {
     msg.message.conversation ||
     msg.message.extendedTextMessage?.text ||
     ""
+     // OWNER
+  if (text === ".owner") {
+
+    await sock.sendMessage(from, {
+      video: {
+        url: "https://files.catbox.moe/radehm.mp4"
+      },
+      gifPlayback: true,
+      caption: `╭━━〔 👤 𝗢𝗪𝗡𝗘𝗥 𝗣𝗥𝗢𝗙𝗜𝗟𝗘 〕━━⬣
+    
+𝐍𝐀𝐌𝐄: 𝗔𝗯𝘂𝘁𝗶𝗲𝘆𝗠𝗮𝗵𝗮𝗽𝗽𝗲𝗻
+𝐑𝐎𝐋𝐄: 𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗥
+𝐒𝐓𝐀𝐓𝐔𝐒: 𝗢𝗡𝗟𝗜𝗡𝗘
+𝐒𝐘𝐒𝐓𝐄𝐌: 𝗔𝗖𝗧𝗜𝗩𝗘
+𝐑𝐀𝐌/𝐂𝐏𝐔: 8𝗚𝗕
+
+💬 "Building bots & automation"
+
+╰━━━━━━━━━━━━━━⬣`
+    })
+  }
+
+  // TIME
+  if (text === ".time") {
+    const time = new Date().toLocaleTimeString()
+
+    await sock.sendMessage(from, {
+      text: `🕒 Time: ${time}`
+    })
+}
 
   if (text === ".ping") {
     await sock.sendMessage(from, {
