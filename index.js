@@ -119,6 +119,41 @@ if (text.startsWith(".hidetag")) {
     mentions: participants
   })
 }
+
+   //ALIVE
+   
+  if (text === ".alive") {
+    await sock.sendMessage(from, {
+      text: "𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗  𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 🥳"
+    })
+  }
+
+   //ANTI LINK
+   if (text.includes("chat.whatsapp.com")) {
+  if (!from.endsWith("@g.us")) return
+
+  await sock.sendMessage(from, {
+    text: "🚫 Links not allowed!"
+  })
+
+  await sock.sendMessage(from, {
+    delete: msg.key
+  })
+
+  return
+   }
+   //BOT INFO
+   if (text === ".info") {
+  await sock.sendMessage(from, {
+    text: `🤖 Bot is running
+📡 Status: Online
+⚡ Speed: Stable
+☘️ AKATSUKI-MD`
+  })
+
+  return
+   }
+   
    //kick
   if (text.startsWith(".kick")) {
 
@@ -311,13 +346,14 @@ return
 ├ 🧾 .menu
 ├ 🕒 .time
 ├ 🔥 .alive
-├ 👀 .vv
+├ 🗑️ .clear
 ├ 🚫 .ban
 ├ ♻️ .unban
 ├ 💣 .kick
 ├ 📢 .tagall
 ├ 👻 .hidetag
-│
+|-❓ .info
+|•MORW COMMANDS WILL BE ADDED STAY TUNED 
 ╰────────────────⬣`
     })
 
