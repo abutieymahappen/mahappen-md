@@ -54,7 +54,7 @@ async function startBot(number) {
 
   sock.ev.on("creds.update", saveCreds)
 
-  sock.ev.on("connection.update", (update) => {
+
   sock.ev.on("connection.update", (update) => {
   const { connection, lastDisconnect } = update
 
@@ -82,43 +82,8 @@ async function startBot(number) {
   /* =========================
      MENU COMMAND
   ========================= */
-  if (text === ".menu") {
-  await sock.sendMessage(from, {
-    image: {
-      url: "https://files.catbox.moe/caxt5m.png"
-    },
-    caption: `...`
-  })
-
-  return
-  }
-      caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
-│
-├ 🥷 𝗢𝗪𝗡𝗘𝗥: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
-├ 𝗦𝗧𝗔𝗧𝗨𝗦: 𝖮𝖭𝖫𝖨𝖭𝖤
-├ 𝗣𝗥𝗘𝗙𝗜𝗫: .
-│
-╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
-│
-├ ⚡ .ping
-├ 👤 .owner
-├ 🧾 .menu
-├ 🕒 .time
-├ 🔥 .alive
-├ 👀 .vv
-├ 🚫 .ban
-├ ♻️ .unban
-├ 💣 .kick
-├ 📢 .tagall
-├ 👻 .hidetag
-│
-╰────────────────⬣`
-    })
-
-    return
-  }
-})
   
+      
   /* =========================
      PAIRING CODE
   ========================= */
