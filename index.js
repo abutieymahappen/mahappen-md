@@ -483,8 +483,6 @@ text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 &
 return
 }
 
-// .menu command
-if (text === ".menu") {
 await sock.sendMessage(from, {
 text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
 │
@@ -494,17 +492,19 @@ text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦
 │
 ╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
 │
-├𝙋𝙄𝙉𝙂 : .ping
-├𝙊𝙒𝙉𝙀𝙍 : .owner
-├𝙈𝙀𝙉𝙐 : .menu
-├𝙏𝙄𝙈𝙀: .time
-├𝙑𝙄𝙀𝙒 𝙊𝙉𝘾𝙀 : .vv
-├𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀 [coming soon] :
-├𝘼𝙇𝙄𝙑𝙀 : .alive
-│𝙃𝘼𝘾𝙆 : .hack
-|🚫 𝘽𝘼𝙉 : .ban
-|♻️𝙐𝙉𝘽𝘼𝙉 : .unban
-|𝐌𝐎𝐑𝐄 𝐅𝐄𝐀𝐓𝐔𝐑𝐄𝐒 𝐂𝐎𝐌𝐈𝐍𝐆 𝐒𝐎𝐎𝐍
+├ ⚡ .ping        ➤ Check bot speed
+├ 👤 .owner       ➤ Owner info
+├ 🧾 .menu        ➤ Show menu
+├ 🕒 .time        ➤ Current time
+├ 🔥 .alive       ➤ Bot status
+├ 👀 .vv          ➤ View once media
+├ 🚫 .ban         ➤ Ban user
+├ ♻️ .unban       ➤ Unban user
+├ 💣 .kick        ➤ Remove user (group)
+├ 📢 .tagall      ➤ Mention all members
+├ 👻 .hidetag     ➤ Silent tag message
+├ 💻 .hack        ➤ Fun simulation
+│
 ╰────────────────⬣`
 })
 }
