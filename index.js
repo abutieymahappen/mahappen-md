@@ -319,7 +319,12 @@ caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* �
   setTimeout(async () => {
     try {
 
-      // LOADING SCREEN
+      // WAIT until socket is ready
+      if (!sock.user) {
+        console.log("⏳ Socket not ready yet, skipping loading message")
+        return
+      }
+
       await sock.sendMessage("27687085163@s.whatsapp.net", {
         text: `⚡ 𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜-𝗠𝗗 𝗟𝗢𝗔𝗗𝗜𝗡𝗚...
 
@@ -332,18 +337,15 @@ caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* �
 🔄 Preparing pairing session...`
       })
 
-      // PAIR CODE
       const code = await sock.requestPairingCode(number)
       console.log("🔥 PAIR CODE:", code)
 
-      // SUCCESS MESSAGE
       await sock.sendMessage("27687085163@s.whatsapp.net", {
-        text: "🎉 𝙎𝙐𝘾𝘾𝙀𝙎𝙎𝙁𝙐𝙇𝙇𝙔 𝙋𝘼𝙄𝙍𝙀𝘿 𝙒𝙄𝙏𝙃 𝘼𝙆𝘼𝙏𝙎𝙐𝗞𝗜-𝗠𝗗!"
+        text: "🎉 𝙎𝙐𝘾𝘾𝙀𝙎𝙎𝙁𝙐𝙇𝙇𝙔 𝙋𝘼𝙄𝙍𝙀𝘿 𝘼𝗞𝗔𝗧𝗦𝗨𝗞𝗜-𝗠𝗗!"
       })
 
     } catch (err) {
       console.log("PAIR ERROR:", err)
     }
   }, 3000)
-}
-}
+        }
