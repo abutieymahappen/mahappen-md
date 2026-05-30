@@ -20,7 +20,6 @@ app.listen(PORT, () => {
 console.log(`Server running on ${PORT}`)
 })
 
-async function startBot() {
 async function startBot(number) {
 
 const { state, saveCreds } =
@@ -572,4 +571,6 @@ res.send(err.message)
 }
 
 })
-startBot(null)
+if (shouldReconnect) {
+    startBot(number)
+}
