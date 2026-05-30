@@ -80,7 +80,7 @@ async function startBot(number) {
 𝐒𝐘𝐒𝐓𝐄𝐌: 𝗔𝗖𝗧𝗜𝗩𝗘
 𝐑𝐀𝐌/𝐂𝐏𝐔: 8𝗚𝗕
 
-💬 "Building bots & automation"
+ "𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄•𝙈𝘿☘️"
 
 ╰━━━━━━━━━━━━━━⬣`
     })
@@ -226,13 +226,25 @@ if (text.startsWith(".hidetag")) {
       text: `🕒 Time: ${time}`
     })
 }
+    
+//ping
+if (text === ".ping") {
 
-  if (text === ".ping") {
-    await sock.sendMessage(from, {
-      text: "🏓 Pong!"
-    })
-  }
+  const start = Date.now()
 
+  await sock.sendMessage(from, { text: " Pinging..." })
+
+  const latency = Date.now() - start
+
+  await sock.sendMessage(from, {
+    text: `*PONG!*
+Latency: ${latency}ms`
+  })
+
+  return
+    }
+    
+//Alive
   if (text === ".alive") {
     await sock.sendMessage(from, {
       text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 🥳"
@@ -246,7 +258,7 @@ await sock.sendMessage(from, {
 image: {
 url: "https://files.catbox.moe/dg9pcn.png"
 },
-caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
+caption: `╭──〔 *『𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝗠𝗗 𝗩1』* 〕──⬣
 │
 ├ 🥷 𝗢𝗪𝗡𝗘𝗥: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
 ├ 𝗦𝗧𝗔𝗧𝗨𝗦: 𝖮𝖭𝖫𝖨𝖭𝖤
