@@ -47,53 +47,24 @@ console.log("🚀 Pair request:", number)
 await startBot(number)
 
 res.send(`
-<h2>🤖 𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜𝗜-𝗠𝗗</h2>
-
 <h2>🤖 AKATSUKII-MD</h2>
 
-<h3>
+<pre>
 
 ╔════════════════════════════╗
-║      BOT DASHBOARD         ║
+║        BOT UI PANEL        ║
+╠════════════════════════════╣
+║ 📱 Number: ${number}       ║
+║                            ║
+║ ⏳ Status: Generating...   ║
+║                            ║
+║ ⚡ Please wait...          ║
+╠════════════════════════════╣
+║ AKATSUKII-MD BOT SYSTEM    ║
+║ © 2026 ABUTIEY MAHAPPEN    ║
 ╚════════════════════════════╝
 
-
-🚀 PAIRING SESSION
-━━━━━━━━━━━━━━━━━━━━━━
-
-📱 Number: ${number}
-
-
-⏳ Status:
-- Initializing system
-- Generating pairing code
-- Preparing secure session
-
-
-📟 Instructions:
-- Open Termux / Console
-- Wait for pairing code
-- Do NOT close session
-- Retry if needed
-
-
-━━━━━━━━━━━━━━━━━━━━━━
-
-
-🤖 ABOUT BOT
-
-AKATSUKII-MD is a WhatsApp automation bot
-built for group control, automation, and commands.
-
-
-━━━━━━━━━━━━━━━━━━━━━━
-
-
-👑 DEVELOPER
-© 2026 AKATSUKII-MD
-ABUTIEY MAHAPPEN
-
-</h3>
+</pre>
 `)
 
 } catch (err) {
