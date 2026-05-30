@@ -289,7 +289,7 @@ if (text === ".ping") {
 
   const start = Date.now()
 
-  await sock.sendMessage(from, { text: "🏓 Pinging..." })
+  await sock.sendMessage(from, { text: " Pinging..." })
 
   const latency = Date.now() - start
 
@@ -308,7 +308,7 @@ if (text === ".owner") {
       url: "https://files.catbox.moe/radehm.mp4"
     },
     gifPlayback: true,
-    caption: `╭━━〔 👤 OWNER PROFILE 〕━━⬣
+    caption: `╭━━〔 👤 𝗢𝗪𝗡𝗘𝗥 𝗣𝗥𝗢𝗙𝗜𝗟𝗘 〕━━⬣
     
 𝐍𝐀𝐌𝐄: 𝗔𝗯𝘂𝘁𝗶𝗲𝘆𝗠𝗮𝗵𝗮𝗽𝗽𝗲𝗻
 𝐑𝐎𝐋𝐄:  𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗥
@@ -376,7 +376,7 @@ if (text.startsWith(".unban")) {
   if (!mentioned) {
 
     return await sock.sendMessage(from, {
-      text: "❌ Tag someone to unban."
+      text: " Tag someone to unban."
     })
   }
 
@@ -386,7 +386,7 @@ if (text.startsWith(".unban")) {
     )
 
   await sock.sendMessage(from, {
-    text: "✅ User unbanned from bot."
+    text: " User unbanned from bot🍀."
   })
 
   return
@@ -402,7 +402,7 @@ if (text.startsWith(".ban")) {
   if (!mentioned) {
 
     return await sock.sendMessage(from, {
-      text: "❌ Tag someone to ban."
+      text: " Tag someone to ban."
     })
   }
 
@@ -451,7 +451,7 @@ if (text.startsWith(".hidetag")) {
 
   if (!mentioned) {
     return await sock.sendMessage(from, {
-      text: "❌ Tag someone."
+      text: " Tag someone."
     })
   }
 
@@ -462,7 +462,7 @@ if (text.startsWith(".hidetag")) {
   )
 
   await sock.sendMessage(from, {
-    text: "✅ User kicked."
+    text: " User kicked."
   })
   }
   
@@ -490,11 +490,11 @@ await sock.sendMessage(from, {
 image: {
 url: "https://files.catbox.moe/caxt5m.png"
 },
-caption: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
+caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
 │
-├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
-├ Status: Online
-├ Prefix: .
+├ 🥷 𝗢𝗪𝗡𝗘𝗥: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
+├ 𝗦𝗧𝗔𝗧𝗨𝗦: 𝖮𝖭𝖫𝖨𝖭𝖤
+├ 𝗣𝗥𝗘𝗙𝗜𝗫: .
 │
 ╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
 │
