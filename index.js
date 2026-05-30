@@ -305,7 +305,7 @@ if (text === ".owner") {
 
   await sock.sendMessage(from, {
     video: {
-      url: "https://media.tenor.com/2roX3uxz_68AAAPo/hacker-hack.mp4"
+      url: "https://files.catbox.moe/radehm.mp4"
     },
     gifPlayback: true,
     caption: `╭━━〔 👤 OWNER PROFILE 〕━━⬣
