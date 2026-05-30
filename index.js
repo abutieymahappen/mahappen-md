@@ -194,7 +194,7 @@ if (text === ".owner") {
 
   return
 }
-   
+}
    //UNBAN
 if(text.startsWith(".unban")) {
 
