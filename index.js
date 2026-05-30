@@ -8,6 +8,9 @@ DisconnectReason
 import Pino from "pino"
 import fs from "fs"
 
+//BANNED USERS
+global.bannedUsers = global.bannedUsers || []
+
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -193,7 +196,7 @@ if (text === ".owner") {
 }
    
    //UNBAN
-if (text.startsWith(".unban")) {
+if(text.startsWith(".unban")) {
 
   const mentioned =
     msg.message.extendedTextMessage
