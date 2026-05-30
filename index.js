@@ -87,6 +87,138 @@ async function startBot(number) {
     })
   }
 
+    
+  //tagall
+  if (text === ".tagall") {
+
+  if (!from.endsWith("@g.us")) {
+    return await sock.sendMessage(from, {
+      text: "❌ Group only."
+    })
+  }
+
+  const metadata =
+    await sock.groupMetadata(from)
+
+  const participants =
+    metadata.participants
+
+  let members = []
+  let message = "📢 TAGGING ALL MEMBERS😌"
+
+  for (let p of participants) {
+
+    members.push(p.id)
+
+    message += `➤ @${p.id.split("@")[0]}\n`
+  }
+
+  await sock.sendMessage(from, {
+    text: message,
+    mentions: members
+  })
+  }
+
+    //UNBAN
+if (text.startsWith(".unban")) {
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+
+    return await sock.sendMessage(from, {
+      text: " Tag someone to unban."
+    })
+  }
+
+  global.bannedUsers =
+    global.bannedUsers.filter(
+      user => user !== mentioned
+    )
+
+  await sock.sendMessage(from, {
+    text: " User unbanned from bot🍀."
+  })
+
+  return
+           }
+  
+// BAN
+if (text.startsWith(".ban")) {
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+
+    return await sock.sendMessage(from, {
+      text: " Tag someone to ban."
+    })
+  }
+
+  if (
+    !global.bannedUsers.includes(mentioned)
+  ) {
+
+    global.bannedUsers.push(mentioned)
+  }
+
+  await sock.sendMessage(from, {
+    text: "🚫 User banned from bot."
+  })
+
+  return
+    }
+
+    //hidetag
+if (text.startsWith(".hidetag")) {
+
+  if (!from.endsWith("@g.us")) return
+
+  const metadata =
+    await sock.groupMetadata(from)
+
+  const participants =
+    metadata.participants.map(p => p.id)
+
+  const hideText =
+    text.replace(".hidetag", "").trim()
+
+  await sock.sendMessage(from, {
+    text: hideText || "👀 Hidetag Message",
+    mentions: participants
+  })
+}
+
+  //kick
+  if (text.startsWith(".kick")) {
+
+  if (!from.endsWith("@g.us")) return
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+    return await sock.sendMessage(from, {
+      text: " Tag someone."
+    })
+  }
+
+  await sock.groupParticipantsUpdate(
+    from,
+    [mentioned],
+    "remove"
+  )
+
+  await sock.sendMessage(from, {
+    text: " User kicked."
+  })
+  }
+  
   // TIME
   if (text === ".time") {
     const time = new Date().toLocaleTimeString()
@@ -108,22 +240,35 @@ async function startBot(number) {
     })
   }
 
-  if (text === ".menu") {
-    await sock.sendMessage(from, {
-      image: {
-        url: "https://files.catbox.moe/caxt5m.png"
-      },
-      caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
+  
+// .menu command
+if (text === ".menu") {
+await sock.sendMessage(from, {
+image: {
+url: "https://files.catbox.moe/caxt5m.png"
+},
+caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
+│
+├ 🥷 𝗢𝗪𝗡𝗘𝗥: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
+├ 𝗦𝗧𝗔𝗧𝗨𝗦: 𝖮𝖭𝖫𝖨𝖭𝖤
+├ 𝗣𝗥𝗘𝗙𝗜𝗫: .
+│
+╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
 │
 ├ ⚡ .ping
 ├ 👤 .owner
 ├ 🧾 .menu
 ├ 🕒 .time
 ├ 🔥 .alive
+├ 🚫 .ban
+├ ♻️ .unban
+├ 💣 .kick
+├ 📢 .tagall
+├ 👻 .hidetag
 │
 ╰────────────────⬣`
-    })
-  }
+})
+}
 })
 
 
