@@ -483,7 +483,7 @@ text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 &
 return
 }
 // .menu command
-if (text === ".menu") {
+
 if (text === ".menu") {
 
   const menuText = `╭──〔 『𝘈𝘉𝘜𝘛𝘐𝘌𝘠 𝘔𝘈𝘏𝘈𝘗𝘗𝘌𝘕 𝘔𝘋』 〕──⬣
