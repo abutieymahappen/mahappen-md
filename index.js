@@ -45,6 +45,7 @@ fs.rmSync(sessionPath, { recursive: true, force: true })
 console.log("🚀 Pair request:", number)
 
 await startBot(number)
+const code = await startBot(number)
 
 res.send(`
 <h2>🤖 AKATSUKII-MD</h2>
@@ -52,16 +53,13 @@ res.send(`
 <pre>
 
 ╔════════════════════════════╗
-║        BOT UI PANEL        ║
+║        PAIRING CODE        ║
 ╠════════════════════════════╣
-║ 📱 Number: ${number}       ║
 ║                            ║
-║ ⏳ Status: Generating...   ║
+║       ${code || "ERROR"}   ║
 ║                            ║
-║ ⚡ Please wait...          ║
 ╠════════════════════════════╣
-║ AKATSUKII-MD BOT SYSTEM    ║
-║ © 2026 ABUTIEY MAHAPPEN    ║
+║ Copy code to WhatsApp      ║
 ╚════════════════════════════╝
 
 </pre>
@@ -418,21 +416,26 @@ startBot(number)
 /* =========================
    PAIRING CODE (FIXED CORE)
 ========================= */
+let pairCode = null
+
 if (!state.creds.registered) {
 
-setTimeout(async () => {
+await new Promise(resolve =>
+  setTimeout(resolve, 3000)
+)
+
 try {
 
-const code = await sock.requestPairingCode(number)
+pairCode = await sock.requestPairingCode(number)
 
-console.log("🔥 PAIRING CODE:", code)
+console.log("🔥 PAIRING CODE:", pairCode)
 
 } catch (err) {
+
 console.log("PAIR ERROR:", err.message)
-}
-
-}, 3000)
 
 }
 
 }
+
+return pairCode
