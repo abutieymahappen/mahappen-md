@@ -5,7 +5,7 @@ import makeWASocket, {
 } from "@whiskeysockets/baileys"
 
 import Pino from "pino"
-
+import fs from "fs"
 const app = express()
 const PORT = 3000
 
@@ -33,7 +33,7 @@ app.get("/pair/:number", async (req, res) => {
 
   } catch (err) {
     console.log("ERROR:", err)
-    res.status(500).send("Failed to start bot")
+    res.status(500).send("Failed")
   }
 })
 /* =========================
@@ -55,15 +55,21 @@ async function startBot(number) {
   sock.ev.on("creds.update", saveCreds)
 
   sock.ev.on("connection.update", (update) => {
+  sock.ev.on("connection.update", (update) => {
   const { connection, lastDisconnect } = update
 
   console.log("STATUS:", connection)
 
-  if (connection === "close") {
-    const shouldReconnect =
-      lastDisconnect?.error?.output?.statusCode !== 401
+  if (connection === "open") {
+    console.log("✅ WhatsApp Connected:", number)
+  }
 
-    console.log("❌ Disconnected")
+  if (connection === "close") {
+    const code = lastDisconnect?.error?.output?.statusCode
+
+    const shouldReconnect = code !== 401
+
+    console.log("❌ Disconnected:", code)
 
     if (shouldReconnect) {
       console.log("🔄 Reconnecting...")
@@ -71,10 +77,6 @@ async function startBot(number) {
     } else {
       console.log("🧹 Logged out - delete session")
     }
-  }
-
-  if (connection === "open") {
-    console.log("✅ WhatsApp Connected:", number)
   }
 })
   /* =========================
