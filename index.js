@@ -6,6 +6,7 @@ fetchLatestBaileysVersion
 
 import Pino from "pino"
 import express from "express"
+const bots = {}
 
 const app = express()
 
