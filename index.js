@@ -97,132 +97,88 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     msg.message.conversation ||
     msg.message.extendedTextMessage?.text ||
     ""
-//ALIVE
    
+//PING
+   if (text === ".ping") {
 
-if (text === ".alive") {
+  const start = Date.now()
+
+  await sock.sendMessage(from, { text: " Pinging..." })
+
+  const latency = Date.now() - start
+
+  await sock.sendMessage(from, {
+    text: `*PONG!*
+Latency: ${latency}ms`
+  })
+
+  return
+}
+
+   //!owner command
+if (text === ".owner") {
+  await sock.sendMessage(from, {
+    video: {
+      url: "https://files.catbox.moe/radehm.mp4"
+    },
+    gifPlayback: true,
+    caption: `╭━━〔 👤 𝗢𝗪𝗡𝗘𝗥 𝗣𝗥𝗢𝗙𝗜𝗟𝗘 〕━━⬣
+    
+𝐍𝐀𝐌𝐄: 𝗔𝗯𝘂𝘁𝗶𝗲𝘆𝗠𝗮𝗵𝗮𝗽𝗽𝗲𝗻
+𝐑𝐎𝐋𝐄:  𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗥
+𝐒𝐓𝐀𝐓𝐔𝐒: 𝗢𝗡𝗟𝗜𝗡𝗘
+𝐒𝐘𝐒𝐓𝐄𝐌: 𝗔𝗖𝗧𝗜𝗩𝗘
+𝐑𝐀𝐌/𝐂𝐏𝐔 : 8𝗚𝗕
+
+ "AKATSUKI-MD"
+
+╰━━━━━━━━━━━━━━⬣`
+  })
+
+  return
+}
+   //Time
+if (text === ".time") {
+const time = new Date().toLocaleTimeString()
+
 await sock.sendMessage(from, {
-text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 & 𝙍𝙐𝙉𝙉𝙄𝙉𝙂🥳."
+text: `🕒 Time: ${time}`
 })
 
 return
 }
-   
 
-// Save session
-sock.ev.on("creds.update", saveCreds)
+   //tagall
+  if (text === ".tagall") {
 
-// MESSAGE STORE
-const store = {}
-  //BANNED USERS
-  global.bannedUsers =
-global.bannedUsers || []
+  if (!from.endsWith("@g.us")) {
+    return await sock.sendMessage(from, {
+      text: "❌ Group only."
+    })
+  }
 
-// Anti Delete
-sock.ev.on("messages.update", async (updates) => {
+  const metadata =
+    await sock.groupMetadata(from)
 
-for (const update of updates) {
+  const participants =
+    metadata.participants
 
-if (update.update.message === null) {
+  let members = []
+  let message = "📢 TAGGING ALL MEMBERS\n\n"
 
-const key = update.key
+  for (let p of participants) {
 
-// GET SAVED MESSAGE
-const deletedMsg = store[key.id]
+    members.push(p.id)
 
-if (!deletedMsg) return
-
-const owner = "27687085163@s.whatsapp.net"
-
-const message =
-deletedMsg.message.conversation ||
-deletedMsg.message.extendedTextMessage?.text ||
-"[Media Message]"
-
-await sock.sendMessage(owner, {
-text: `🚨 Deleted Message Detected
-
-👤 User: ${key.participant || key.remoteJid}
-
-📝 Message:
-${message}`
-})
-}
-}
-})
-
-// MESSAGES
-sock.ev.on("messages.upsert", async ({ messages }) => {
-
-const msg = messages[0]
-
-if (!msg.message) return
-
-// SAVE MESSAGE
-store[msg.key.id] = msg
-
-const from = msg.key.remoteJid
-
-const text =
-msg.message.conversation ||
-msg.message.extendedTextMessage?.text ||
-""
-
-// OWNER NUMBER
-const ownerNumber =
-"27687085163@s.whatsapp.net"
-
-// COOLDOWN SYSTEM
-global.cooldowns =
-global.cooldowns || {}
-
-const sender = (
-  msg.key.fromMe
-    ? ownerNumber
-    : (
-        msg.key.participant ||
-        msg.participant ||
-        msg.key.remoteJid
-      )
-).replace(/:\d+@/, "@")
-
-console.log("FROM ME =", msg.key.fromMe)
-console.log("SENDER =", sender)
-console.log("OWNER =", ownerNumber)
-  
-const now = Date.now()
-
-if (
-  global.cooldowns[sender] &&
-  now - global.cooldowns[sender] < 3000
-) {
-
-  return
-}
-
-global.cooldowns[sender] = now
-
-// OWNER ONLY COMMANDS
-const ownerCommands = [
-  ".tagall",
-  ".kick",
-  ".hidetag",
-  ".promote",
-  ".demote",
-]
-
-if (
-  ownerCommands.includes(text.split(" ")[0]) &&
-  sender !== ownerNumber
-) {
+    message += `➤ @${p.id.split("@")[0]}\n`
+  }
 
   await sock.sendMessage(from, {
-    text: "❌ Owner only command."
+    text: message,
+    mentions: members
   })
-
-  return
-     }
-   
+      }
+     
    //MENU
   if (text === ".menu") {
     await sock.sendMessage(from, {
@@ -300,5 +256,4 @@ console.log("PAIR ERROR:", err.message)
 
 }
 
-     })
-            })
+  }
