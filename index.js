@@ -249,7 +249,7 @@ if (text.startsWith(".ban")) {
 
   return
      }
-}
+
    //Time
 if (text === ".time") {
 const time = new Date().toLocaleTimeString()
