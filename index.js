@@ -83,10 +83,15 @@ async function startBot(number) {
      MENU COMMAND
   ========================= */
   if (text === ".menu") {
-    await sock.sendMessage(from, {
-      image: {
-        url: "https://files.catbox.moe/caxt5m.png"
-      },
+  await sock.sendMessage(from, {
+    image: {
+      url: "https://files.catbox.moe/caxt5m.png"
+    },
+    caption: `...`
+  })
+
+  return
+  }
       caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
 │
 ├ 🥷 𝗢𝗪𝗡𝗘𝗥: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
