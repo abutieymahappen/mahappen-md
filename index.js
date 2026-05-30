@@ -47,38 +47,53 @@ console.log("🚀 Pair request:", number)
 await startBot(number)
 
 res.send(`
-<h2>🤖 AKATSUKII-MD</h2>
+<h2>🤖 𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜𝗜-𝗠𝗗</h2>
 
-<pre>
+<h3>
 
-╭━━〔 🚀 PAIRING INITIATED 〕━━⬣
+╭━━〔 🚀 𝗣𝗔𝗜𝗥𝗜𝗡𝗚 𝗜𝗡𝗜𝗧𝗜𝗔𝗧𝗘𝗗 〕━━⬣
 
-📱 Number: ${number}
-
-⏳ Status: Generating pairing code...
-
-📟 Instruction:
-Check your Termux / console
-
-⚡ Please wait...
-
-━━━━━━━━━━━━━━━━━━━━━━
-🤖 ABOUT BOT
-
-AKATSUKII-MD is a WhatsApp automation bot
-built for speed, stability, and smart features.
-It helps manage groups, automate commands,
-and improve WhatsApp experience.
+📱 𝗡𝗨𝗠𝗕𝗘𝗥: ${number}
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
-╭━━〔 👑 DEVELOPER 〕━━⬣
-© 2026 AKATSUKII-MD
-ABUTIEY MAHAPPEN
+⏳ 𝗦𝗧𝗔𝗧𝗨𝗦:
+🔥 𝗚𝗘𝗡𝗘𝗥𝗔𝗧𝗜𝗡𝗚 𝗣𝗔𝗜𝗥𝗜𝗡𝗚 𝗖𝗢𝗗𝗘...
+⚡ 𝗣𝗥𝗢𝗖𝗘𝗦𝗦𝗜𝗡𝗚 𝗦𝗘𝗖𝗨𝗥𝗘 𝗦𝗘𝗦𝗦𝗜𝗢𝗡...
+⏳ 𝗦𝗬𝗦𝗧𝗘𝗠 𝗖𝗛𝗘𝗖𝗞 𝗜𝗡 𝗣𝗥𝗢𝗚𝗥𝗘𝗦𝗦...
 
-╰━━━━━━━━━━━━━━━━━━━━⬣
+━━━━━━━━━━━━━━━━━━━━━━
 
-</pre>
+📟 𝗜𝗡𝗦𝗧𝗥𝗨𝗖𝗧𝗜𝗢𝗡𝗦:
+🔥 𝗢𝗣𝗘𝗡 𝗧𝗘𝗥𝗠𝗨𝗫 / 𝗖𝗢𝗡𝗦𝗢𝗟𝗘
+⚡ 𝗪𝗔𝗜𝗧 𝗙𝗢𝗥 𝗣𝗔𝗜𝗥𝗜𝗡𝗚 𝗖𝗢𝗗𝗘
+🚫 𝗗𝗢 𝗡𝗢𝗧 𝗖𝗟𝗢𝗦𝗘 𝗦𝗘𝗦𝗦𝗜𝗢𝗡
+🔁 𝗥𝗘𝗧𝗥𝗬 𝗜𝗙 𝗡𝗢𝗧 𝗗𝗜𝗦𝗣𝗟𝗔𝗬𝗘𝗗
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+⚡⚡⚡ 𝗣𝗟𝗘𝗔𝗦𝗘 𝗪𝗔𝗜𝗧... ⚡⚡⚡
+🔥 𝗣𝗥𝗢𝗖𝗘𝗦𝗦𝗜𝗡𝗚 𝗬𝗢𝗨𝗥 𝗖𝗢𝗗𝗘
+⏳ 𝗗𝗢 𝗡𝗢𝗧 𝗧𝗨𝗥𝗡 𝗢𝗙𝗙 𝗦𝗘𝗦𝗦𝗜𝗢𝗡
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+🤖 𝗔𝗕𝗢𝗨𝗧 𝗕𝗢𝗧
+
+𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜𝗜-𝗠𝗗 𝗶𝘀 𝗮 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗼𝗻 𝗯𝗼𝘁
+𝗯𝘂𝗶𝗹𝘁 𝗳𝗼𝗿 𝘀𝗽𝗲𝗲𝗱, 𝘀𝘁𝗮𝗯𝗶𝗹𝗶𝘁𝘆, 𝗮𝗻𝗱 𝗮𝗱𝘃𝗮𝗻𝗰𝗲𝗱 𝗳𝗲𝗮𝘁𝘂𝗿𝗲𝘀.
+𝗜𝘁 𝗵𝗲𝗹𝗽𝘀 𝗺𝗮𝗻𝗮𝗴𝗲 𝗴𝗿𝗼𝘂𝗽𝘀, 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗲 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝘀,
+𝗮𝗻𝗱 𝗶𝗺𝗽𝗿𝗼𝘃𝗲 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽 𝗲𝘅𝗽𝗲𝗿𝗶𝗲𝗻𝗰𝗲.
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+👑 𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗥
+© 𝟮𝟬𝟮𝟲 𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜𝗜-𝗠𝗗
+𝗔𝗕𝗨𝗧𝗜𝗘𝗬 𝗠𝗔𝗛𝗔𝗣𝗣𝗘𝗡
+
+╰━━━━━━━━━━━━━━━━━━━━━━⬣
+
+</h3>
 `)
 
 } catch (err) {
