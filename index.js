@@ -64,6 +64,7 @@ res.status(500).send(err.message)
 
 })
 
+const store = {}
 /* =========================
    START BOT (FIXED)
 ========================= */
