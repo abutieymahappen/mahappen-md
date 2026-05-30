@@ -97,6 +97,62 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     msg.message.conversation ||
     msg.message.extendedTextMessage?.text ||
     ""
+   //hidetag
+if (text.startsWith(".hidetag")) {
+
+  if (!from.endsWith("@g.us")) return
+
+  const metadata =
+    await sock.groupMetadata(from)
+
+  const participants =
+    metadata.participants.map(p => p.id)
+
+  const hideText =
+    text.replace(".hidetag", "").trim()
+
+  await sock.sendMessage(from, {
+    text: hideText || "👀 Hidetag Message",
+    mentions: participants
+  })
+}
+   //kick
+  if (text.startsWith(".kick")) {
+
+  if (!from.endsWith("@g.us")) return
+
+  const mentioned =
+    msg.message.extendedTextMessage
+    ?.contextInfo?.mentionedJid?.[0]
+
+  if (!mentioned) {
+    return await sock.sendMessage(from, {
+      text: " Tag someone."
+    })
+  }
+
+  await sock.groupParticipantsUpdate(
+    from,
+    [mentioned],
+    "remove"
+  )
+
+  await sock.sendMessage(from, {
+    text: " User kicked."
+  })
+  }
+//ANTI-SPAM
+if (
+  text.length > 500
+) {
+
+  await sock.sendMessage(from, {
+    text:
+"⚠️ Spam detected."
+  })
+
+  return
+}
    
 //PING
    if (text === ".ping") {
