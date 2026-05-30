@@ -19,22 +19,27 @@ app.listen(PORT, () => {
 console.log(`Server running on ${PORT}`)
 })
 
-async function startBot() {
-const { state, saveCreds } = await useMultiFileAuthState("session")
+async function startBot(number) {
 
-const { version } = await fetchLatestBaileysVersion()
+const { state, saveCreds } =
+await useMultiFileAuthState(
+  `sessions/${number}`
+)
+
+const { version } =
+await fetchLatestBaileysVersion()
 
 const sock = makeWASocket({
-version,
-logger: Pino({ level: "silent" }),
-auth: state,
-browser: ["Ubuntu", "Chrome", "20.0.04"]
+  version,
+  logger: Pino({ level: "silent" }),
+  auth: state,
+  browser: ["Ubuntu", "Chrome", "20.0.04"]
 })
 
-
-// Save session
-sock.ev.on("creds.update", saveCreds)
-
+sock.ev.on(
+  "creds.update",
+  saveCreds
+)
 // MESSAGE STORE
 const store = {}
   //BANNED USERS
@@ -531,26 +536,30 @@ lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 console.log("❌ Connection closed")
 
 if (shouldReconnect) {
-startBot()
+startBot(number)
 }
 }
 })
 
 // Pairing code
-if (!sock.authState.creds.registered) {
-const phoneNumber = "27687085163"
+if (!state.creds.registered) {
 
-console.log("Using Number:", phoneNumber)
+console.log("Using Number:", number)
 
 setTimeout(async () => {
 try {
-const code = await sock.requestPairingCode(phoneNumber)
+
+const code =
+await sock.requestPairingCode(number)
+
 console.log("PAIR CODE:", code)
+
 } catch (err) {
 console.log(err)
 }
 }, 3000)
+
 }
 }
 
-startBot()
+startBot("27687085163")
