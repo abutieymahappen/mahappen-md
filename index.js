@@ -517,6 +517,8 @@ caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──
   
 // Connection updates
 sock.ev.on("connection.update", async (update) => {
+sock.ev.on("connection.update", async (update) => {
+
 const { connection, lastDisconnect } = update
 
 if (connection === "open") {
@@ -524,15 +526,18 @@ console.log("✅ WhatsApp Connected")
 }
 
 if (connection === "close") {
+
 const shouldReconnect =
 lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
 console.log("❌ Connection closed")
 
 if (shouldReconnect) {
-startBot()
+console.log("🔄 Reconnecting...")
+startBot(number)
 }
 }
+
 })
 
 // Pairing code
