@@ -11,8 +11,10 @@ const app = express()
 
 const PORT = process.env.PORT || 3000
 
-app.get("/", (req, res) => {
-res.send("Bot running ✅")
+app.get("/pair/:number", async (req, res) => {
+  const number = req.params.number
+
+  await startBot(number)
 })
 
 app.listen(PORT, () => {
@@ -539,20 +541,15 @@ startBot()
 
 // Pairing code
 if (!sock.authState.creds.registered) {
-const phoneNumber = number
 
-console.log("Using Number:", phoneNumber)
+  const phoneNumber = number
 
-setTimeout(async () => {
-try {
-const code = await sock.requestPairingCode(phoneNumber)
-console.log("PAIR CODE:", code)
-} catch (err) {
-console.log(err)
+  setTimeout(async () => {
+    try {
+      const code = await sock.requestPairingCode(phoneNumber)
+      console.log("PAIR CODE:", code)
+    } catch (err) {
+      console.log(err)
+    }
+  }, 3000)
 }
-}, 3000)
-}
-}
-
-startBot(number)
-})
