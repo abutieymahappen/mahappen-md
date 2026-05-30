@@ -54,6 +54,48 @@ async function startBot(number) {
 
   sock.ev.on("creds.update", saveCreds)
 
+  sock.ev.on("messages.upsert", async ({ messages }) => {
+  const msg = messages[0]
+
+  if (!msg.message) return
+
+  const from = msg.key.remoteJid
+
+  const text =
+    msg.message.conversation ||
+    msg.message.extendedTextMessage?.text ||
+    ""
+
+  if (text === ".ping") {
+    await sock.sendMessage(from, {
+      text: "🏓 Pong!"
+    })
+  }
+
+  if (text === ".alive") {
+    await sock.sendMessage(from, {
+      text: "𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉 𝙈𝘿 𝙄𝙎 𝘼𝙇𝙄𝙑𝙀 🥳"
+    })
+  }
+
+  if (text === ".menu") {
+    await sock.sendMessage(from, {
+      image: {
+        url: "https://files.catbox.moe/caxt5m.png"
+      },
+      caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
+│
+├ ⚡ .ping
+├ 👤 .owner
+├ 🧾 .menu
+├ 🕒 .time
+├ 🔥 .alive
+│
+╰────────────────⬣`
+    })
+  }
+})
+
 
   sock.ev.on("connection.update", (update) => {
   const { connection, lastDisconnect } = update
