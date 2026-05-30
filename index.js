@@ -486,32 +486,30 @@ return
 // .menu command
 
 if (text === ".menu") {
-
-  await sock.sendMessage(from, {
-    text: `╭━━〔 ☘️ 𝐁𝐎𝐓 𝐌𝐄𝐍𝐔 〕━━⬣
-
-👤 Owner: Abutiei Mahappen
-⚡ Status: Online
-🤖 System: Active
-
-╭━━〔 🖤 COMMANDS 🖤 〕━━⬣
-│ .owner  ➤ Owner info
-│ .ping   ➤ Bot speed
-│ .time   ➤ Current time
-│ .alive  ➤ Bot status
-│ .vv     ➤ View once
-│ .ban    ➤ Ban user
-│ .unban  ➤ Unban user
-│ .kick   ➤ Remove user
-│ .tagall ➤ Mention all
-│ .hidetag ➤ Silent tag
-╰━━━━━━━━━━━━━━━━━━⬣
-
-😌 Type a command to continue`
-  })
-
-  return
+await sock.sendMessage(from, {
+text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
+│
+├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
+├ Status: Online
+├ Prefix: .
+│
+╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
+│
+├𝙋𝙄𝙉𝙂 : .ping
+├𝙊𝙒𝙉𝙀𝙍 : .owner
+├𝙈𝙀𝙉𝙐 : .menu
+├𝙏𝙄𝙈𝙀: .time
+├𝙑𝙄𝙀𝙒 𝙊𝙉𝘾𝙀 : .vv
+├𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀 [coming soon] :
+├𝘼𝙇𝙄𝙑𝙀 : .alive
+│𝙃𝘼𝘾𝙆 : .hack
+|🚫 𝘽𝘼𝙉 : .ban
+|♻️𝙐𝙉𝘽𝘼𝙉 : .unban
+|𝐌𝐎𝐑𝐄 𝐅𝐄𝐀𝐓𝐔𝐑𝐄𝐒 𝐂𝐎𝐌𝐈𝐍𝐆 𝐒𝐎𝐎𝐍
+╰────────────────⬣`
+})
 }
+})
 // Connection updates
 sock.ev.on("connection.update", async (update) => {
 const { connection, lastDisconnect } = update
