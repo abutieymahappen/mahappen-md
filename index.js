@@ -334,4 +334,3 @@ if (!state?.creds?.registered) {
       }
     }, 3000)
   }
-}
