@@ -69,11 +69,10 @@ async function startBot(number) {
   if (text === ".owner") {
 
     await sock.sendMessage(from, {
-      video: {
-        url: "https://files.catbox.moe/radehm.mp4"
+      image: {
+        url: "https://files.catbox.moe/i8oidw.jpg"
       },
-      gifPlayback: true,
-      caption: `╭━━〔 👤 𝗢𝗪𝗡𝗘𝗥 𝗣𝗥𝗢𝗙𝗜𝗟𝗘 〕━━⬣
+  caption: `╭━━〔 👤 𝗢𝗪𝗡𝗘𝗥 𝗣𝗥𝗢𝗙𝗜𝗟𝗘 〕━━⬣
     
 𝐍𝐀𝐌𝐄: 𝗔𝗯𝘂𝘁𝗶𝗲𝘆𝗠𝗮𝗵𝗮𝗽𝗽𝗲𝗻
 𝐑𝐎𝐋𝐄: 𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗥
@@ -119,7 +118,8 @@ async function startBot(number) {
   })
   }
 
-    //UNBAN
+    
+// UNBAN
 if (text.startsWith(".unban")) {
 
   const mentioned =
@@ -127,9 +127,8 @@ if (text.startsWith(".unban")) {
     ?.contextInfo?.mentionedJid?.[0]
 
   if (!mentioned) {
-
     return await sock.sendMessage(from, {
-      text: " Tag someone to unban."
+      text: "Tag someone to unban."
     })
   }
 
@@ -139,11 +138,11 @@ if (text.startsWith(".unban")) {
     )
 
   await sock.sendMessage(from, {
-    text: " User unbanned from bot🍀."
+    text: "User unbanned from bot 🍀."
   })
 
   return
-           }
+}
   
 // BAN
 if (text.startsWith(".ban")) {
@@ -172,7 +171,7 @@ await sock.sendMessage(from, {
 })
 
 return
-
+}
     //hidetag
 if (text.startsWith(".hidetag")) {
 
@@ -245,7 +244,7 @@ if (text.startsWith(".hidetag")) {
 if (text === ".menu") {
 await sock.sendMessage(from, {
 image: {
-url: "https://files.catbox.moe/caxt5m.png"
+url: "https://files.catbox.moe/dg9pcn.png"
 },
 caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──⬣
 │
