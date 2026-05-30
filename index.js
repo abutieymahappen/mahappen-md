@@ -8,58 +8,34 @@ import Pino from "pino"
 import express from "express"
 
 const app = express()
+const bots = {}
 
 const PORT = process.env.PORT || 3000
-const bots = {}
 
 app.get("/", (req, res) => {
 res.send("Bot running ✅")
 })
 
-app.get("/pair/:number", async (req, res) => {
-
-const number = req.params.number
-
-try {
-
-startBot(number)
-
-res.send(`
-<h2>BADBOY-MD</h2>
-<p>Starting session for:</p>
-<b>${number}</b>
-`)
-
-} catch (err) {
-
-res.send(err.message)
-
-}
-
+app.listen(PORT, () => {
+console.log(`Server running on ${PORT}`)
 })
-async function startBot(number) {
 
-const { state, saveCreds } =
-await useMultiFileAuthState(
-  `sessions/${number}`
-)
+async function startBot() {
+const { state, saveCreds } = await useMultiFileAuthState("session")
 
-const { version } =
-await fetchLatestBaileysVersion()
+const { version } = await fetchLatestBaileysVersion()
 
 const sock = makeWASocket({
-  version,
-  logger: Pino({ level: "silent" }),
-  auth: state,
-  browser: ["Ubuntu", "Chrome", "20.0.04"]
+version,
+logger: Pino({ level: "silent" }),
+auth: state,
+browser: ["Ubuntu", "Chrome", "20.0.04"]
 })
 
-bots[number] = sock
 
-sock.ev.on(
-  "creds.update",
-  saveCreds
-)
+// Save session
+sock.ev.on("creds.update", saveCreds)
+
 // MESSAGE STORE
 const store = {}
   //BANNED USERS
@@ -556,30 +532,26 @@ lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 console.log("❌ Connection closed")
 
 if (shouldReconnect) {
-startBot(number)
+startBot()
 }
 }
 })
 
 // Pairing code
-if (!state.creds.registered) {
+if (!sock.authState.creds.registered) {
+const phoneNumber = "27687085163"
 
-console.log("Using Number:", number)
+console.log("Using Number:", phoneNumber)
 
 setTimeout(async () => {
 try {
-
-const code =
-await sock.requestPairingCode(number)
-
+const code = await sock.requestPairingCode(phoneNumber)
 console.log("PAIR CODE:", code)
-
 } catch (err) {
 console.log(err)
 }
 }, 3000)
-
 }
 }
 
-startBot("27687085163")
+startBot()
