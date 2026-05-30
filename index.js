@@ -484,33 +484,38 @@ return
 }
 // .menu command
 if (text === ".menu") {
-await sock.sendMessage(from, {
-text: `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
+if (text === ".menu") {
+
+  const menuText = `╭──〔 『𝘈𝘉𝘜𝘛𝘐𝘌𝘠 𝘔𝘈𝘏𝘈𝘗𝘗𝘌𝘕 𝘔𝘋』 〕──⬣
 │
-├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
-├ Status: Online
-├ Prefix: .
+├ 🥷 𝙊𝙒𝙉𝙀𝙍 : 𝘼𝘽𝙐𝙏𝙄𝙀𝙔 𝙈𝘼𝙃𝘼𝙋𝙋𝙀𝙉
+├ ⚡ 𝙎𝙏𝘼𝙏𝙐𝙎 : 𝙊𝙉𝙇𝙄𝙉𝙀
+├ 📌 𝙋𝙍𝙀𝙁𝙄𝙓 : .
 │
-╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
+╭──〔 𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎 〕──⬣
 │
-├⚡ .ping     ➤ Check bot speed
-├ 👤 .owner    ➤ Owner info
-├ 🧾 .menu     ➤ Show menu
-├ 🕒 .time     ➤ Current time
-├ 🔥 .alive    ➤ Bot status
-├ 👀 .vv       ➤ View once media
-├ 🚫 .ban      ➤ Ban user
-├ ♻️ .unban    ➤ Unban user
-├ 💣 .kick     ➤ Remove user (group)
-├ 📢 .tagall   ➤ Mention all members
-├ 👻 .hidetag  ➤ Silent tag message
-├ 💻 .hack     ➤ Fun simulation
+├ ⚡ .𝙥𝙞𝙣𝙜
+├ 👤 .𝙤𝙬𝙣𝙚𝙧
+├ 🧾 .𝙢𝙚𝙣𝙪
+├ 🕒 .𝙩𝙞𝙢𝙚
+├ 🔥 .𝙖𝙡𝙞𝙫𝙚
+├ 👀 .𝙫𝙫
+├ 🚫 .𝙗𝙖𝙣
+├ ♻️ .𝙪𝙣𝙗𝙖𝙣
+├ 💣 .𝙠𝙞𝙘𝙠
+├ 📢 .𝙩𝙖𝙜𝙖𝙡𝙡
 │
-├ 🚀 MORE FEATURES COMING SOON
-╰────────────────⬣`
-})
-}
-})
+╰──〔 𝙈𝙊𝙍𝙀 𝙁𝙀𝘼𝙏𝙐𝙍𝙀𝙎 𝙎𝙊𝙊𝙉 〕──⬣`
+
+  await sock.sendMessage(from, {
+    image: {
+      url: "https://files.catbox.moe/8k2xqv.jpg"
+    },
+    caption: menuText
+  })
+
+  return
+          }
   
 // Connection updates
 sock.ev.on("connection.update", async (update) => {
