@@ -514,9 +514,7 @@ caption: `╭──〔 *『𝗕𝗔𝗗𝗕𝗢𝗬-𝗠𝗗 𝗩1』* 〕──
 }
 })
 
-  
-// Connection updates
-sock.ev.on("connection.update", async (update) => {
+  //
 sock.ev.on("connection.update", async (update) => {
 
 const { connection, lastDisconnect } = update
