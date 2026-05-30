@@ -505,7 +505,7 @@ if (text === ".menu") {
     "│ .kick    ➤ Remove user\n" +
     "│ .tagall  ➤ Mention all\n" +
     "│ .hidetag ➤ Silent tag\n" +
-    "╰────────────────⬣"
+    "╰────────────────⬣`
 
   await sock.sendMessage(from, {
     text: menuText
