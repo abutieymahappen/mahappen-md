@@ -49,43 +49,49 @@ await startBot(number)
 res.send(`
 <h2>🤖 𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜𝗜-𝗠𝗗</h2>
 
+<h2>🤖 AKATSUKII-MD</h2>
+
 <h3>
 
-╭━━━━━━━━━━━━━━━╮
-┃  🚀 𝗣𝗔𝗜𝗥𝗜𝗡𝗚 𝗣𝗔𝗡𝗘𝗟  ┃
-╰━━━━━━━━━━━━━━━╯
+╔════════════════════════════╗
+║      BOT DASHBOARD         ║
+╚════════════════════════════╝
 
-📱 𝗡𝘂𝗺𝗯𝗲𝗿:
-${number}
+
+🚀 PAIRING SESSION
+━━━━━━━━━━━━━━━━━━━━━━
+
+📱 Number: ${number}
+
+
+⏳ Status:
+- Initializing system
+- Generating pairing code
+- Preparing secure session
+
+
+📟 Instructions:
+- Open Termux / Console
+- Wait for pairing code
+- Do NOT close session
+- Retry if needed
+
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
-⏳ 𝗦𝗧𝗔𝗧𝗨𝗦
-✔ Initializing system...
-✔ Generating secure pairing code...
-⏳ Waiting for response...
 
-━━━━━━━━━━━━━━━━━━━━━━
+🤖 ABOUT BOT
 
-📟 𝗜𝗡𝗦𝗧𝗥𝗨𝗖𝗧𝗜𝗢𝗡𝗦
-• Open Termux / Console  
-• Wait for pairing code  
-• Do NOT close session  
-• Retry if no code appears  
-
-━━━━━━━━━━━━━━━━━━━━━━
-
-🤖 𝗕𝗢𝗧 𝗜𝗡𝗙𝗢
 AKATSUKII-MD is a WhatsApp automation bot
-built for speed, stability, and control.
+built for group control, automation, and commands.
+
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
-👑 𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗥
-© 2026 AKATSUKII-MD  
-ABUTIEY MAHAPPEN
 
-╰━━━━━━━━━━━━━━━╯
+👑 DEVELOPER
+© 2026 AKATSUKII-MD
+ABUTIEY MAHAPPEN
 
 </h3>
 `)
