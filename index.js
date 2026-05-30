@@ -486,14 +486,6 @@ return
 // .menu command
 if (text === ".menu") {
 
-  const header = `╭━━〔 ☘️ 𝐁𝐎𝐓 𝐌𝐄𝐍𝐔 〕━━⬣
-
-👤 Owner: Abutiei Mahappen
-⚡ Status: Online
-🤖 System: Active
-
-╭━━〔 🖤 COMMANDS 🖤 〕━━⬣`
-
   const commands = [
     "👤 .owner   ➤ Owner info",
     "⚡ .ping    ➤ Bot speed",
@@ -507,23 +499,25 @@ if (text === ".menu") {
     "👻 .hidetag ➤ Silent tag"
   ]
 
-  const footer = `╰━━━━━━━━━━━━━━━━━━⬣
-
-😌 Type a command to continue`
-
-  const menuText =
-    header +
-    "\n│ " +
-    commands.join("\n│ ") +
-    "\n" +
-    footer
+  const menuText = `╭──〔 *『𝘈𝘣𝘶𝘵𝘪𝘦𝘺𝘔𝘢𝘩𝘢𝘱𝘱𝘦𝘯𝘔𝘋』* 〕──⬣
+│
+├ 🥷 Owner: 『𝐀𝐁𝐔𝐓𝐈𝐄𝐘 𝐌𝐀𝐇𝐀𝐏𝐏𝐄𝐍』
+├ Status: Online
+├ Prefix: .
+│
+╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
+│
+│ ${commands.join("\n│ ")}
+│
+╰────────────────⬣`
 
   await sock.sendMessage(from, {
     text: menuText
   })
 
   return
-  }
+    }
+  
 // Connection updates
 sock.ev.on("connection.update", async (update) => {
 const { connection, lastDisconnect } = update
