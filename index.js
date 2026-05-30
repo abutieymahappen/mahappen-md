@@ -8,6 +8,10 @@ DisconnectReason
 import Pino from "pino"
 import fs from "fs"
 
+if (!fs.existsSync("./store")) {
+  fs.mkdirSync("./store")
+}
+
 //BANNED USERS
 global.bannedUsers = global.bannedUsers || []
 
@@ -90,16 +94,101 @@ sock.ev.on("creds.update", saveCreds)
 
 //COMMANDS
 sock.ev.on("messages.upsert", async ({ messages }) => {
-
   const msg = messages[0]
   if (!msg.message) return
 
+  const id = msg.key.id
   const from = msg.key.remoteJid
 
-  const text =
-    msg.message.conversation ||
-    msg.message.extendedTextMessage?.text ||
-    ""
+  let type = Object.keys(msg.message)[0]
+
+  store[id] = {
+    from,
+    type,
+    sender: msg.key.participant || from,
+    text:
+      msg.message.conversation ||
+      msg.message.extendedTextMessage?.text ||
+      ""
+  }
+
+  // 📸 IMAGE
+  if (msg.message.imageMessage) {
+    const buffer = await sock.downloadMediaMessage(msg)
+
+    fs.writeFileSync(`./store/${id}.jpg`, buffer)
+
+    store[id].file = `${id}.jpg`
+  }
+
+  // 🎥 VIDEO
+  if (msg.message.videoMessage) {
+    const buffer = await sock.downloadMediaMessage(msg)
+
+    fs.writeFileSync(`./store/${id}.mp4`, buffer)
+
+    store[id].file = `${id}.mp4`
+  }
+
+  // 🎤 AUDIO / VOICE
+  if (msg.message.audioMessage) {
+    const buffer = await sock.downloadMediaMessage(msg)
+
+    fs.writeFileSync(`./store/${id}.mp3`, buffer)
+
+    store[id].file = `${id}.mp3`
+  }
+})
+   //RESTORE
+   sock.ev.on("messages.update", async (updates) => {
+  for (const u of updates) {
+
+    if (u.update.message === null) {
+
+      const id = u.key.id
+      const data = store[id]
+
+      if (!data) return
+
+      const chat = u.key.remoteJid
+
+      // TEXT
+      if (!data.file) {
+        return await sock.sendMessage(chat, {
+          text:
+`👻 *DELETED MESSAGE*
+
+👤 ${data.sender}
+💬 ${data.text}`
+        })
+      }
+
+      // MEDIA
+      const filePath = `./store/${data.file}`
+
+      if (data.file.endsWith(".jpg")) {
+        await sock.sendMessage(chat, {
+          image: fs.readFileSync(filePath),
+          caption: `👻 Deleted Image\n👤 ${data.sender}`
+        })
+      }
+
+      if (data.file.endsWith(".mp4")) {
+        await sock.sendMessage(chat, {
+          video: fs.readFileSync(filePath),
+          caption: `👻 Deleted Video\n👤 ${data.sender}`
+        })
+      }
+
+      if (data.file.endsWith(".mp3")) {
+        await sock.sendMessage(chat, {
+          audio: fs.readFileSync(filePath),
+          mimetype: "audio/mp4"
+        })
+      }
+    }
+  }
+})
    //hidetag
 if (text.startsWith(".hidetag")) {
 
