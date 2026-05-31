@@ -399,6 +399,7 @@ if (connection === "close") {
   console.log("❌ Disconnected")
 }
 }
+}
 })
 
 /* =========================
