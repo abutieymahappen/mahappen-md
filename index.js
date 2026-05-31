@@ -8,12 +8,13 @@ DisconnectReason
 import Pino from "pino"
 import fs from "fs"
 
+
 //BANNED USERS
 global.bannedUsers = global.bannedUsers || []
 const CHANNEL = "https://whatsapp.com/channel/0029Vb7pS7WFi8xW1FwMAX1p"
 const app = express()
 const PORT = process.env.PORT || 3000
-
+const startTime = Date.now()
 const bots = {}
 
 const OWNER = "27687085163@s.whatsapp.net"
@@ -102,29 +103,7 @@ bots[number] = sock
 
 sock.ev.on("creds.update", saveCreds)
 
-   //WELCOME 
-   sock.ev.on("group-participants.update", async (update) => {
 
-  if (update.action !== "add") return
-
-  const groupId = update.id
-  const user = update.participants[0]
-
-  let pp
-
-  try {
-    pp = await sock.profilePictureUrl(user, "image")
-  } catch {
-    pp = "https://files.catbox.moe/dg9pcn.png"
-  }
-console.log("JOINED USER:", user)
-  await sock.sendMessage(groupId, {
-  text: `👋 Welcome @${String(user).split("@")[0]}
-
-🤖 AKATSUKII-MD`,
-  mentions: [user]
-})
-   
 //COMMANDS
 sock.ev.on("messages.upsert", async ({ messages }) => {
 
@@ -203,6 +182,58 @@ ${CHANNEL}
 
   return
    }
+
+   //RUN TIME
+   if (text === ".run") {
+
+const runtime = Math.floor((Date.now() - startTime) / 1000)
+
+const hours = Math.floor(runtime / 3600)
+const minutes = Math.floor((runtime % 3600) / 60)
+const seconds = runtime % 60
+
+await sock.sendMessage(from, {
+text: `🤖 AKATSUKII-MD Runtime
+
+⏳ ${hours}h ${minutes}m ${seconds}s`
+})
+
+return
+   }
+
+   //LOCK GROUP 
+   if (text === ".lock") {
+
+if (!from.endsWith("@g.us")) return
+
+await sock.groupSettingUpdate(
+from,
+"announcement"
+)
+
+await sock.sendMessage(from, {
+text: "🔒 Group locked."
+})
+
+return
+   }
+
+   //UNLOCK GROUP
+   if (text === ".unlock") {
+
+if (!from.endsWith("@g.us")) return
+
+await sock.groupSettingUpdate(
+from,
+"not_announcement"
+)
+
+await sock.sendMessage(from, {
+text: "🔓 Group unlocked."
+})
+
+return
+   }
    
    //kick
   if (text.startsWith(".kick")) {
@@ -241,6 +272,54 @@ if (
 
   return
 }
+
+   //PROMOTE 
+   if (text.startsWith(".promote")) {
+
+if (!from.endsWith("@g.us")) return
+
+const user =
+msg.message.extendedTextMessage
+?.contextInfo?.mentionedJid?.[0]
+
+if (!user) return
+
+await sock.groupParticipantsUpdate(
+from,
+[user],
+"promote"
+)
+
+await sock.sendMessage(from, {
+text: "👑 User promoted to admin."
+})
+
+return
+   }
+
+   //DEMOTE
+   if (text.startsWith(".demote")) {
+
+if (!from.endsWith("@g.us")) return
+
+const user =
+msg.message.extendedTextMessage
+?.contextInfo?.mentionedJid?.[0]
+
+if (!user) return
+
+await sock.groupParticipantsUpdate(
+from,
+[user],
+"demote"
+)
+
+await sock.sendMessage(from, {
+text: "⬇️ Admin removed."
+})
+
+return
+   }
    
 //PING
    if (text === ".ping") {
@@ -404,6 +483,11 @@ return
 ├ 👻 .hidetag
 |-❓ .info
 |-⌨️ .channel
+├ 🚶 .run
+├ 🔒 .lock
+├ 🔓 .unlock
+├ 👑 .promote
+├ ⬇️ .demote
 |
 |-12+『 𝙈𝙊𝙍𝙀 』
 |
