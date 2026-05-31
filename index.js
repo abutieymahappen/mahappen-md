@@ -117,7 +117,59 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     msg.message.extendedTextMessage?.text ||
     ""
 
-   
+   //COINS 
+   let coins = {}
+
+if (fs.existsSync("./coins.json")) {
+coins = JSON.parse(
+fs.readFileSync("./coins.json")
+)
+}
+
+function saveCoins() {
+fs.writeFileSync(
+"./coins.json",
+JSON.stringify(coins, null, 2)
+)
+}
+
+   //BALANCE 
+   if (text === ".balance") {
+
+const user = msg.key.participant || msg.key.remoteJid
+
+if (!coins[user]) coins[user] = 0
+
+await sock.sendMessage(from, {
+text: `🏦 Balance: ${coins[user]} coins`
+})
+
+saveCoins()
+return
+   }
+   //DAILY
+   if (text === ".daily") {
+
+const user = msg.key.participant || msg.key.remoteJid
+
+if (!coins[user]) coins[user] = 0
+
+const reward = 100
+
+coins[user] += reward
+
+saveCoins()
+
+await sock.sendMessage(from, {
+text: `🎉 Daily Reward
+
++${reward} coins
+
+💰 Balance: ${coins[user]} coins`
+})
+
+return
+   }
    //hidetag
 if (text.startsWith(".hidetag")) {
 
@@ -488,6 +540,8 @@ return
 ├ 🔓 .unlock
 ├ 👑 .promote
 ├ ⬇️ .demote
+├ 💰 .daily
+├ 🏦 .balance
 |
 |-12+『 𝙈𝙊𝙍𝙀 』
 |
