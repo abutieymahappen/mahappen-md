@@ -398,8 +398,6 @@ console.log("✅ WhatsApp Connected:", number)
 if (connection === "close") {
   console.log("❌ Disconnected")
 }
-}
-}
 })
 
 /* =========================
