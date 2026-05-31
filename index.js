@@ -469,27 +469,24 @@ return
 │
 ╭──〔 ☘️𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎☘️ 〕──⬣
 │
-├ ⚡ .ping
-├ 👤 .owner
-├ 🧾 .menu
-├ 🕒 .time
-├ 🔥 .alive
-├ 🗑️ .clear
-├ 🚫 .ban
-├ ♻️ .unban
-├ 💣 .kick
-├ 📢 .tagall
-├ 👻 .hidetag
-|-❓ .info
-|-⌨️ .channel
-├ 🚶 .run
-├ 🔒 .lock
-├ 🔓 .unlock
-├ 👑 .promote
-├ ⬇️ .demote
-├ 💰 .daily
-├ 🏦 .balance
-|
+├ 『 .ping 』
+├ 『 .owner 』
+├ 『 .menu 』
+├ 『 .time 』
+├ 『 .alive 』
+├ 『 .clear 』
+├ 『 .ban 』
+├ 『 .unban 』
+├ 『 .kick 』
+├ 『 .tagall 』
+├ 『 .hidetag 』
+├ 『 .info 』
+├ 『 .channel 』
+├ 『 .run 』
+├ 『 .lock 』
+├ 『 .unlock 』
+├ 『 .promote 』
+├ 『 .demote 』
 |-12+『 𝙈𝙊𝙍𝙀 』
 |
 |•𝙈𝙊𝙍𝙀 𝙁𝙀𝘼𝙏𝙐𝙍𝙀𝙎 𝘾𝙊𝙈𝙄𝙉𝙂 𝙎𝙊𝙊𝙉 • 𝙎𝙏𝘼𝙔 𝙏𝙐𝙉𝙀𝘿⚡
