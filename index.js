@@ -114,6 +114,40 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     msg.message.conversation ||
     msg.message.extendedTextMessage?.text ||
     ""
+
+   //WELCOME USER
+   sock.ev.on("group-participants.update", async (update) => {
+
+  if (update.action !== "add") return
+
+  const groupId = update.id
+  const user = update.participants[0]
+
+  let pp
+
+  try {
+    pp = await sock.profilePictureUrl(user, "image")
+  } catch {
+    pp = "https://files.catbox.moe/dg9pcn.png"
+  }
+
+  await sock.sendMessage(groupId, {
+    image: { url: pp },
+    caption: `╭━━〔 👋 WELCOME 〕━━⬣
+
+🌟 Welcome @${user.split("@")[0]}
+
+📜 Please follow group rules
+🤝 Respect all members
+☘️ Enjoy your stay
+
+🤖 AKATSUKII-MD
+╰━━━━━━━━━━━━━━⬣`,
+    mentions: [user]
+  })
+
+})
+   
    //hidetag
 if (text.startsWith(".hidetag")) {
 
@@ -380,9 +414,9 @@ return
 |-❓ .info
 |-⌨️ .channel
 |
-|-12+MORE
+|-12+『 𝙈𝙊𝙍𝙀 』
 |
-|•UPDATES WITH MORE FEATURES WILL BE ADDED STAY TUNED 
+|•𝙈𝙊𝙍𝙀 𝙁𝙀𝘼𝙏𝙐𝙍𝙀𝙎 𝘾𝙊𝙈𝙄𝙉𝙂 𝙎𝙊𝙊𝙉 • 𝙎𝙏𝘼𝙔 𝙏𝙐𝙉𝙀𝘿⚡
 ╰────────────────⬣`
     })
 
