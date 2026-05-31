@@ -67,7 +67,11 @@ console.log("♻️ Restarting existing bot:", number)
 bots[number].end()
 delete bots[number]
 }
+const pairCode = await sock.requestPairingCode(number)
 
+console.log("🔥 PAIRING CODE:", pairCode)
+
+return pairCode
 const { state, saveCreds } =
 await useMultiFileAuthState(`session/${number}`)
 
