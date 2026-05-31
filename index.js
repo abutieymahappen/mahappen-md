@@ -396,15 +396,7 @@ console.log("✅ WhatsApp Connected:", number)
 }
 
 if (connection === "close") {
-
-const shouldReconnect =
-lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
-
-console.log("❌ Disconnected")
-
-if (shouldReconnect && state.creds.registered) {
-  console.log("🔄 Reconnecting...")
-  startBot(number)
+  console.log("❌ Disconnected")
 }
 }
 })
@@ -433,6 +425,6 @@ console.log("PAIR ERROR:", err.message)
 }
 
 }
-
+console.log("CODE SENT TO WEB:", pairCode)
 return pairCode
 }
