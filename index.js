@@ -408,10 +408,6 @@ lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
 console.log("❌ Disconnected")
 
-if (shouldReconnect) {
-console.log("🔄 Reconnecting...")
-startBot(number)
-}
 }
 })
 
@@ -422,21 +418,23 @@ let pairCode = null
 
 if (!state.creds.registered) {
 
-try {
+  await new Promise(resolve =>
+    setTimeout(resolve, 5000)
+  )
 
-pairCode = await sock.requestPairingCode(number)
+  try {
 
-console.log("🔥 PAIRING CODE:", pairCode)
+    pairCode = await sock.requestPairingCode(number)
 
-} catch (err) {
+    console.log("🔥 PAIRING CODE:", pairCode)
 
-console.log("PAIR ERROR:", err.message)
+  } catch (err) {
 
-}
+    console.log("PAIR ERROR:", err.message)
+
+  }
 
 }
 
 return pairCode
 }
-
-   
