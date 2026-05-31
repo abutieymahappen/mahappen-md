@@ -44,7 +44,7 @@ fs.rmSync(sessionPath, { recursive: true, force: true })
 
 console.log("🚀 Pair request:", number)
 
-const code = await startBot(number)
+await startBot(number)
 
 res.send(`
 <h2>🤖 AKATSUKII-MD</h2>
@@ -52,16 +52,21 @@ res.send(`
 <pre>
 
 ╔════════════════════════════╗
-║        PAIRING CODE        ║
+║        BOT UI PANEL        ║
 ╠════════════════════════════╣
+║ 📱 Number: ${number}       ║
 ║                            ║
-║       ${code}              ║
+║ ⏳ Status: Generating...   ║
 ║                            ║
+║ ⚡ Please wait...          ║
+╠════════════════════════════╣
+║ AKATSUKII-MD BOT SYSTEM    ║
+║ © 2026 ABUTIEY MAHAPPEN    ║
 ╚════════════════════════════╝
 
 </pre>
 `)
-   
+
 } catch (err) {
 console.log(err)
 res.status(500).send(err.message)
@@ -95,10 +100,7 @@ browser: ["Ubuntu", "Chrome", "20.0.04"]
 
 bots[number] = sock
 
-sock.ev.on("creds.update", () => {
-  console.log("💾 Session saved")
-  saveCreds()
-})
+sock.ev.on("creds.update", saveCreds)
 
 //COMMANDS
 sock.ev.on("messages.upsert", async ({ messages }) => {
@@ -209,7 +211,7 @@ if (
 
   await sock.sendMessage(from, {
     text:
-"⚠️ Spam detected."
+" Spam detected❗."
   })
 
   return
@@ -264,7 +266,7 @@ if(text.startsWith(".unban")) {
   if (!mentioned) {
 
     return await sock.sendMessage(from, {
-      text: " Tag someone to unban."
+      text: " Tag someone to unban♻️."
     })
   }
 
@@ -290,7 +292,7 @@ if (text.startsWith(".ban")) {
   if (!mentioned) {
 
     return await sock.sendMessage(from, {
-      text: " Tag someone to ban."
+      text: " Tag someone to ban🚫."
     })
   }
 
@@ -324,7 +326,7 @@ return
 
   if (!from.endsWith("@g.us")) {
     return await sock.sendMessage(from, {
-      text: "❌ Group only."
+      text: "Group only❕."
     })
   }
 
@@ -399,36 +401,38 @@ if (connection === "open") {
 console.log("✅ WhatsApp Connected:", number)
 }
 
-//if (connection === "close") {
+if (connection === "close") {
 
-//const shouldReconnect =
-//lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
+const shouldReconnect =
+lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
-//console.log("❌ Disconnected")
+console.log("❗ Disconnected")
 
-//}
-//})
+if (shouldReconnect) {
+console.log("🔄 Reconnecting...")
+startBot(number)
+}
+}
+})
 
 /* =========================
    PAIRING CODE (FIXED CORE)
 ========================= */
 if (!state.creds.registered) {
 
-  setTimeout(async () => {
+setTimeout(async () => {
+try {
 
-    try {
+const code = await sock.requestPairingCode(number)
 
-      const code = await sock.requestPairingCode(number)
+console.log("🔥 PAIRING CODE:", code)
 
-      console.log("🔥 PAIRING CODE:", code)
+} catch (err) {
+console.log("PAIR ERROR:", err.message)
+}
 
-    } catch (err) {
-
-      console.log("PAIR ERROR:", err.message)
-
-    }
-
-  }, 3000)
+}, 3000)
 
 }
-}
+
+   }
