@@ -52,21 +52,16 @@ res.send(`
 <pre>
 
 ╔════════════════════════════╗
-║        BOT UI PANEL        ║
+║        PAIRING CODE        ║
 ╠════════════════════════════╣
-║ 📱 Number: ${number}
-║
-║ 🔑 Code: ${code}
-║
-║ ⚡ Ready To Pair
-╠════════════════════════════╣
-║ AKATSUKII-MD BOT SYSTEM
-║ © 2026 ABUTIEY MAHAPPEN
+║                            ║
+║       ${code}              ║
+║                            ║
 ╚════════════════════════════╝
 
 </pre>
 `)
-
+   
 } catch (err) {
 console.log(err)
 res.status(500).send(err.message)
@@ -100,7 +95,10 @@ browser: ["Ubuntu", "Chrome", "20.0.04"]
 
 bots[number] = sock
 
-sock.ev.on("creds.update", saveCreds)
+sock.ev.on("creds.update", () => {
+  console.log("💾 Session saved")
+  saveCreds()
+})
 
 //COMMANDS
 sock.ev.on("messages.upsert", async ({ messages }) => {
@@ -401,15 +399,15 @@ if (connection === "open") {
 console.log("✅ WhatsApp Connected:", number)
 }
 
-if (connection === "close") {
+//if (connection === "close") {
 
-const shouldReconnect =
-lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
+//const shouldReconnect =
+//lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
-console.log("❌ Disconnected")
+//console.log("❌ Disconnected")
 
-}
-})
+//}
+//})
 
 /* =========================
    PAIRING CODE (FIXED CORE)
@@ -417,10 +415,6 @@ console.log("❌ Disconnected")
 let pairCode = null
 
 if (!state.creds.registered) {
-
-  await new Promise(resolve =>
-    setTimeout(resolve, 5000)
-  )
 
   try {
 
