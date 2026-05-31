@@ -44,12 +44,29 @@ fs.rmSync(sessionPath, { recursive: true, force: true })
 
 console.log("🚀 Pair request:", number)
 
-await startBot(number)
 const code = await startBot(number)
 
+res.send(`
+<h2>🤖 AKATSUKII-MD</h2>
 
-   res.send(`<h1>${code}</h1>`)
-   
+<pre>
+
+╔════════════════════════════╗
+║        BOT UI PANEL        ║
+╠════════════════════════════╣
+║ 📱 Number: ${number}
+║
+║ 🔑 Code: ${code}
+║
+║ ⚡ Ready To Pair
+╠════════════════════════════╣
+║ AKATSUKII-MD BOT SYSTEM
+║ © 2026 ABUTIEY MAHAPPEN
+╚════════════════════════════╝
+
+</pre>
+`)
+
 } catch (err) {
 console.log(err)
 res.status(500).send(err.message)
@@ -67,11 +84,7 @@ console.log("♻️ Restarting existing bot:", number)
 bots[number].end()
 delete bots[number]
 }
-const pairCode = await sock.requestPairingCode(number)
 
-console.log("🔥 PAIRING CODE:", pairCode)
-
-return pairCode
 const { state, saveCreds } =
 await useMultiFileAuthState(`session/${number}`)
 
@@ -388,9 +401,19 @@ if (connection === "open") {
 console.log("✅ WhatsApp Connected:", number)
 }
 
-//if (connection === "close") {
- // console.log("❌ Disconnected"}
-//})
+if (connection === "close") {
+
+const shouldReconnect =
+lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
+
+console.log("❌ Disconnected")
+
+if (shouldReconnect) {
+console.log("🔄 Reconnecting...")
+startBot(number)
+}
+}
+})
 
 /* =========================
    PAIRING CODE (FIXED CORE)
@@ -398,10 +421,6 @@ console.log("✅ WhatsApp Connected:", number)
 let pairCode = null
 
 if (!state.creds.registered) {
-
-//await new Promise(resolve =>
-//  setTimeout(resolve, 3000)
-//)
 
 try {
 
@@ -416,6 +435,8 @@ console.log("PAIR ERROR:", err.message)
 }
 
 }
-console.log("CODE SENT TO WEB:", pairCode)
+
 return pairCode
 }
+
+   }
