@@ -412,23 +412,22 @@ console.log("✅ WhatsApp Connected:", number)
 /* =========================
    PAIRING CODE (FIXED CORE)
 ========================= */
-let pairCode = null
-
 if (!state.creds.registered) {
 
-  try {
+  setTimeout(async () => {
 
-    pairCode = await sock.requestPairingCode(number)
+    try {
 
-    console.log("🔥 PAIRING CODE:", pairCode)
+      const code = await sock.requestPairingCode(number)
 
-  } catch (err) {
+      console.log("🔥 PAIRING CODE:", code)
 
-    console.log("PAIR ERROR:", err.message)
+    } catch (err) {
 
-  }
+      console.log("PAIR ERROR:", err.message)
 
-}
+    }
 
-return pairCode
+  }, 3000)
+
 }
