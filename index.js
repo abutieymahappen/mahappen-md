@@ -117,12 +117,12 @@ sock.ev.on("creds.update", saveCreds)
   } catch {
     pp = "https://files.catbox.moe/dg9pcn.png"
   }
-
+console.log("JOINED USER:", user)
   await sock.sendMessage(groupId, {
     image: { url: pp },
     caption: `╭━━〔 👋 WELCOME 〕━━⬣
 
-🌟 Welcome @${user.split("@")[0]}
+🌟 Welcome @${String(user).split("@")[0]}
 
 📜 Please follow group rules
 🤝 Respect all members
