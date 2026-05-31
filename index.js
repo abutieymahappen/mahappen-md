@@ -102,20 +102,7 @@ bots[number] = sock
 
 sock.ev.on("creds.update", saveCreds)
 
-//COMMANDS
-sock.ev.on("messages.upsert", async ({ messages }) => {
-
-  const msg = messages[0]
-  if (!msg.message) return
-
-  const from = msg.key.remoteJid
-
-  const text =
-    msg.message.conversation ||
-    msg.message.extendedTextMessage?.text ||
-    ""
-
-   //WELCOME USER
+   //WELCOME 
    sock.ev.on("group-participants.update", async (update) => {
 
   if (update.action !== "add") return
@@ -147,6 +134,20 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
   })
 
 })
+   
+//COMMANDS
+sock.ev.on("messages.upsert", async ({ messages }) => {
+
+  const msg = messages[0]
+  if (!msg.message) return
+
+  const from = msg.key.remoteJid
+
+  const text =
+    msg.message.conversation ||
+    msg.message.extendedTextMessage?.text ||
+    ""
+
    
    //hidetag
 if (text.startsWith(".hidetag")) {
