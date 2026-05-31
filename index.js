@@ -47,20 +47,9 @@ console.log("🚀 Pair request:", number)
 await startBot(number)
 const code = await startBot(number)
 
-res.send(`
-<h2>🤖 AKATSUKII-MD</h2>
 
-<pre>
-╔════════════════════════════╗
-║       PAIRING CODE         ║
-╠════════════════════════════╣
-║                            ║
-║      ${code}               ║
-║                            ║
-╚════════════════════════════╝
-</pre>
-`)
-
+   res.send(`<h1>${code}</h1>`)
+   
 } catch (err) {
 console.log(err)
 res.status(500).send(err.message)
@@ -395,10 +384,9 @@ if (connection === "open") {
 console.log("✅ WhatsApp Connected:", number)
 }
 
-if (connection === "close") {
-  console.log("❌ Disconnected")
-}
-})
+//if (connection === "close") {
+ // console.log("❌ Disconnected"}
+//})
 
 /* =========================
    PAIRING CODE (FIXED CORE)
