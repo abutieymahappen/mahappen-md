@@ -51,17 +51,13 @@ res.send(`
 <h2>🤖 AKATSUKII-MD</h2>
 
 <pre>
-
 ╔════════════════════════════╗
-║        PAIRING CODE        ║
+║       PAIRING CODE         ║
 ╠════════════════════════════╣
 ║                            ║
-║       ${code || "ERROR"}   ║
+║      ${code}               ║
 ║                            ║
-╠════════════════════════════╣
-║ Copy code to WhatsApp      ║
 ╚════════════════════════════╝
-
 </pre>
 `)
 
@@ -406,9 +402,9 @@ lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
 console.log("❌ Disconnected")
 
-if (shouldReconnect) {
-console.log("🔄 Reconnecting...")
-startBot(number)
+if (shouldReconnect && state.creds.registered) {
+  console.log("🔄 Reconnecting...")
+  startBot(number)
 }
 }
 })
