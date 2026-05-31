@@ -117,59 +117,6 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     msg.message.extendedTextMessage?.text ||
     ""
 
-   //COINS 
-   let coins = {}
-
-if (fs.existsSync("./coins.json")) {
-coins = JSON.parse(
-fs.readFileSync("./coins.json")
-)
-}
-
-function saveCoins() {
-fs.writeFileSync(
-"./coins.json",
-JSON.stringify(coins, null, 2)
-)
-}
-
-   //BALANCE 
-   if (text === ".balance") {
-
-const user = msg.key.participant || msg.key.remoteJid
-
-if (!coins[user]) coins[user] = 0
-
-await sock.sendMessage(from, {
-text: `🏦 Balance: ${coins[user]} coins`
-})
-
-saveCoins()
-return
-   }
-   //DAILY
-   if (text === ".daily") {
-
-const user = msg.key.participant || msg.key.remoteJid
-
-if (!coins[user]) coins[user] = 0
-
-const reward = 100
-
-coins[user] += reward
-
-saveCoins()
-
-await sock.sendMessage(from, {
-text: `🎉 Daily Reward
-
-+${reward} coins
-
-💰 Balance: ${coins[user]} coins`
-})
-
-return
-   }
    //hidetag
 if (text.startsWith(".hidetag")) {
 
@@ -185,7 +132,7 @@ if (text.startsWith(".hidetag")) {
     text.replace(".hidetag", "").trim()
 
   await sock.sendMessage(from, {
-    text: hideText || "👀 Hidetag Message",
+    text: hideText || "👀 𝙃𝙄𝘿𝙀𝙏𝘼𝙂 𝙈𝙀𝙎𝙎𝘼𝙂𝙀 』",
     mentions: participants
   })
 }
@@ -201,11 +148,11 @@ if (text.startsWith(".hidetag")) {
    //Channel
    if (text === ".channel") {
   return sock.sendMessage(from, {
-    text: `📢 *OFFICIAL CHANNEL*
+    text: `📢 *『 𝙊𝙁𝙁𝙄𝘾𝙄𝘼𝙇 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 』*
 
 ${CHANNEL}
 
-☘️ Follow for updates`
+☘️『 𝙁𝙊𝙇𝙇𝙊𝙒 𝙁𝙊𝙍 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝙈𝘿 𝙐𝙋𝘿𝘼𝙏𝙀𝙎 』`
   })
    }
    
@@ -226,10 +173,11 @@ ${CHANNEL}
    //BOT INFO
    if (text === ".info") {
   await sock.sendMessage(from, {
-    text: `🤖 Bot is running
-📡 Status: Online
-⚡ Speed: Stable
-☘️ AKATSUKI-MD`
+    text: `『 🤖 𝘽𝙤𝙩 𝙞𝙨 𝙧𝙪𝙣𝙣𝙞𝙣𝙜 』
+『 📡 𝙎𝙩𝙖𝙩𝙪𝙨: 𝙊𝙣𝙡𝙞𝙣𝙚 』
+『 ⚡ 𝙎𝙥𝙚𝙚𝙙: 𝙎𝙩𝙖𝙗𝙡𝙚 』
+『 ☘️ 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝙈𝘿 』`
+})
   })
 
   return
@@ -245,7 +193,7 @@ const minutes = Math.floor((runtime % 3600) / 60)
 const seconds = runtime % 60
 
 await sock.sendMessage(from, {
-text: `🤖 AKATSUKII-MD Runtime
+text: `🤖『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄-𝙈𝘿 𝙍𝙐𝙉𝙏𝙄𝙈𝙀 』
 
 ⏳ ${hours}h ${minutes}m ${seconds}s`
 })
@@ -264,7 +212,7 @@ from,
 )
 
 await sock.sendMessage(from, {
-text: "🔒 Group locked."
+text: "☘️『 𝙂𝙍𝙊𝙐𝙋 𝙇𝙊𝘾𝙆𝙀𝘿 𝘽𝙔 𝘼𝘿𝙈𝙄𝙉 』☘️."
 })
 
 return
@@ -281,7 +229,7 @@ from,
 )
 
 await sock.sendMessage(from, {
-text: "🔓 Group unlocked."
+text: "『 𝙂𝙍𝙊𝙐𝙋 𝙐𝙉𝙇𝙊𝘾𝙆𝙀𝘿 𝘽𝙔 𝘼𝘿𝙈𝙄𝙉 』🟢."
 })
 
 return
@@ -298,7 +246,7 @@ return
 
   if (!mentioned) {
     return await sock.sendMessage(from, {
-      text: " Tag someone."
+      text: " 『 𝙏𝘼𝙂 𝙎𝙊𝙈𝙀𝙊𝙉𝙀 』."
     })
   }
 
@@ -309,7 +257,7 @@ return
   )
 
   await sock.sendMessage(from, {
-    text: " User kicked."
+    text: "『 𝙐𝙎𝙀𝙍 𝙆𝙄𝘾𝙆𝙀𝘿 』."
   })
   }
 //ANTI-SPAM
@@ -319,7 +267,7 @@ if (
 
   await sock.sendMessage(from, {
     text:
-" Spam detected❗."
+" 『 𝙎𝙋𝘼𝙈 𝘿𝙀𝙏𝙀𝘾𝙏𝙀𝘿 • 𝙋𝙇𝙀𝘼𝙎𝙀 𝙎𝙏𝙊𝙋 』❗."
   })
 
   return
@@ -343,7 +291,7 @@ from,
 )
 
 await sock.sendMessage(from, {
-text: "👑 User promoted to admin."
+text: "👑 『 𝙐𝙎𝙀𝙍 𝙋𝙍𝙊𝙈𝙊𝙏𝙀𝘿 𝘽𝙔 𝘼𝘿𝙈𝙄𝙉 』."
 })
 
 return
@@ -367,7 +315,7 @@ from,
 )
 
 await sock.sendMessage(from, {
-text: "⬇️ Admin removed."
+text: "『 𝘼𝘿𝙈𝙄𝙉 𝙍𝙀𝙈𝙊𝙑𝙀𝘿 』🗑️."
 })
 
 return
@@ -422,7 +370,7 @@ if(text.startsWith(".unban")) {
   if (!mentioned) {
 
     return await sock.sendMessage(from, {
-      text: " Tag someone to unban♻️."
+      text: " 『 𝙏𝘼𝙂 𝙎𝙊𝙈𝙀𝙊𝙉𝙀 𝙏𝙊 𝙐𝙉𝘽𝘼𝙉 ♻️."
     })
   }
 
@@ -432,7 +380,7 @@ if(text.startsWith(".unban")) {
     )
 
   await sock.sendMessage(from, {
-    text: " User unbanned from bot🍀."
+    text: "『 𝙐𝙎𝙀𝙍 𝙐𝙉𝘽𝘼𝙉𝙉𝙀𝘿 𝙁𝙍𝙊𝙈 𝘽𝙊𝙏 』🍀."
   })
 
   return
@@ -448,7 +396,7 @@ if (text.startsWith(".ban")) {
   if (!mentioned) {
 
     return await sock.sendMessage(from, {
-      text: " Tag someone to ban🚫."
+      text: "『 𝙏𝘼𝙂 𝙎𝙊𝙈𝙀𝙊𝙉𝙀 𝙏𝙊 𝘽𝘼𝙉 』🚫."
     })
   }
 
@@ -460,7 +408,7 @@ if (text.startsWith(".ban")) {
   }
 
   await sock.sendMessage(from, {
-    text: "🚫 User banned from bot."
+    text: "『 𝙐𝙎𝙀𝙍 𝙐𝙉𝘽𝘼𝙉𝙉𝙀𝘿 𝙁𝙍𝙊𝙈 𝘽𝙊𝙏 』."
   })
 
   return
@@ -482,7 +430,7 @@ return
 
   if (!from.endsWith("@g.us")) {
     return await sock.sendMessage(from, {
-      text: "Group only❕."
+      text: "『 𝙂𝙍𝙊𝙐𝙋𝙎 𝙊𝙉𝙇𝙔 』❕."
     })
   }
 
