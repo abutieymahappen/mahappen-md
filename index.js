@@ -119,20 +119,10 @@ sock.ev.on("creds.update", saveCreds)
   }
 console.log("JOINED USER:", user)
   await sock.sendMessage(groupId, {
-    image: { url: pp },
-    caption: `╭━━〔 👋 WELCOME 〕━━⬣
+  text: `👋 Welcome @${String(user).split("@")[0]}
 
-🌟 Welcome @${String(user).split("@")[0]}
-
-📜 Please follow group rules
-🤝 Respect all members
-☘️ Enjoy your stay
-
-🤖 AKATSUKII-MD
-╰━━━━━━━━━━━━━━⬣`,
-    mentions: [user]
-  })
-
+🤖 AKATSUKII-MD`,
+  mentions: [user]
 })
    
 //COMMANDS
