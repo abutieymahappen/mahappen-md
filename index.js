@@ -141,27 +141,22 @@ if (text.startsWith(".hidetag")) {
    // SHUTDOWN
 
 if (text === ".shutdown") {
+  const sender = msg.key.participant || msg.key.remoteJid
+  const isOwner = sender === "27687085163@s.whatsapp.net"
 
-const sender = (msg.key.participant || msg.key.remoteJid || "")
-const isOwner = sender.includes("27687085163")
+  if (!isOwner) return sock.sendMessage(from, { text: "❌ 『 OWNER ONLY 』" }, { quoted: msg })
 
-if (!isOwner) {
-  return await sock.sendMessage(from, {
-    text: "❌ 『 OWNER ONLY 』"
-  })
-}
-
-await sock.sendMessage(from, {
-text: `╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
+  await sock.sendMessage(from, {
+    text: `╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 ┃ 『 𝙎𝙃𝙐𝙏𝙏𝙄𝙉𝙂 𝘿𝙊𝙒𝙉 』
 ┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
 ┃ 『 𝙂𝙊𝙊𝘿𝘽𝙔𝙀 👋 』
 ╰━━━━━━━━━━━━━━⬣`
-})
+  }, { quoted: msg })
 
-process.exit(0)
+  console.log("Owner triggered shutdown")
+  setTimeout(() => process.exit(0), 1500) // 1.5s delay for Termux
 }
-
    //RESTART 
 if (text === ".restart") {
 
@@ -184,6 +179,7 @@ text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 
 process.exit(1)
      }
+   
    //TTS
    if (text.startsWith(".tts ")) {
 
