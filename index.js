@@ -140,25 +140,14 @@ if (text.startsWith(".hidetag")) {
   })
 }
    
-
-   //PAIR
-   
-if (text.startsWith(".pair ")) {
-
-const sender =
-msg.key.participant || msg.key.remoteJid || ""
-
-if (!sender.includes("27687085163")) {
-return await sock.sendMessage(from, {
-text: "❌ 『 OWNER ONLY 』"
-})
-}
+//PAIR
+ if (text.startsWith(".pair ")) {
 
 const number = text.split(" ")[1]
 
 if (!number) {
 return await sock.sendMessage(from, {
-text: "Usage: .pair 276xxxxxxxxx"
+text: "📱 Usage:\n.pair 276xxxxxxxxx"
 })
 }
 
@@ -171,7 +160,7 @@ try {
 await startBot(number)
 
 await sock.sendMessage(from, {
-text: `✅ Pair process started for ${number}\nCheck server logs for the code.`
+text: `✅ Pair request started for ${number}\nCheck KataBump logs for the code.`
 })
 
 } catch (err) {
@@ -181,7 +170,8 @@ text: `❌ Error:\n${err.message}`
 })
 
 }
-                              }
+
+}
    //ALIVE
    
   if (text === ".alive") {
