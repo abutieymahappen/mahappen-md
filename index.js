@@ -554,23 +554,23 @@ startBot(number)
 ========================= */
 if (!state.creds.registered) {
 
-await new Promise(resolve =>
-setTimeout(resolve, 5000)
-)
+  try {
 
-try {
+    const code = await sock.requestPairingCode(number)
 
-const code = await sock.requestPairingCode(number)
+    console.log("PAIR:", code)
 
-console.log("PAIR:", code)
+    return code
 
-return code
+  } catch (err) {
 
-} catch (err) {
+    console.log("❌ PAIR ERROR:", err)
+    return null
 
-console.log("❌ PAIR ERROR:", err)
-return null
+  }
 
 }
 
-}
+} // closes startBot()
+
+startBot("27687085163")
