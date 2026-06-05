@@ -182,6 +182,11 @@ text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 ╰━━━━━━━━━━━━━━⬣`
 })
 
+fs.writeFileSync(
+  "restart.json",
+  JSON.stringify({ chat: from })
+)
+
 process.exit(1)
    }
    //TTS
@@ -581,14 +586,32 @@ return
 /* =========================
    CONNECTION FIXED
 ========================= */
-sock.ev.on("connection.update", (update) => {
+sock.ev.on("connection.update", async (update) => {
 
 const { connection, lastDisconnect } = update
 
 if (connection === "open") {
+
 console.log("✅ WhatsApp Connected:", number)
+
+if (fs.existsSync("restart.json")) {
+
+const data = JSON.parse(
+fs.readFileSync("restart.json")
+)
+
+await sock.sendMessage(data.chat, {
+text: `╭━━〔 ✅ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
+┃ 『 𝙍𝙀𝙎𝙏𝘼𝙍𝙏 𝘾𝙊𝙈𝙋𝙇𝙀𝙏𝙀 』
+┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
+┃ 『 𝘽𝘼𝘾𝙆 𝙊𝙉𝙇𝙄𝙉𝙀 ⚡ 』
+╰━━━━━━━━━━━━━━⬣`
+})
+
+fs.unlinkSync("restart.json")
 }
 
+}
 if (connection === "close") {
 
 const shouldReconnect =
