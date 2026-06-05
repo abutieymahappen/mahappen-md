@@ -14,7 +14,7 @@ import gtts from "gtts"
 global.bannedUsers = global.bannedUsers || []
 const CHANNEL = "https://whatsapp.com/channel/0029Vb7pS7WFi8xW1FwMAX1p"
 const app = express()
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 const startTime = Date.now()
 const bots = {}
 
@@ -142,18 +142,17 @@ if (text.startsWith(".hidetag")) {
 
 if (text === ".shutdown") {
 
-const sender = (msg.key.participant || msg.key.remoteJid || "").split("@")[0]
+const sender = (msg.key.participant || msg.key.remoteJid || "")
+const isOwner = sender.includes("27687085163")
 
-const OWNER_NUMBER = "27687085163"
-
-if (sender !== OWNER_NUMBER) {
+if (!isOwner) {
   return await sock.sendMessage(from, {
     text: "❌ 『 OWNER ONLY 』"
   })
 }
 
 await sock.sendMessage(from, {
-  text: `╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
+text: `╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 ┃ 『 𝙎𝙃𝙐𝙏𝙏𝙄𝙉𝙂 𝘿𝙊𝙒𝙉 』
 ┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
 ┃ 『 𝙂𝙊𝙊𝘿𝘽𝙔𝙀 👋 』
@@ -162,33 +161,26 @@ await sock.sendMessage(from, {
 
 process.exit(0)
 }
-   //RESTART 
 
+   //RESTART 
 if (text === ".restart") {
 
-const OWNER_NUMBER = "27687085163"
-
 const sender = (msg.key.participant || msg.key.remoteJid || "")
-  .split(":")[0]
-  .split("@")[0]
+const isOwner = sender.includes("27687085163")
 
-if (sender !== OWNER_NUMBER) {
+if (!isOwner) {
   return await sock.sendMessage(from, {
-    text: "❌ OWNER ONLY"
+    text: "❌ 『 OWNER ONLY 』"
   })
 }
 
 await sock.sendMessage(from, {
-  text: `╭━━〔 🔄 SYSTEM 〕━━⬣
-┃ RESTARTING...
-┃ PLEASE WAIT...
-╰━━━━━━━━━━⬣`
+text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
+┃ 『 𝙍𝙀𝙎𝙏𝘼𝙍𝙏𝙄𝙉𝙂 』
+┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
+┃ 『 𝙋𝙇𝙀𝘼𝙎𝙀 𝙒𝘼𝙄𝙏... 』
+╰━━━━━━━━━━━━━━⬣`
 })
-
-fs.writeFileSync(
-  "restart.json",
-  JSON.stringify({ chat: from })
-)
 
 process.exit(1)
    }
@@ -589,32 +581,14 @@ return
 /* =========================
    CONNECTION FIXED
 ========================= */
-sock.ev.on("connection.update", async (update) => {
+sock.ev.on("connection.update", (update) => {
 
 const { connection, lastDisconnect } = update
 
 if (connection === "open") {
-
 console.log("✅ WhatsApp Connected:", number)
-
-if (fs.existsSync("restart.json")) {
-
-const data = JSON.parse(
-fs.readFileSync("restart.json")
-)
-
-await sock.sendMessage(data.chat, {
-text: `╭━━〔 ✅ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
-┃ 『 𝙍𝙀𝙎𝙏𝘼𝙍𝙏 𝘾𝙊𝙈𝙋𝙇𝙀𝙏𝙀 』
-┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
-┃ 『 𝘽𝘼𝘾𝙆 𝙊𝙉𝙇𝙄𝙉𝙀 ⚡ 』
-╰━━━━━━━━━━━━━━⬣`
-})
-
-fs.unlinkSync("restart.json")
 }
 
-}
 if (connection === "close") {
 
 const shouldReconnect =
