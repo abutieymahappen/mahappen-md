@@ -7,7 +7,7 @@ DisconnectReason
 
 import Pino from "pino"
 import fs from "fs"
-import gtts from "gtts"
+
 
 
 //BANNED USERS
@@ -138,38 +138,7 @@ if (text.startsWith(".hidetag")) {
   })
 }
    
-   //TTS
-   if (text.startsWith(".tts ")) {
-
-const say = text.slice(5)
-
-if (!say) {
-return sock.sendMessage(from, {
-text: "Example: .tts Hello world"
-})
-}
-
-const file = `tts-${Date.now()}.mp3`
-
-const speech = new gtts(say, "en")
-
-speech.save(file, async function(err) {
-
-if (err) {
-return sock.sendMessage(from, {
-text: "❌ 𝙏𝙏𝙎 𝙀𝙍𝙍𝙊𝙍."
-})
-}
-
-await sock.sendMessage(from, {
-  audio: fs.readFileSync(file),
-  mimetype: "audio/mpeg"
-})
-
-fs.unlinkSync(file)
-
-})
-   }
+   
    //ALIVE
    
   if (text === ".alive") {
