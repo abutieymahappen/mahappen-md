@@ -93,13 +93,15 @@ await useMultiFileAuthState(`session/${number}`)
 const { version } =
 await fetchLatestBaileysVersion()
 
+console.log("🔄 Requesting pairing code for:", number)
+
 const sock = makeWASocket({
 version,
 logger: Pino({ level: "silent" }),
 auth: state,
 browser: ["Ubuntu", "Chrome", "20.0.04"]
 })
-
+   
 bots[number] = sock
 
 sock.ev.on("creds.update", saveCreds)
@@ -532,18 +534,27 @@ startBot(number)
 if (!state.creds.registered) {
 
 setTimeout(async () => {
+
 try {
 
-const code = await sock.requestPairingCode(number)
+const code = await sock.requestPairingCode("27687085163")
 
-console.log("🥳PAIRING CODE:", code)
+console.log(`
+╔════════════════════════════╗
+║     AKATSUKII-MD PAIR      ║
+╠════════════════════════════╣
+║ ${code}
+╚════════════════════════════╝
+`)
 
 } catch (err) {
-console.log("PAIR ERROR:", err.message)
-}
 
-}, 3000)
+console.log("❌ PAIR ERROR:", err)
 
 }
 
+}, 5000)
+
+            }
    }
+startBot("27687085163")
