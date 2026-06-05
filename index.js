@@ -142,10 +142,12 @@ if (text.startsWith(".hidetag")) {
 
 if (text === ".shutdown") {
 
-const sender = (msg.key.participant || msg.key.remoteJid || "")
-const isOwner = sender.includes("27687085163")
+const sender = msg.key.participant || msg.key.remoteJid || from
 
-if (!isOwner) {
+console.log("OWNER:", OWNER)
+console.log("SENDER:", sender)
+
+if (!sender.includes("27687085163")) {
   return await sock.sendMessage(from, {
     text: "❌ 『 OWNER ONLY 』"
   })
@@ -165,10 +167,12 @@ process.exit(0)
    //RESTART 
 if (text === ".restart") {
 
-const sender = (msg.key.participant || msg.key.remoteJid || "")
-const isOwner = sender.includes("27687085163")
+const sender = msg.key.participant || msg.key.remoteJid || from
 
-if (!isOwner) {
+console.log("OWNER:", OWNER)
+console.log("SENDER:", sender)
+
+if (!sender.includes("27687085163")) {
   return await sock.sendMessage(from, {
     text: "❌ 『 OWNER ONLY 』"
   })
