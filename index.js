@@ -138,6 +138,49 @@ if (text.startsWith(".hidetag")) {
   })
 }
 
+   // SHUTDOWN
+if (text === ".shutdown") {
+
+const sender = msg.key.participant || msg.key.remoteJid
+
+if (sender !== OWNER) {
+return sock.sendMessage(from, {
+text: "❌ 『 𝙊𝙒𝙉𝙀𝙍 𝙊𝙉𝙇𝙔 』 ."
+})
+}
+
+await sock.sendMessage(from, {
+text: "╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
+┃ 『 𝙎𝙃𝙐𝙏𝙏𝙄𝙉𝙂 𝘿𝙊𝙒𝙉 』
+┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
+┃ 『 𝙂𝙊𝙊𝘿𝘽𝙔𝙀 👋 』
+╰━━━━━━━━━━━━━━⬣"
+})
+
+process.exit(0)
+    }
+
+   //RESTART BOT
+if (text === ".restart") {
+
+const sender = msg.key.participant || msg.key.remoteJid
+
+if (sender !== OWNER) {
+return sock.sendMessage(from, {
+text: "❌ 『𝙊𝙒𝙉𝙀𝙍 𝙊𝙉𝙇𝙔』."
+})
+}
+
+await sock.sendMessage(from, {
+text: "╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
+┃ 『 𝙍𝙀𝙎𝙏𝘼𝙍𝙏𝙄𝙉𝙂 』
+┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
+┃ 『 𝙋𝙇𝙀𝘼𝙎𝙀 𝙒𝘼𝙄𝙏... 』
+╰━━━━━━━━━━━━━━⬣"
+})
+
+process.exit(1)
+}
    //TTS
    if (text.startsWith(".tts ")) {
 
@@ -157,7 +200,7 @@ speech.save(file, async function(err) {
 
 if (err) {
 return sock.sendMessage(from, {
-text: "❌ TTS Error"
+text: "❌ 𝙏𝙏𝙎 𝙀𝙍𝙍𝙊𝙍."
 })
 }
 
@@ -520,8 +563,9 @@ return
 ├ 『 .unlock 』
 ├ 『 .promote 』
 ├ 『 .demote 』
-├ 『 .tts 』ｎｅｗ
-|-12+『 𝙈𝙊𝙍𝙀 』
+├ 『 .tts 』𝐍𝐄𝐖
+├ 『 .restart 』𝐍𝐄𝐖
+├ 『 .shutdown 』𝐍𝐄𝐖
 |
 |•𝙈𝙊𝙍𝙀 𝙁𝙀𝘼𝙏𝙐𝙍𝙀𝙎 𝘾𝙊𝙈𝙄𝙉𝙂 𝙎𝙊𝙊𝙉 • 𝙎𝙏𝘼𝙔 𝙏𝙐𝙉𝙀𝘿⚡
 ╰────────────────⬣`
