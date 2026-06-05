@@ -163,27 +163,26 @@ await sock.sendMessage(from, {
 process.exit(0)
 }
    //RESTART 
-if (text === ".restart") {
 
-const sender = (msg.key.participant || msg.key.remoteJid || "").split("@")[0]
+if (text === ".restart") {
 
 const OWNER_NUMBER = "27687085163"
 
-console.log("OWNER:", OWNER_NUMBER)
-console.log("SENDER:", sender)
+const sender = (msg.key.participant || msg.key.remoteJid || "")
+  .split(":")[0]
+  .split("@")[0]
 
 if (sender !== OWNER_NUMBER) {
   return await sock.sendMessage(from, {
-    text: "❌ 『 OWNER ONLY 』"
+    text: "❌ OWNER ONLY"
   })
 }
 
 await sock.sendMessage(from, {
-  text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
-┃ 『 𝙍𝙀𝙎𝙏𝘼𝙍𝙏𝙄𝙉𝙂 』
-┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
-┃ 『 𝙋𝙇𝙀𝘼𝙎𝙀 𝙒𝘼𝙄𝙏... 』
-╰━━━━━━━━━━━━━━⬣`
+  text: `╭━━〔 🔄 SYSTEM 〕━━⬣
+┃ RESTARTING...
+┃ PLEASE WAIT...
+╰━━━━━━━━━━⬣`
 })
 
 fs.writeFileSync(
@@ -192,7 +191,7 @@ fs.writeFileSync(
 )
 
 process.exit(1)
-}
+   }
    //TTS
    if (text.startsWith(".tts ")) {
 
