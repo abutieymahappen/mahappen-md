@@ -162,9 +162,8 @@ text: "❌ TTS Error"
 }
 
 await sock.sendMessage(from, {
-audio: fs.readFileSync(file),
-mimetype: "audio/mpeg",
-ptt: true
+  audio: fs.readFileSync(file),
+  mimetype: "audio/mpeg"
 })
 
 fs.unlinkSync(file)
