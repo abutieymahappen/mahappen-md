@@ -97,9 +97,9 @@ console.log("🔄 Requesting pairing code for:", number)
 
 const sock = makeWASocket({
 version,
-logger: Pino({ level: "silent" }),
+logger: Pino({ level: "info" }),
 auth: state,
-browser: ["Ubuntu", "Chrome", "20.0.04"]
+browser: ["Akatsuki-MD", "Chrome", "1.0.0"]
 })
    
 bots[number] = sock
@@ -552,25 +552,28 @@ return
    CONNECTION FIXED
 ========================= */
 sock.ev.on("connection.update", (update) => {
+sock.ev.on("connection.update", (update) => {
 
 const { connection, lastDisconnect } = update
 
 if (connection === "open") {
-console.log("✅ WhatsApp Connected:", number)
+  console.log("✅ WhatsApp Connected:", number)
 }
 
 if (connection === "close") {
 
-const shouldReconnect =
-lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
+  const shouldReconnect =
+    lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
-console.log("❗ Disconnected")
+  console.log("❗ Disconnected")
+  console.log(lastDisconnect?.error)
 
-if (shouldReconnect) {
-console.log("🔄 Reconnecting...")
-startBot(number)
+  if (shouldReconnect && state.creds.registered) {
+    console.log("🔄 Reconnecting...")
+    startBot(number)
+  }
 }
-}
+
 })
 
 /* =========================
@@ -602,4 +605,4 @@ return null
    }
    
    }
-startBot("27687085163")
+//startBot("27687085163")
