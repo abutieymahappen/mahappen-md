@@ -163,16 +163,12 @@ process.exit(0)
    //RESTART BOT
 if (text === ".restart") {
 
-const sender = msg.key.participant || msg.key.remoteJid
+const sender = msg.key.participant || msg.key.remoteJid || from
 
-if (sender !== OWNER) {
-return sock.sendMessage(from, {
-text: "❌ 『𝙊𝙒𝙉𝙀𝙍 𝙊𝙉𝙇𝙔』."
-})
-}
+if (sender.includes("27687085163")) {
 
 await sock.sendMessage(from, {
-  text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
+text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 ┃ 『 𝙍𝙀𝙎𝙏𝘼𝙍𝙏𝙄𝙉𝙂 』
 ┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
 ┃ 『 𝙋𝙇𝙀𝘼𝙎𝙀 𝙒𝘼𝙄𝙏... 』
@@ -180,7 +176,15 @@ await sock.sendMessage(from, {
 })
 
 process.exit(1)
+
+} else {
+
+await sock.sendMessage(from, {
+text: "❌ 『 OWNER ONLY 』"
+})
+
 }
+   }
    //TTS
    if (text.startsWith(".tts ")) {
 
