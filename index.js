@@ -142,6 +142,15 @@ if (text.startsWith(".hidetag")) {
 
 if (text === ".shutdown") {
 
+const sender = (msg.key.participant || msg.key.remoteJid || "")
+const isOwner = sender.includes("27687085163")
+
+if (!isOwner) {
+  return await sock.sendMessage(from, {
+    text: "❌ 『 OWNER ONLY 』"
+  })
+}
+
 await sock.sendMessage(from, {
 text: `╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 ┃ 『 𝙎𝙃𝙐𝙏𝙏𝙄𝙉𝙂 𝘿𝙊𝙒𝙉 』
@@ -156,6 +165,15 @@ process.exit(0)
    //RESTART 
 if (text === ".restart") {
 
+const sender = (msg.key.participant || msg.key.remoteJid || "")
+const isOwner = sender.includes("27687085163")
+
+if (!isOwner) {
+  return await sock.sendMessage(from, {
+    text: "❌ 『 OWNER ONLY 』"
+  })
+}
+
 await sock.sendMessage(from, {
 text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 ┃ 『 𝙍𝙀𝙎𝙏𝘼𝙍𝙏𝙄𝙉𝙂 』
@@ -165,7 +183,7 @@ text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 })
 
 process.exit(1)
-}
+   }
    //TTS
    if (text.startsWith(".tts ")) {
 
