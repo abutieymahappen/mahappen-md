@@ -139,18 +139,11 @@ if (text.startsWith(".hidetag")) {
 }
 
    // SHUTDOWN
+
 if (text === ".shutdown") {
 
-const sender = msg.key.participant || msg.key.remoteJid
-
-if (sender !== OWNER) {
-return sock.sendMessage(from, {
-text: "❌ 『 𝙊𝙒𝙉𝙀𝙍 𝙊𝙉𝙇𝙔 』 ."
-})
-}
-
 await sock.sendMessage(from, {
-  text: `╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
+text: `╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 ┃ 『 𝙎𝙃𝙐𝙏𝙏𝙄𝙉𝙂 𝘿𝙊𝙒𝙉 』
 ┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
 ┃ 『 𝙂𝙊𝙊𝘿𝘽𝙔𝙀 👋 』
@@ -158,14 +151,10 @@ await sock.sendMessage(from, {
 })
 
 process.exit(0)
-    }
+}
 
-   //RESTART BOT
+   //RESTART 
 if (text === ".restart") {
-
-const sender = msg.key.participant || msg.key.remoteJid || from
-
-if (sender.includes("27687085163")) {
 
 await sock.sendMessage(from, {
 text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
@@ -176,15 +165,7 @@ text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 })
 
 process.exit(1)
-
-} else {
-
-await sock.sendMessage(from, {
-text: "❌ 『 OWNER ONLY 』"
-})
-
 }
-   }
    //TTS
    if (text.startsWith(".tts ")) {
 
