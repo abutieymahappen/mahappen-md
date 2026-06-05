@@ -14,7 +14,7 @@ import gtts from "gtts"
 global.bannedUsers = global.bannedUsers || []
 const CHANNEL = "https://whatsapp.com/channel/0029Vb7pS7WFi8xW1FwMAX1p"
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 const startTime = Date.now()
 const bots = {}
 
