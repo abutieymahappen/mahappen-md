@@ -137,48 +137,6 @@ if (text.startsWith(".hidetag")) {
     mentions: participants
   })
 }
-
-   // SHUTDOWN
-
-if (text === ".shutdown") {
-  const sender = msg.key.participant || msg.key.remoteJid
-  const isOwner = sender === "27687085163@s.whatsapp.net"
-
-  if (!isOwner) return sock.sendMessage(from, { text: "❌ 『 OWNER ONLY 』" }, { quoted: msg })
-
-  await sock.sendMessage(from, {
-    text: `╭━━〔 ⚠️ 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
-┃ 『 𝙎𝙃𝙐𝙏𝙏𝙄𝙉𝙂 𝘿𝙊𝙒𝙉 』
-┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
-┃ 『 𝙂𝙊𝙊𝘿𝘽𝙔𝙀 👋 』
-╰━━━━━━━━━━━━━━⬣`
-  }, { quoted: msg })
-
-  console.log("Owner triggered shutdown")
-  setTimeout(() => process.exit(0), 1500) // 1.5s delay for Termux
-}
-   //RESTART 
-if (text === ".restart") {
-
-const sender = (msg.key.participant || msg.key.remoteJid || "")
-const isOwner = sender.includes("27687085163")
-
-if (!isOwner) {
-  return await sock.sendMessage(from, {
-    text: "❌ 『 OWNER ONLY 』"
-  })
-}
-
-await sock.sendMessage(from, {
-text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
-┃ 『 𝙍𝙀𝙎𝙏𝘼𝙍𝙏𝙄𝙉𝙂 』
-┃ 『 𝘼𝙆𝘼𝙏𝙎𝙐𝙆𝙄𝙄-𝙈𝘿 』
-┃ 『 𝙋𝙇𝙀𝘼𝙎𝙀 𝙒𝘼𝙄𝙏... 』
-╰━━━━━━━━━━━━━━⬣`
-})
-
-process.exit(1)
-     }
    
    //TTS
    if (text.startsWith(".tts ")) {
@@ -563,8 +521,8 @@ return
 ├ 『 .promote 』
 ├ 『 .demote 』
 ├ 『 .tts 』𝐍𝐄𝐖
-├ 『 .restart 』𝐍𝐄𝐖
-├ 『 .shutdown 』𝐍𝐄𝐖
+├ 『 .restart 』𝐂𝐎𝐌𝐈𝐍𝐆 𝐒𝐎𝐎𝐍
+├ 『 .shutdown 』𝐂𝐎𝐌𝐈𝐍𝐆 𝐒𝐎𝐎𝐍
 |
 |•𝙈𝙊𝙍𝙀 𝙁𝙀𝘼𝙏𝙐𝙍𝙀𝙎 𝘾𝙊𝙈𝙄𝙉𝙂 𝙎𝙊𝙊𝙉 • 𝙎𝙏𝘼𝙔 𝙏𝙐𝙉𝙀𝘿⚡
 ╰────────────────⬣`
@@ -609,7 +567,7 @@ try {
 
 const code = await sock.requestPairingCode(number)
 
-console.log("🔥 PAIRING CODE:", code)
+console.log("🥳PAIRING CODE:", code)
 
 } catch (err) {
 console.log("PAIR ERROR:", err.message)
