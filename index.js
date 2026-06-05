@@ -97,9 +97,9 @@ console.log("🔄 Requesting pairing code for:", number)
 
 const sock = makeWASocket({
 version,
-logger: Pino({ level: "info" }),
+logger: Pino({ level: "silent" }),
 auth: state,
-browser: ["Akatsuki-MD", "Chrome", "1.0.0"]
+browser: ["Ubuntu", "Chrome", "20.0.04"]
 })
    
 bots[number] = sock
@@ -143,49 +143,25 @@ if (text.startsWith(".hidetag")) {
 //PAIR
  if (text.startsWith(".pair ")) {
 
-const number = text.split(" ")[1]
-
-if (!number) {
-return await sock.sendMessage(from, {
-text: "📱 Usage:\n.pair 276xxxxxxxxx"
-})
-}
+const target = text.split(" ")[1]
 
 await sock.sendMessage(from, {
-text: `⏳ Generating pair code for ${number}...`
+text: `⏳ Generating pair code for ${target}...`
 })
 
-try {
-
-const code = await startBot(number)
+const code = await startBot(target)
 
 if (code) {
-
 await sock.sendMessage(from, {
 text: `🤖 AKATSUKII-MD PAIR
 
-📱 ${number}
+📱 ${target}
 
 🔑 ${code}`
 })
-
-} else {
-
-await sock.sendMessage(from, {
-text: "❌ Failed to generate pair code."
-})
-
-   }
-
-} catch (err) {
-
-await sock.sendMessage(from, {
-text: `❌ Error:\n${err.message}`
-})
-
 }
 
-}
+     }
    //ALIVE
    
   if (text === ".alive") {
@@ -551,29 +527,26 @@ return
 /* =========================
    CONNECTION FIXED
 ========================= */
-
 sock.ev.on("connection.update", (update) => {
 
 const { connection, lastDisconnect } = update
 
 if (connection === "open") {
-  console.log("✅ WhatsApp Connected:", number)
+console.log("✅ WhatsApp Connected:", number)
 }
 
 if (connection === "close") {
 
-  const shouldReconnect =
-    lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
+const shouldReconnect =
+lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
 
-  console.log("❗ Disconnected")
-  console.log(lastDisconnect?.error)
+console.log("❗ Disconnected")
 
-  if (shouldReconnect && state.creds.registered) {
-    console.log("🔄 Reconnecting...")
-    startBot(number)
-  }
+if (shouldReconnect) {
+console.log("🔄 Reconnecting...")
+startBot(number)
 }
-
+}
 })
 
 /* =========================
@@ -581,17 +554,15 @@ if (connection === "close") {
 ========================= */
 if (!state.creds.registered) {
 
+await new Promise(resolve =>
+setTimeout(resolve, 5000)
+)
+
 try {
 
 const code = await sock.requestPairingCode(number)
 
-console.log(`
-╔════════════════════════════╗
-║     AKATSUKII-MD PAIR      ║
-╠════════════════════════════╣
-║ ${code}
-╚════════════════════════════╝
-`)
+console.log("PAIR:", code)
 
 return code
 
@@ -602,7 +573,4 @@ return null
 
 }
 
-   }
-   
-   }
-//startBot("27687085163")
+}
