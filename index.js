@@ -157,11 +157,25 @@ text: `⏳ Generating pair code for ${number}...`
 
 try {
 
-await startBot(number)
+const code = await startBot(number)
+
+if (code) {
 
 await sock.sendMessage(from, {
-text: `✅ Pair request started for ${number}\nCheck KataBump logs for the code.`
+text: `🤖 AKATSUKII-MD PAIR
+
+📱 ${number}
+
+🔑 ${code}`
 })
+
+} else {
+
+await sock.sendMessage(from, {
+text: "❌ Failed to generate pair code."
+})
+
+   }
 
 } catch (err) {
 
@@ -564,28 +578,28 @@ startBot(number)
 ========================= */
 if (!state.creds.registered) {
 
-setTimeout(async () => {
-
 try {
 
 const code = await sock.requestPairingCode(number)
+
 console.log(`
 ╔════════════════════════════╗
 ║     AKATSUKII-MD PAIR      ║
 ╠════════════════════════════╣
-║ ${number}
 ║ ${code}
 ╚════════════════════════════╝
 `)
 
+return code
+
 } catch (err) {
 
 console.log("❌ PAIR ERROR:", err)
+return null
 
 }
 
-}, 5000)
-
-            }
+   }
+   
    }
 startBot("27687085163")
