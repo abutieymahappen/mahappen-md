@@ -551,7 +551,7 @@ return
 /* =========================
    CONNECTION FIXED
 ========================= */
-sock.ev.on("connection.update", (update) => {
+
 sock.ev.on("connection.update", (update) => {
 
 const { connection, lastDisconnect } = update
