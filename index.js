@@ -183,7 +183,7 @@ text: `╭━━〔 🔄 『 𝙎𝙔𝙎𝙏𝙀𝙈 』 〕━━⬣
 })
 
 process.exit(1)
-   }
+     }
    //TTS
    if (text.startsWith(".tts ")) {
 
