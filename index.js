@@ -140,7 +140,48 @@ if (text.startsWith(".hidetag")) {
   })
 }
    
+
+   //PAIR
    
+if (text.startsWith(".pair ")) {
+
+const sender =
+msg.key.participant || msg.key.remoteJid || ""
+
+if (!sender.includes("27687085163")) {
+return await sock.sendMessage(from, {
+text: "❌ 『 OWNER ONLY 』"
+})
+}
+
+const number = text.split(" ")[1]
+
+if (!number) {
+return await sock.sendMessage(from, {
+text: "Usage: .pair 276xxxxxxxxx"
+})
+}
+
+await sock.sendMessage(from, {
+text: `⏳ Generating pair code for ${number}...`
+})
+
+try {
+
+await startBot(number)
+
+await sock.sendMessage(from, {
+text: `✅ Pair process started for ${number}\nCheck server logs for the code.`
+})
+
+} catch (err) {
+
+await sock.sendMessage(from, {
+text: `❌ Error:\n${err.message}`
+})
+
+}
+                              }
    //ALIVE
    
   if (text === ".alive") {
@@ -537,12 +578,12 @@ setTimeout(async () => {
 
 try {
 
-const code = await sock.requestPairingCode("27687085163")
-
+const code = await sock.requestPairingCode(number)
 console.log(`
 ╔════════════════════════════╗
 ║     AKATSUKII-MD PAIR      ║
 ╠════════════════════════════╣
+║ ${number}
 ║ ${code}
 ╚════════════════════════════╝
 `)
