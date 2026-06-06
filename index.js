@@ -153,32 +153,61 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
     ""
 
    //VV
-   const { downloadContentFromMessage } = require('@whiskeysockets/baileys');
+// VV
+if (text === ".vv") {
 
-async function viewonceCommand(sock, chatId, message) {
-    // Extract quoted imageMessage or videoMessage from your structure
-    const quoted = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-    const quotedImage = quoted?.imageMessage;
-    const quotedVideo = quoted?.videoMessage;
+const quoted =
+msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
 
-    if (quotedImage && quotedImage.viewOnce) {
-        // Download and send the image
-        const stream = await downloadContentFromMessage(quotedImage, 'image');
-        let buffer = Buffer.from([]);
-        for await (const chunk of stream) buffer = Buffer.concat([buffer, chunk]);
-        await sock.sendMessage(chatId, { image: buffer, fileName: 'media.jpg', caption: quotedImage.caption || '' }, { quoted: message });
-    } else if (quotedVideo && quotedVideo.viewOnce) {
-        // Download and send the video
-        const stream = await downloadContentFromMessage(quotedVideo, 'video');
-        let buffer = Buffer.from([]);
-        for await (const chunk of stream) buffer = Buffer.concat([buffer, chunk]);
-        await sock.sendMessage(chatId, { video: buffer, fileName: 'media.mp4', caption: quotedVideo.caption || '' }, { quoted: message });
-    } else {
-        await sock.sendMessage(chatId, { text: '❌ Please reply to a view-once image or video.' }, { quoted: message });
-    }
+if (!quoted) {
+return await sock.sendMessage(from, {
+text: "❌ Reply to a View Once message."
+})
 }
 
-module.exports = viewonceCommand;
+const viewOnce =
+quoted.viewOnceMessage?.message ||
+quoted.viewOnceMessageV2?.message ||
+quoted.viewOnceMessageV2Extension?.message
+
+if (!viewOnce) {
+return await sock.sendMessage(from, {
+text: "❌ That is not a View Once message."
+})
+}
+
+const media =
+viewOnce.imageMessage || viewOnce.videoMessage
+
+const type =
+viewOnce.imageMessage ? "image" : "video"
+
+const stream =
+await downloadContentFromMessage(media, type)
+
+let buffer = Buffer.from([])
+
+for await (const chunk of stream) {
+buffer = Buffer.concat([buffer, chunk])
+}
+
+if (type === "image") {
+
+await sock.sendMessage(from, {
+image: buffer,
+caption: media.caption || "👀 View Once Opened"
+})
+
+} else {
+
+await sock.sendMessage(from, {
+video: buffer,
+caption: media.caption || "👀 View Once Opened"
+})
+
+}
+
+}
    
    //hidetag
 if (text.startsWith(".hidetag")) {
