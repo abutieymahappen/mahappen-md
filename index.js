@@ -48,9 +48,9 @@ console.log("🚀 Pair request:", number)
 
 const code = await startBot(number)
 
-await sock.sendMessage(from, {
-  text: `🔑 Pair Code: ${code}`
-})
+//await sock.sendMessage(from, {
+ // text: `🔑 Pair Code: ${code}`
+//})
    
 res.send(`
 <h2>🤖 AKATSUKII-MD</h2>
@@ -86,35 +86,58 @@ res.status(500).send(err.message)
 async function startBot(number) {
 
 if (bots[number]) {
-console.log("♻️ Restarting existing bot:", number)
-bots[number].end()
-delete bots[number]
+  console.log("♻️ Restarting existing bot:", number)
+  bots[number].end()
+  delete bots[number]
 }
-   if (!state.creds.registered) {
-   const code = await sock.requestPairingCode(number)
-   return code
-   }
 
 const { state, saveCreds } =
-await useMultiFileAuthState(`session/${number}`)
+  await useMultiFileAuthState(`session/${number}`)
 
 const { version } =
-await fetchLatestBaileysVersion()
+  await fetchLatestBaileysVersion()
 
 console.log("🔄 Requesting pairing code for:", number)
 
 const sock = makeWASocket({
-version,
-logger: Pino({ level: "silent" }),
-auth: state,
-browser: ["Ubuntu", "Chrome", "20.0.04"]
+  version,
+  logger: Pino({ level: "silent" }),
+  auth: state,
+  browser: ["Ubuntu", "Chrome", "20.0.04"]
 })
-   
+
 bots[number] = sock
 
 sock.ev.on("creds.update", saveCreds)
 
+/* =========================
+   PAIRING CODE
+========================= */
+if (!state.creds.registered) {
 
+  try {
+
+    const code = await sock.requestPairingCode(number)
+
+    console.log(`
+╔════════════════════════════╗
+║     AKATSUKII-MD PAIR      ║
+╠════════════════════════════╣
+║ ${number}
+║ ${code}
+╚════════════════════════════╝
+`)
+
+    return code
+
+  } catch (err) {
+
+    console.log("❌ PAIR ERROR:", err)
+    return null
+
+  }
+
+   }
 //COMMANDS
 sock.ev.on("messages.upsert", async ({ messages }) => {
 
