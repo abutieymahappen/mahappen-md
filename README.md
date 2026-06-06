@@ -39,9 +39,6 @@
 
 𝑭𝒐𝒄𝒖𝒔𝒆𝒅 𝒐𝒏 𝒕𝒖𝒓𝒏𝒊𝒏𝒈 𝒊𝒅𝒆𝒂𝒔 𝒊𝒏𝒕𝒐 𝒓𝒆𝒂𝒍𝒊𝒕𝒚 𝒕𝒉𝒓𝒐𝒖𝒈𝒉 𝒄𝒐𝒏𝒔𝒊𝒔𝒕𝒆𝒏𝒄𝒚, 𝒄𝒓𝒆𝒂𝒕𝒊𝒗𝒊𝒕𝒚 𝒂𝒏𝒅 𝒅𝒆𝒅𝒊𝒄𝒂𝒕𝒊𝒐𝒏.
 
-<div align="center">⚡ 𝑨𝑲𝑨𝑻𝑺𝑼𝑲𝑰𝑰-𝑴𝑫 ⚡
+<div align="center"><img src="https://capsule-render.vercel.app/api?type=rect&color=0:000000,50:8B0000,100:000000&height=120&text=AKATSUKII-MD&fontColor=FFFFFF&fontSize=40"/><img src="https://readme-typing-svg.herokuapp.com?font=Black+Ops+One&size=22&pause=100000&color=FF0000&center=true&vCenter=true&width=1000&lines=Power+•+Persistence+•+Progress"/></div>
 
-「 𝑷𝒐𝒘𝒆𝒓 • 𝑷𝒆𝒓𝒔𝒊𝒔𝒕𝒆𝒏𝒄𝒆 • 𝑷𝒓𝒐𝒈𝒓𝒆𝒔𝒔 」
-
-</div>
 <br><img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:000000,50:8B0000,100:000000"/></div>
