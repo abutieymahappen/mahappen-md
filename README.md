@@ -5,52 +5,43 @@
 <img src="https://img.shields.io/badge/NODE.JS-20+-green?style=for-the-badge&logo=node.js"/>
 <img src="https://img.shields.io/badge/BAILEYS-LATEST-blue?style=for-the-badge"/><br><br>
 
-<h2>🥷 AKATSUKII-MD 🥷</h2><p>
-A powerful WhatsApp Multi Device project inspired by the Akatsuki legacy.
-</p></div>---
+<div align="center">🥷 𝑨𝑲𝑨𝑻𝑺𝑼𝑲𝑰𝑰-𝑴𝑫 🥷
 
-☁️ The Legacy
+⚡ 𝑨 𝑷𝒐𝒘𝒆𝒓𝒇𝒖𝒍 𝑾𝒉𝒂𝒕𝒔𝑨𝒑𝒑 𝑴𝒖𝒍𝒕𝒊 𝑫𝒆𝒗𝒊𝒄𝒆 𝑬𝒙𝒑𝒆𝒓𝒊𝒆𝒏𝒄𝒆 ⚡
 
-AKATSUKII-MD is more than a project.
+𝑩𝒖𝒊𝒍𝒕 𝒘𝒊𝒕𝒉 𝒑𝒂𝒔𝒔𝒊𝒐𝒏, 𝒄𝒐𝒏𝒔𝒊𝒔𝒕𝒆𝒏𝒄𝒚 𝒂𝒏𝒅 𝒄𝒐𝒏𝒕𝒊𝒏𝒖𝒐𝒖𝒔 𝒊𝒎𝒑𝒓𝒐𝒗𝒆𝒎𝒆𝒏𝒕.
 
-It represents dedication, persistence, and the constant pursuit of improvement.
+</div>---
 
-Every update, every fix, and every new idea contributes to a vision of building something reliable, powerful, and memorable.
+🌑 𝑨𝑲𝑨𝑻𝑺𝑼𝑲𝑰𝑰-𝑴𝑫
 
----
+«"𝑷𝒂𝒊𝒏 𝒄𝒉𝒂𝒏𝒈𝒆𝒔 𝒑𝒆𝒐𝒑𝒍𝒆. 𝑷𝒓𝒐𝒈𝒓𝒆𝒔𝒔 𝒅𝒆𝒇𝒊𝒏𝒆𝒔 𝒕𝒉𝒆𝒎."»
 
-⚡ Philosophy
+𝑨𝑲𝑨𝑻𝑺𝑼𝑲𝑰𝑰-𝑴𝑫 𝒊𝒔 𝒂 𝒎𝒐𝒅𝒆𝒓𝒏 𝑾𝒉𝒂𝒕𝒔𝑨𝒑𝒑 𝑴𝒖𝒍𝒕𝒊 𝑫𝒆𝒗𝒊𝒄𝒆 𝒑𝒓𝒐𝒋𝒆𝒄𝒕 𝒇𝒐𝒄𝒖𝒔𝒆𝒅 𝒐𝒏 𝒔𝒑𝒆𝒆𝒅, 𝒓𝒆𝒍𝒊𝒂𝒃𝒊𝒍𝒊𝒕𝒚 𝒂𝒏𝒅 𝒔𝒊𝒎𝒑𝒍𝒊𝒄𝒊𝒕𝒚.
 
-«Pain teaches.
+𝑫𝒆𝒔𝒊𝒈𝒏𝒆𝒅 𝒕𝒐 𝒓𝒆𝒎𝒂𝒊𝒏 𝒍𝒊𝒈𝒉𝒕𝒘𝒆𝒊𝒈𝒉𝒕 𝒘𝒉𝒊𝒍𝒆 𝒅𝒆𝒍𝒊𝒗𝒆𝒓𝒊𝒏𝒈 𝒂 𝒔𝒎𝒐𝒐𝒕𝒉 𝒂𝒏𝒅 𝒑𝒐𝒘𝒆𝒓𝒇𝒖𝒍 𝒆𝒙𝒑𝒆𝒓𝒊𝒆𝒏𝒄𝒆.
 
-Failure shapes.
+⚡ 𝑽𝒊𝒔𝒊𝒐𝒏
 
-Discipline builds.
+𝑻𝒆𝒄𝒉𝒏𝒐𝒍𝒐𝒈𝒚 𝒆𝒗𝒐𝒍𝒗𝒆𝒔.
 
-Consistency wins.»
+𝑷𝒓𝒐𝒋𝒆𝒄𝒕𝒔 𝒆𝒗𝒐𝒍𝒗𝒆.
 
----
+𝑷𝒆𝒐𝒑𝒍𝒆 𝒆𝒗𝒐𝒍𝒗𝒆.
 
-🌑 Vision
+𝑨𝑲𝑨𝑻𝑺𝑼𝑲𝑰𝑰-𝑴𝑫 𝒇𝒐𝒍𝒍𝒐𝒘𝒔 𝒕𝒉𝒆 𝒔𝒂𝒎𝒆 𝒑𝒉𝒊𝒍𝒐𝒔𝒐𝒑𝒉𝒚 — 𝒈𝒓𝒐𝒘𝒊𝒏𝒈 𝒔𝒕𝒓𝒐𝒏𝒈𝒆𝒓 𝒘𝒊𝒕𝒉 𝒆𝒗𝒆𝒓𝒚 𝒖𝒑𝒅𝒂𝒕𝒆, 𝒆𝒗𝒆𝒓𝒚 𝒄𝒉𝒂𝒍𝒍𝒆𝒏𝒈𝒆 𝒂𝒏𝒅 𝒆𝒗𝒆𝒓𝒚 𝒍𝒆𝒔𝒔𝒐𝒏.
 
-To create a fast, stable and powerful experience while continuously evolving through learning and innovation.
+🥷 𝑫𝒆𝒗𝒆𝒍𝒐𝒑𝒆𝒓
 
-AKATSUKII-MD is built with the mindset that progress never stops.
+𝑨𝒃𝒖𝒕𝒊𝒆𝒚 𝑴𝒂𝒉𝒂𝒑𝒑𝒆𝒏
 
----
+𝑷𝒂𝒔𝒔𝒊𝒐𝒏𝒂𝒕𝒆 𝒂𝒃𝒐𝒖𝒕 𝒃𝒖𝒊𝒍𝒅𝒊𝒏𝒈, 𝒍𝒆𝒂𝒓𝒏𝒊𝒏𝒈 𝒂𝒏𝒅 𝒄𝒓𝒆𝒂𝒕𝒊𝒏𝒈.
 
-🥷 Developer
+𝑭𝒐𝒄𝒖𝒔𝒆𝒅 𝒐𝒏 𝒕𝒖𝒓𝒏𝒊𝒏𝒈 𝒊𝒅𝒆𝒂𝒔 𝒊𝒏𝒕𝒐 𝒓𝒆𝒂𝒍𝒊𝒕𝒚 𝒕𝒉𝒓𝒐𝒖𝒈𝒉 𝒄𝒐𝒏𝒔𝒊𝒔𝒕𝒆𝒏𝒄𝒚, 𝒄𝒓𝒆𝒂𝒕𝒊𝒗𝒊𝒕𝒚 𝒂𝒏𝒅 𝒅𝒆𝒅𝒊𝒄𝒂𝒕𝒊𝒐𝒏.
 
-Abutiey Mahappen
+<div align="center">⚡ 𝑨𝑲𝑨𝑻𝑺𝑼𝑲𝑰𝑰-𝑴𝑫 ⚡
 
-Passionate about technology, creativity and development.
+「 𝑷𝒐𝒘𝒆𝒓 • 𝑷𝒆𝒓𝒔𝒊𝒔𝒕𝒆𝒏𝒄𝒆 • 𝑷𝒓𝒐𝒈𝒓𝒆𝒔𝒔 」
 
-Focused on building, learning and improving one step at a time.
-
----
-
-<div align="center">☁️⚡ AKATSUKII-MD ⚡☁️
-
-"The Legacy Never Ends."
-
+</div>
 <br><img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:000000,50:8B0000,100:000000"/></div>
