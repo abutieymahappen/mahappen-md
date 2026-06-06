@@ -1,8 +1,9 @@
 import express from "express"
 import makeWASocket, {
-useMultiFileAuthState,
-fetchLatestBaileysVersion,
-DisconnectReason
+  useMultiFileAuthState,
+  fetchLatestBaileysVersion,
+  DisconnectReason,
+  downloadContentFromMessage
 } from "@whiskeysockets/baileys"
 
 import Pino from "pino"
