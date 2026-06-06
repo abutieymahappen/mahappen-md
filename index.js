@@ -46,8 +46,12 @@ fs.rmSync(sessionPath, { recursive: true, force: true })
 
 console.log("🚀 Pair request:", number)
 
-await startBot(number)
+const code = await startBot(number)
 
+await sock.sendMessage(from, {
+  text: `🔑 Pair Code: ${code}`
+})
+   
 res.send(`
 <h2>🤖 AKATSUKII-MD</h2>
 
@@ -86,6 +90,10 @@ console.log("♻️ Restarting existing bot:", number)
 bots[number].end()
 delete bots[number]
 }
+   if (!state.creds.registered) {
+   const code = await sock.requestPairingCode(number)
+   return code
+   }
 
 const { state, saveCreds } =
 await useMultiFileAuthState(`session/${number}`)
