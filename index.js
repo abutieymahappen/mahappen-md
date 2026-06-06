@@ -141,27 +141,48 @@ if (text.startsWith(".hidetag")) {
 }
    
 //PAIR
- if (text.startsWith(".pair ")) {
+if (text.startsWith(".pair ")) {
 
-const target = text.split(" ")[1]
+  const target = text.split(" ")[1]
 
-await sock.sendMessage(from, {
-text: `⏳ Generating pair code for ${target}...`
-})
+  if (!target) {
+    return await sock.sendMessage(from, {
+      text: "📱 Usage:\n.pair 276xxxxxxxxx"
+    })
+  }
 
-const code = await startBot(target)
+  await sock.sendMessage(from, {
+    text: `⏳ Generating pair code for ${target}...`
+  })
 
-if (code) {
-await sock.sendMessage(from, {
-text: `🤖 AKATSUKII-MD PAIR
+  try {
 
-📱 ${target}
+    const code = await startBot(target)
 
-🔑 ${code}`
-})
-}
+    if (!code) {
+      return await sock.sendMessage(from, {
+        text: "❌ Failed to generate pair code."
+      })
+    }
 
-     }
+    await sock.sendMessage(from, {
+      text: `╔════════════════════╗
+║ AKATSUKII-MD PAIR ║
+╠════════════════════╣
+║ 📱 ${target}
+║ 🔑 ${code}
+╚════════════════════╝`
+    })
+
+  } catch (err) {
+
+    await sock.sendMessage(from, {
+      text: `❌ Error:\n${err.message}`
+    })
+
+  }
+
+   }
    //ALIVE
    
   if (text === ".alive") {
@@ -527,30 +548,37 @@ return
 /* =========================
    CONNECTION FIXED
 ========================= */
-sock.ev.on("connection.update", (update) => {
+sock.ev.on("connection.update", async (update) => {
 
-const { connection, lastDisconnect } = update
+  const { connection, lastDisconnect } = update
 
-if (connection === "open") {
-console.log("✅ WhatsApp Connected:", number)
-}
+  if (connection === "open") {
+    console.log("✅ WhatsApp Connected:", number)
+  }
 
-if (connection === "close") {
+  if (connection === "close") {
 
-const shouldReconnect =
-lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
+    console.log("❗ Disconnected")
 
-console.log("❗ Disconnected")
+    const shouldReconnect =
+      lastDisconnect?.error?.output?.statusCode !==
+      DisconnectReason.loggedOut
 
-if (shouldReconnect) {
-console.log("🔄 Reconnecting...")
-startBot(number)
-}
-}
+    if (shouldReconnect && state.creds.registered) {
+
+      console.log("🔄 Reconnecting...")
+
+      setTimeout(() => {
+        startBot(number)
+      }, 3000)
+
+    }
+
+  }
+
 })
-
 /* =========================
-   PAIRING CODE (FIXED CORE)
+   PAIRING CODE
 ========================= */
 if (!state.creds.registered) {
 
