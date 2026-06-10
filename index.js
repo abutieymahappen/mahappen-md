@@ -20,12 +20,13 @@ app.get("/pair/:number", async (req, res) => {
   try {
     const number = req.params.number.replace(/[^0-9]/g, "")
 
+    // Delete old session
     if (fs.existsSync("./session")) {
-  fs.rmSync("./session", {
-    recursive: true,
-    force: true
-  })
-}
+      fs.rmSync("./session", { recursive: true, force: true })
+    }
+
+    const { state, saveCreds } =
+      await useMultiFileAuthState("./session")
 
     const { version } =
       await fetchLatestBaileysVersion()
@@ -39,12 +40,11 @@ app.get("/pair/:number", async (req, res) => {
 
     sock.ev.on("creds.update", saveCreds)
 
-    sock.ev.on("connection.update", (update) => {
-      console.log("Connection:", update.connection)
+    sock.ev.on("connection.update", ({ connection }) => {
+      console.log("Connection:", connection)
     })
 
-    
-    await new Promise(resolve => setTimeout(resolve, 15000))
+    await new Promise(resolve => setTimeout(resolve, 5000))
 
     const code = await sock.requestPairingCode(number)
 
@@ -54,7 +54,7 @@ app.get("/pair/:number", async (req, res) => {
     })
 
   } catch (err) {
-    console.log(err)
+    console.error(err)
 
     res.json({
       success: false,
