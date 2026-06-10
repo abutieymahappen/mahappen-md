@@ -1,6 +1,5 @@
 import express from "express"
 import cors from "cors"
-import fs from "fs"
 import makeWASocket, {
   useMultiFileAuthState,
   fetchLatestBaileysVersion
@@ -17,11 +16,10 @@ app.get("/", (req, res) => {
 })
 
 app.get("/pair/:number", async (req, res) => {
-
   try {
-
     const number = req.params.number.replace(/[^0-9]/g, "")
 
+    // Allow only your number
     if (number !== "27687085163") {
       return res.json({
         success: false,
@@ -29,9 +27,6 @@ app.get("/pair/:number", async (req, res) => {
       })
     }
 
-    // rest of your pairing code...
-    
-    
     const { state, saveCreds } =
       await useMultiFileAuthState("./session")
 
@@ -47,15 +42,24 @@ app.get("/pair/:number", async (req, res) => {
 
     sock.ev.on("creds.update", saveCreds)
 
-    sock.ev.on("connection.update", ({ connection }) => {
-      console.log("Connection:", connection)
-    })
+    sock.ev.on("connection.update", (update) => {
+      const { connection, lastDisconnect } = update
 
-    await new Promise(resolve => setTimeout(resolve, 5000))
+      console.log("Connection:", connection)
+
+      if (connection === "open") {
+        console.log("✅ WhatsApp linked successfully")
+      }
+
+      if (connection === "close") {
+        console.log("❌ Connection closed")
+        console.log(lastDisconnect)
+      }
+    })
 
     const code = await sock.requestPairingCode(number)
 
-    res.json({
+    return res.json({
       success: true,
       code
     })
@@ -63,7 +67,7 @@ app.get("/pair/:number", async (req, res) => {
   } catch (err) {
     console.error(err)
 
-    res.json({
+    return res.json({
       success: false,
       error: err.message
     })
