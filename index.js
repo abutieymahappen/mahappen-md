@@ -1,16 +1,22 @@
 import express from "express"
+import express from "express"
+import cors from "cors"
+
 import makeWASocket, {
   useMultiFileAuthState,
-  fetchLatestBaileysVersion
+  fetchLatestBaileysVersion,
+  DisconnectReason,
+  downloadContentFromMessage
 } from "@whiskeysockets/baileys"
 
 import Pino from "pino"
-import cors from "cors"
+import fs from "fs"
+
+const app = express()
 
 app.use(cors())
 
-const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8080
 
 app.get("/", (req, res) => {
   res.send("AKATSUKII-MD ONLINE ✅")
