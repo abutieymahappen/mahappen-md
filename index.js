@@ -30,7 +30,7 @@ const { version } =
 const sock = makeWASocket({
   version,
   auth: state,
-  logger: Pino({ level: "silent" }),
+  logger: Pino({ level: "info" })
   browser: ["AKATSUKII-MD", "Chrome", "1.0.0"]
 })
 
