@@ -27,75 +27,59 @@ app.listen(PORT, () => {
 
 async function startBot(number) {
 
-  const { state, saveCreds } =
-    await useMultiFileAuthState("./session")
+const { state, saveCreds } =
+await useMultiFileAuthState("./session")
 
-  const { version } =
-    await fetchLatestBaileysVersion()
+const { version } =
+await fetchLatestBaileysVersion()
 
-  const sock = makeWASocket({
-    version,
-    logger: Pino({ level: "silent" }),
-    auth: state
-  })
+const sock = makeWASocket({
+version,
+logger: Pino({ level: "silent" }),
+auth: state,
+browser: ["AKATSUKII-MD", "Chrome", "1.0.0"]
+})
 
-  sock.ev.on("creds.update", saveCreds)
+sock.ev.on("creds.update", saveCreds)
 
-  if (!state.creds.registered) {
-    const code =
-      await sock.requestPairingCode(number)
+if (!state.creds.registered) {
 
-    return code
-  }
+await new Promise(resolve =>
+  setTimeout(resolve, 5000)
+)
 
-  sock.ev.on("messages.upsert", async ({ messages }) => {
+const code =
+  await sock.requestPairingCode(number)
 
-    const msg = messages[0]
-    if (!msg.message) return
+return code
 
-    const from = msg.key.remoteJid
-
-    const text =
-      msg.message.conversation ||
-      msg.message.extendedTextMessage?.text ||
-      ""
-
-    if (text === ".ping") {
-      await sock.sendMessage(from, {
-        text: "🏓 PONG"
-      })
-    }
-
-    if (text === ".alive") {
-      await sock.sendMessage(from, {
-        text: "🤖 AKATSUKII-MD ONLINE"
-      })
-    }
-
-  })
-
-  return sock
 }
 
-app.get("/pair/:number", async (req, res) => {
+sock.ev.on("messages.upsert", async ({ messages }) => {
 
-  try {
+const msg = messages[0]
+if (!msg.message) return
 
-    const code =
-      await startBot(req.params.number)
+const from = msg.key.remoteJid
 
-    res.json({
-      success: true,
-      code
-    })
+const text =
+  msg.message.conversation ||
+  msg.message.extendedTextMessage?.text ||
+  ""
 
-  } catch (err) {
+if (text === ".ping") {
+  await sock.sendMessage(from, {
+    text: "🏓 PONG"
+  })
+}
 
-    res.json({
-      success: false,
-      error: err.message
-    })
-
-  }
+if (text === ".alive") {
+  await sock.sendMessage(from, {
+    text: "🤖 AKATSUKII-MD ONLINE"
+  })
+}
 
 })
+
+return sock
+        }
