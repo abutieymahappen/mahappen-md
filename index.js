@@ -20,9 +20,14 @@ app.get("/pair/:number", async (req, res) => {
   try {
     const number = req.params.number.replace(/[^0-9]/g, "")
 
-    // Delete old session
+    console.log("Pair request for:", number)
+
     if (fs.existsSync("./session")) {
-      fs.rmSync("./session", { recursive: true, force: true })
+      fs.rmSync("./session", {
+        recursive: true,
+        force: true
+      })
+      console.log("Old session deleted")
     }
 
     const { state, saveCreds } =
@@ -31,32 +36,34 @@ app.get("/pair/:number", async (req, res) => {
     const { version } =
       await fetchLatestBaileysVersion()
 
+    console.log("Using WA version:", version)
+
     const sock = makeWASocket({
       version,
       auth: state,
-      logger: Pino({ level: "silent" }),
+      logger: Pino({ level: "info" }),
       browser: ["Ubuntu", "Chrome", "120.0.0"]
     })
 
     sock.ev.on("creds.update", saveCreds)
 
-    sock.ev.on("connection.update", ({ connection }) => {
-      console.log("Connection:", connection)
+    sock.ev.on("connection.update", (update) => {
+      console.log("CONNECTION UPDATE:", update)
     })
-
-    await new Promise(resolve => setTimeout(resolve, 5000))
 
     const code = await sock.requestPairingCode(number)
 
-    res.json({
+    console.log("Pair code generated:", code)
+
+    return res.json({
       success: true,
       code
     })
 
   } catch (err) {
-    console.error(err)
+    console.error("PAIR ERROR:", err)
 
-    res.json({
+    return res.json({
       success: false,
       error: err.message
     })
