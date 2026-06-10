@@ -1,8 +1,8 @@
 import express from "express"
 import cors from "cors"
 import makeWASocket, {
-useMultiFileAuthState,
-fetchLatestBaileysVersion
+  useMultiFileAuthState,
+  fetchLatestBaileysVersion
 } from "@whiskeysockets/baileys"
 import Pino from "pino"
 
@@ -12,57 +12,58 @@ const PORT = process.env.PORT || 10000
 app.use(cors())
 
 app.get("/", (req, res) => {
-res.send("AKATSUKII-MD PAIR API ONLINE ✅")
+  res.send("AKATSUKII-MD PAIR API ONLINE ✅")
 })
 
 app.get("/pair/:number", async (req, res) => {
+  try {
+    const number = req.params.number.replace(/[^0-9]/g, "")
 
-try {
+    const { state, saveCreds } =
+      await useMultiFileAuthState("./session")
 
-const number = req.params.number.replace(/[^0-9]/g, "")
+    const { version } =
+      await fetchLatestBaileysVersion()
 
-const { state, saveCreds } =
-  await useMultiFileAuthState("./session")
+    const sock = makeWASocket({
+      version,
+      auth: state,
+      logger: Pino({ level: "silent" }),
+      browser: ["Ubuntu", "Chrome", "120.0.0"]
+    })
 
-const { version } =
-  await fetchLatestBaileysVersion()
+    sock.ev.on("creds.update", saveCreds)
 
-const sock = makeWASocket({
-  version,
-  auth: state,
-  logger: Pino({ level: "info" }),
-  browser: ["Ubuntu", "Chrome", "20.0.04"]
-})
+    sock.ev.on("connection.update", (update) => {
+      console.log("Connection:", update.connection)
+    })
 
-sock.ev.on("creds.update", saveCreds)
+    if (state.creds.registered) {
+      return res.json({
+        success: false,
+        error: "Session already paired"
+      })
+    }
 
-await new Promise(resolve =>
-  setTimeout(resolve, 8000)
-)
-  
-sock.ev.on("connection.update", ({ connection }) => {
-  console.log("Connection:", connection)
-})
-  
-const code =
-  await sock.requestPairingCode(number)
+    await new Promise(resolve => setTimeout(resolve, 15000))
 
-res.json({
-  success: true,
-  code
-})
+    const code = await sock.requestPairingCode(number)
 
-} catch (err) {
+    res.json({
+      success: true,
+      code
+    })
 
-res.json({
-  success: false,
-  error: err.message
-})
+  } catch (err) {
+    console.log(err)
 
-}
-
+    res.json({
+      success: false,
+      error: err.message
+    })
+  }
 })
 
 app.listen(PORT, () => {
-console.log(`Server running on ${PORT}`)
+  console.log(`Server running on ${PORT}`)
 })
