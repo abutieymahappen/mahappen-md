@@ -5,6 +5,9 @@ import makeWASocket, {
 } from "@whiskeysockets/baileys"
 
 import Pino from "pino"
+import cors from "cors"
+
+app.use(cors())
 
 const app = express()
 const PORT = process.env.PORT || 3000
