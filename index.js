@@ -1,10 +1,8 @@
 import express from "express"
 import cors from "cors"
-import fs from "fs"
 import makeWASocket, {
   useMultiFileAuthState,
-  fetchLatestBaileysVersion,
-  DisconnectReason
+  fetchLatestBaileysVersion
 } from "@whiskeysockets/baileys"
 import Pino from "pino"
 
@@ -13,21 +11,13 @@ const PORT = process.env.PORT || 10000
 
 app.use(cors())
 
-app.get("/", (_, res) => {
-  res.send("AKATSUKII-MD ONLINE ✅")
+app.get("/", (req, res) => {
+  res.send("MAHAPPEN-MD PAIR API ONLINE ✅")
 })
 
-app.get("/pair", async (_, res) => {
+app.get("/pair", async (req, res) => {
   try {
-
     const number = "27687085163"
-
-    if (fs.existsSync("./session")) {
-      fs.rmSync("./session", {
-        recursive: true,
-        force: true
-      })
-    }
 
     const { state, saveCreds } =
       await useMultiFileAuthState("./session")
@@ -38,28 +28,17 @@ app.get("/pair", async (_, res) => {
     const sock = makeWASocket({
       version,
       auth: state,
-      logger: Pino({ level: "silent" }),
-      browser: ["Chrome", "Linux", "120"]
+      logger: Pino({ level: "info" }),
+      browser: ["Ubuntu", "Chrome", "120.0.0"]
     })
 
     sock.ev.on("creds.update", saveCreds)
 
     sock.ev.on("connection.update", (update) => {
-      const { connection, lastDisconnect } = update
-
-      console.log("Connection:", connection)
-
-      if (connection === "close") {
-        console.log(
-          lastDisconnect?.error || "Disconnected"
-        )
-      }
+      console.log(update)
     })
 
-    await new Promise(r => setTimeout(r, 3000))
-
-    const code =
-      await sock.requestPairingCode(number)
+    const code = await sock.requestPairingCode(number)
 
     return res.json({
       success: true,
