@@ -68,3 +68,22 @@ text: "🤖 AKATSUKII-MD ONLINE"
 return sock
 
         }
+app.get("/pair/:number", async (req, res) => {
+  try {
+
+    const code = await startBot(req.params.number)
+
+    res.json({
+      success: true,
+      code
+    })
+
+  } catch (err) {
+
+    res.json({
+      success: false,
+      error: err.message
+    })
+
+  }
+})
