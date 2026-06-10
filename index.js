@@ -1,5 +1,6 @@
 import express from "express"
 import cors from "cors"
+import fs from "fs"
 import makeWASocket, {
   useMultiFileAuthState,
   fetchLatestBaileysVersion
@@ -12,12 +13,17 @@ const PORT = process.env.PORT || 10000
 app.use(cors())
 
 app.get("/", (req, res) => {
-  res.send("MAHAPPEN-MD PAIR API ONLINE ✅")
+  res.send("AKATSUKII-MD PAIR API ONLINE ✅")
 })
 
-app.get("/pair", async (req, res) => {
+app.get("/pair/:number", async (req, res) => {
   try {
-    const number = "27687085163"
+    const number = req.params.number.replace(/[^0-9]/g, "")
+
+    // Delete old session
+    if (fs.existsSync("./session")) {
+      fs.rmSync("./session", { recursive: true, force: true })
+    }
 
     const { state, saveCreds } =
       await useMultiFileAuthState("./session")
@@ -28,19 +34,21 @@ app.get("/pair", async (req, res) => {
     const sock = makeWASocket({
       version,
       auth: state,
-      logger: Pino({ level: "info" }),
+      logger: Pino({ level: "silent" }),
       browser: ["Ubuntu", "Chrome", "120.0.0"]
     })
 
     sock.ev.on("creds.update", saveCreds)
 
-    sock.ev.on("connection.update", (update) => {
-      console.log(update)
+    sock.ev.on("connection.update", ({ connection }) => {
+      console.log("Connection:", connection)
     })
+
+    await new Promise(resolve => setTimeout(resolve, 5000))
 
     const code = await sock.requestPairingCode(number)
 
-    return res.json({
+    res.json({
       success: true,
       code
     })
@@ -48,7 +56,7 @@ app.get("/pair", async (req, res) => {
   } catch (err) {
     console.error(err)
 
-    return res.json({
+    res.json({
       success: false,
       error: err.message
     })
