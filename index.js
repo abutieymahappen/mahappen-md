@@ -19,7 +19,7 @@ app.get("/pair/:number", async (req, res) => {
 
 try {
 
-const number = req.params.number
+const number = req.params.number.replace(/[^0-9]/g, "")
 
 const { state, saveCreds } =
   await useMultiFileAuthState("./session")
@@ -31,7 +31,7 @@ const sock = makeWASocket({
   version,
   auth: state,
   logger: Pino({ level: "info" }),
-  browser: ["AKATSUKII-MD", "Chrome", "1.0.0"]
+  browser: ["Ubuntu", "Chrome", "20.0.04"]
 })
 
 sock.ev.on("creds.update", saveCreds)
@@ -39,7 +39,11 @@ sock.ev.on("creds.update", saveCreds)
 await new Promise(resolve =>
   setTimeout(resolve, 8000)
 )
-
+  
+sock.ev.on("connection.update", ({ connection }) => {
+  console.log("Connection:", connection)
+})
+  
 const code =
   await sock.requestPairingCode(number)
 
