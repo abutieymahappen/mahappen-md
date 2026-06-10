@@ -19,8 +19,12 @@ app.get("/pair/:number", async (req, res) => {
   try {
     const number = req.params.number.replace(/[^0-9]/g, "")
 
-    const { state, saveCreds } =
-      await useMultiFileAuthState("./session")
+    if (fs.existsSync("./session")) {
+  fs.rmSync("./session", {
+    recursive: true,
+    force: true
+  })
+}
 
     const { version } =
       await fetchLatestBaileysVersion()
@@ -38,13 +42,7 @@ app.get("/pair/:number", async (req, res) => {
       console.log("Connection:", update.connection)
     })
 
-    if (state.creds.registered) {
-      return res.json({
-        success: false,
-        error: "Session already paired"
-      })
-    }
-
+    
     await new Promise(resolve => setTimeout(resolve, 15000))
 
     const code = await sock.requestPairingCode(number)
