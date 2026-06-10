@@ -1,8 +1,10 @@
 import express from "express"
 import cors from "cors"
+import fs from "fs"
 import makeWASocket, {
   useMultiFileAuthState,
-  fetchLatestBaileysVersion
+  fetchLatestBaileysVersion,
+  DisconnectReason
 } from "@whiskeysockets/baileys"
 import Pino from "pino"
 
@@ -11,19 +13,19 @@ const PORT = process.env.PORT || 10000
 
 app.use(cors())
 
-app.get("/", (req, res) => {
-  res.send("AKATSUKII-MD PAIR API ONLINE ✅")
+app.get("/", (_, res) => {
+  res.send("AKATSUKII-MD ONLINE ✅")
 })
 
-app.get("/pair/:number", async (req, res) => {
+app.get("/pair", async (_, res) => {
   try {
-    const number = req.params.number.replace(/[^0-9]/g, "")
 
-    // Allow only your number
-    if (number !== "27687085163") {
-      return res.json({
-        success: false,
-        error: "This number is not allowed"
+    const number = "27687085163"
+
+    if (fs.existsSync("./session")) {
+      fs.rmSync("./session", {
+        recursive: true,
+        force: true
       })
     }
 
@@ -36,8 +38,8 @@ app.get("/pair/:number", async (req, res) => {
     const sock = makeWASocket({
       version,
       auth: state,
-      logger: Pino({ level: "info" }),
-      browser: ["Ubuntu", "Chrome", "120.0.0"]
+      logger: Pino({ level: "silent" }),
+      browser: ["Chrome", "Linux", "120"]
     })
 
     sock.ev.on("creds.update", saveCreds)
@@ -47,17 +49,17 @@ app.get("/pair/:number", async (req, res) => {
 
       console.log("Connection:", connection)
 
-      if (connection === "open") {
-        console.log("✅ WhatsApp linked successfully")
-      }
-
       if (connection === "close") {
-        console.log("❌ Connection closed")
-        console.log(lastDisconnect)
+        console.log(
+          lastDisconnect?.error || "Disconnected"
+        )
       }
     })
 
-    const code = await sock.requestPairingCode(number)
+    await new Promise(r => setTimeout(r, 3000))
+
+    const code =
+      await sock.requestPairingCode(number)
 
     return res.json({
       success: true,
