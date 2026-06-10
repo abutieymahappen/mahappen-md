@@ -17,9 +17,20 @@ app.get("/", (req, res) => {
 })
 
 app.get("/pair/:number", async (req, res) => {
+
   try {
+
     const number = req.params.number.replace(/[^0-9]/g, "")
 
+    if (number !== "27687085163") {
+      return res.json({
+        success: false,
+        error: "This number is not allowed"
+      })
+    }
+
+    // rest of your pairing code...
+    
     // Delete old session
     if (fs.existsSync("./session")) {
       fs.rmSync("./session", { recursive: true, force: true })
