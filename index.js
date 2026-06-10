@@ -1,50 +1,30 @@
 import express from "express";
-import makeWASocket, {
-  useMultiFileAuthState,
-  fetchLatestBaileysVersion
-} from "@whiskeysockets/baileys";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (_, res) => {
-  res.send("AKATSUKII-MD ONLINE ✅");
+app.get("/", (req, res) => {
+res.send("AKATSUKII-MD ONLINE ✅");
 });
 
-app.get("/pair/:number", async (req, res) => {
-  try {
-    const number = req.params.number;
+app.get("/pair/:number", (req, res) => {
 
-    const { state } =
-      await useMultiFileAuthState(`sessions/${number}`);
+const number = req.params.number;
 
-    const { version } =
-      await fetchLatestBaileysVersion();
+// Fake test pair code
+const code =
+Math.random().toString(36)
+.substring(2, 10)
+.toUpperCase();
 
-    const sock = makeWASocket({
-      version,
-      auth: state
-    });
+res.json({
+success: true,
+number,
+code
+});
 
-    const code =
-      await sock.requestPairingCode(number);
-
-    res.json({
-      success: true,
-      number,
-      code
-    });
-
-  } catch (err) {
-
-    res.json({
-      success: false,
-      error: err.message
-    });
-
-  }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+console.log("Server running on " + PORT);
 });
