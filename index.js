@@ -31,11 +31,7 @@ app.get("/pair/:number", async (req, res) => {
 
     // rest of your pairing code...
     
-    // Delete old session
-    if (fs.existsSync("./session")) {
-      fs.rmSync("./session", { recursive: true, force: true })
-    }
-
+    
     const { state, saveCreds } =
       await useMultiFileAuthState("./session")
 
@@ -45,7 +41,7 @@ app.get("/pair/:number", async (req, res) => {
     const sock = makeWASocket({
       version,
       auth: state,
-      logger: Pino({ level: "silent" }),
+      logger: Pino({ level: "info" }),
       browser: ["Ubuntu", "Chrome", "120.0.0"]
     })
 
