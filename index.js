@@ -30,7 +30,7 @@ const { version } =
 const sock = makeWASocket({
   version,
   auth: state,
-  logger: Pino({ level: "info" })
+  logger: Pino({ level: "info" }),
   browser: ["AKATSUKII-MD", "Chrome", "1.0.0"]
 })
 
@@ -60,5 +60,5 @@ res.json({
 })
 
 app.listen(PORT, () => {
-console.log("Server running on ${PORT}")
+console.log(`Server running on ${PORT}`)
 })
